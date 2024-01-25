@@ -88,7 +88,7 @@ class _AnimatedSplashLogoState extends State<AnimatedSplashLogo>
             height: 237,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/imgs/splashlogo.png'),
+                image: AssetImage('assets/imgs/splashlogos.png'),
                 fit: BoxFit.fill,
               ),
             ),
