@@ -1,3 +1,4 @@
+import 'package:chefease/screens/Menu.dart';
 import 'package:flutter/material.dart';
 
 class PizzaCategory extends StatefulWidget {
@@ -38,73 +39,81 @@ class _PizzaCategoryState extends State<PizzaCategory> {
               SizedBox(
                 height: 20,
               ),
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Container(
-                      width: 385,
-                      height: 165,
-                      decoration: ShapeDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/imgs/pizza1.png"),
-                          fit: BoxFit.fill,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(22),
-                            topRight: Radius.circular(22),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Menu()),
+                  );
+                },
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Container(
+                        width: 385,
+                        height: 165,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/imgs/pizza1.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(22),
+                              topRight: Radius.circular(22),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 15,
-                    right: 18,
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Center(
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 135,
-                    right: 20,
-                    child: Container(
-                      width: 90,
-                      height: 20,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFFF6A42),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 2.5),
-                        child: Text(
-                          '1.2 KM Away',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
+                    Positioned(
+                      top: 15,
+                      right: 18,
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
                             color: Colors.white,
-                            fontSize: 11,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
+                            borderRadius: BorderRadius.circular(40)),
+                        child: Center(
+                          child: Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 20,
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      top: 135,
+                      right: 20,
+                      child: Container(
+                        width: 90,
+                        height: 20,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFFF6A42),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2.5),
+                          child: Text(
+                            '1.2 KM Away',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
@@ -386,73 +395,81 @@ class _PizzaCategoryState extends State<PizzaCategory> {
                       ],
                     )),
               ),
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Container(
-                      width: 385,
-                      height: 165,
-                      decoration: ShapeDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/imgs/pizza3.png"),
-                          fit: BoxFit.fill,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(22),
-                            topRight: Radius.circular(22),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Menu()),
+                  );
+                },
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Container(
+                        width: 385,
+                        height: 165,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/imgs/pizza3.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(22),
+                              topRight: Radius.circular(22),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 15,
-                    right: 18,
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Center(
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 135,
-                    right: 20,
-                    child: Container(
-                      width: 90,
-                      height: 20,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFFF6A42),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 2.5),
-                        child: Text(
-                          '1.2 KM Away',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
+                    Positioned(
+                      top: 15,
+                      right: 18,
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
                             color: Colors.white,
-                            fontSize: 11,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
+                            borderRadius: BorderRadius.circular(40)),
+                        child: Center(
+                          child: Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 20,
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      top: 135,
+                      right: 20,
+                      child: Container(
+                        width: 90,
+                        height: 20,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFFF6A42),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2.5),
+                          child: Text(
+                            '1.2 KM Away',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20),

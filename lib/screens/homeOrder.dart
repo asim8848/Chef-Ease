@@ -54,7 +54,6 @@ class _homeOrderState extends State<homeOrder> {
                 color: AppColors.secondaryColor,
               ),
               title: GestureDetector(
-                onTap: () => print("Asim"),
                 child: Container(
                   child: const Row(
                     children: <Widget>[
@@ -153,14 +152,22 @@ class _homeOrderState extends State<homeOrder> {
                     padding: const EdgeInsets.only(left: 20),
                     child: Row(
                       children: [
-                        Container(
-                          width: 78,
-                          height: 76,
-                          decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage("assets/imgs/pizza.png")),
-                              color: const Color(0x0FFD6500),
-                              borderRadius: BorderRadius.circular(12)),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => PizzaCategory()),
+                            );
+                          },
+                          child: Container(
+                            width: 78,
+                            height: 76,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    image: AssetImage("assets/imgs/pizza.png")),
+                                color: const Color(0x0FFD6500),
+                                borderRadius: BorderRadius.circular(12)),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
@@ -347,7 +354,7 @@ class _homeOrderState extends State<homeOrder> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 45, top: 8),
+                        padding: EdgeInsets.only(left: 25, top: 8),
                         child: Text(
                           'Fast Food',
                           textAlign: TextAlign.center,
@@ -361,7 +368,7 @@ class _homeOrderState extends State<homeOrder> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 48, top: 8),
+                        padding: EdgeInsets.only(left: 45, top: 8),
                         child: Text(
                           'Pasta',
                           textAlign: TextAlign.center,
