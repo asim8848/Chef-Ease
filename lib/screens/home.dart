@@ -5,6 +5,9 @@ import 'package:chefease/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
+import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 

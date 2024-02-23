@@ -1,8 +1,8 @@
-import 'package:chefease/screens/OrderDetails.dart';
 import 'package:chefease/screens/OrderMenu.dart';
 import 'package:flutter/material.dart';
 
 import '../Constants/constants.dart';
+import 'orderDetails.dart';
 
 class ViewCart extends StatefulWidget {
   const ViewCart({super.key});
@@ -15,91 +15,428 @@ class _ViewCartState extends State<ViewCart> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 50,
+        home: Scaffold(
+            body: SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            Container(
+              width: 430,
+              height: 270,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/imgs/pizzamenu.png"),
+                  fit: BoxFit.fill,
                 ),
-                Container(
-                  width: 430,
-                  height: 270,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/imgs/pizzamenu.png"),
-                      fit: BoxFit.fill,
+              ),
+            ),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, top: 12),
+                  child: Container(
+                    width: 81,
+                    height: 85,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/imgs/person1.png"),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
-                Stack(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceBetween, // Align children to both ends of the row
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 12, top: 12),
-                      child: Container(
-                        width: 81,
-                        height: 85,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/imgs/person1.png"),
-                            fit: BoxFit.fill,
+                      padding: const EdgeInsets.only(left: 60, top: 38),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.black,
                           ),
-                        ),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Anna’s Kitchen',
+                                  style: TextStyle(
+                                    color: Color(0xFF292D32),
+                                    fontSize: 22,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    height: 0.09,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 14, left: 10),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.black,
+                                      size: 16,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '1.1km away',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .spaceBetween, // Align children to both ends of the row
+                      children: [
+                        IconButton(
+                          icon:
+                              Icon(Icons.share, color: AppColors.primaryColor),
+                          onPressed: () {
+                            // Add your share functionality here
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Icon(Icons.favorite,
+                              color: AppColors.primaryColor),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Container(
+                width: 388,
+                height: 85,
+                decoration: ShapeDecoration(
+                  color: Color(0xFFFF6A42),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 60, top: 38),
+                          padding: const EdgeInsets.only(left: 16, top: 18),
                           child: Row(
                             children: [
                               Icon(
-                                Icons.location_on,
-                                color: Colors.black,
+                                Icons.star,
+                                color: Colors.white,
+                                size: 20,
                               ),
-                              SizedBox(width: 8),
-                              Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                              SizedBox(width: 5),
+                              Text(
+                                'Ratings: 4.5',
+                                style: TextStyle(
+                                  color: Color(0xFFEEF5FF),
+                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0.08,
+                                  letterSpacing: -0.14,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8, right: 33),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'Pizza',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0.08,
+                                  letterSpacing: -0.14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 30),
+                          child: Container(
+                            width: 45,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color(0xFFFF6A42),
+                              size: 25,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 35),
+                  child: Container(
+                    width: 113,
+                    height: 40,
+                    padding: const EdgeInsets.only(
+                      top: 12,
+                      left: 14,
+                      right: 16,
+                      bottom: 12,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFFF6A42),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Special Pizza',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            height: 0.09,
+                            letterSpacing: -0.13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Container(
+                    width: 113,
+                    height: 40,
+                    padding: const EdgeInsets.only(
+                      top: 12,
+                      left: 14,
+                      right: 16,
+                      bottom: 12,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFEFF2F5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Popular',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            height: 0.09,
+                            letterSpacing: -0.13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Container(
+                    width: 113,
+                    height: 40,
+                    padding: const EdgeInsets.only(
+                      top: 12,
+                      left: 14,
+                      right: 16,
+                      bottom: 12,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFEFF2F5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Midnight',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            height: 0.09,
+                            letterSpacing: -0.13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => OrderMenu()),
+                        );
+                      },
+                      child: Container(
+                        width: 400,
+                        height: 110,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Container(
+                                width: 130,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/imgs/pizzalist.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding:
-                                    const EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(
+                                        left: 20, top: 15),
                                     child: Text(
-                                      'Anna’s Kitchen',
+                                      'Peperoni Special Pizza',
                                       style: TextStyle(
-                                        color: Color(0xFF292D32),
-                                        fontSize: 22,
+                                        color: Color(0xFF1E1E1E),
+                                        fontSize: 16,
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w600,
-                                        height: 0.09,
+                                        height: 0.10,
+                                        letterSpacing: -0.15,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 4),
+                                  SizedBox(height: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      'Single Serving',
+                                      style: TextStyle(
+                                        color: Color(0xFF292D32),
+                                        fontSize: 15,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w300,
+                                        height: 0.12,
+                                        letterSpacing: -0.14,
+                                      ),
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 14, left: 10),
+                                        left: 20, top: 20),
                                     child: Row(
                                       children: [
-                                        Icon(
-                                          Icons.location_on,
-                                          color: Colors.black,
-                                          size: 16,
-                                        ),
-                                        SizedBox(width: 5),
                                         Text(
-                                          '1.1km away',
+                                          '2500 Rs',
                                           style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
+                                            color: Color(0xFF292D32),
+                                            fontSize: 15,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0.09,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 13),
+                                        Text(
+                                          '1000 Rs',
+                                          style: TextStyle(
+                                            color: Color(0xFFFD9700),
+                                            fontSize: 15,
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w500,
+                                            height: 0.09,
                                           ),
                                         ),
                                       ],
@@ -107,455 +444,111 @@ class _ViewCartState extends State<ViewCart> {
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.share,
-                                  color: AppColors.primaryColor),
-                              onPressed: () {
-                                // Add your share functionality here
-                              },
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: Icon(Icons.favorite,
-                                  color: AppColors.primaryColor),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Container(
-                    width: 388,
-                    height: 85,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFFF6A42),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                              const EdgeInsets.only(left: 16, top: 18),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Ratings: 4.5',
-                                    style: TextStyle(
-                                      color: Color(0xFFEEF5FF),
-                                      fontSize: 16,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.08,
-                                      letterSpacing: -0.14,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                              const EdgeInsets.only(top: 8, right: 33),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Pizza',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.08,
-                                      letterSpacing: -0.14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 30),
-                              child: Container(
-                                width: 45,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFFFF6A42),
-                                  size: 25,
-                                ),
-                                onPressed: () {},
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                    Divider(), // Divider between items
+                  ],
+                );
+              },
+            ),
+            GestureDetector(
+              onTap: () {
+                // Handle button tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OrderDetails()),
+                );
+              },
+              child: Container(
+                width: 394,
+                height: 79,
+                padding: const EdgeInsets.only(
+                  top: 13,
+                  left: 18,
+                  right: 18,
+                  bottom: 12.59,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(color: Colors.white),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35),
-                      child: Container(
-                        width: 113,
-                        height: 40,
-                        padding: const EdgeInsets.only(
-                          top: 12,
-                          left: 14,
-                          right: 16,
-                          bottom: 12,
-                        ),
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFFF6A42),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
+                    Container(
+                      width: 358,
+                      height: 53.41,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            child: Container(
+                              width: 358,
+                              height: 52.50,
+                              decoration: ShapeDecoration(
+                                color: Color(0x26FD6500),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Special Pizza',
+                          Positioned(
+                            left: 162,
+                            top: 0.91,
+                            child: Container(
+                              width: 196,
+                              height: 52.50,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFFF6A42),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 230,
+                            top: 25,
+                            child: Text(
+                              'View Cart',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 13,
+                                fontSize: 14,
                                 fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                height: 0.09,
-                                letterSpacing: -0.13,
+                                fontWeight: FontWeight.w500,
+                                height: 0.08,
+                                letterSpacing: -0.14,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Container(
-                        width: 113,
-                        height: 40,
-                        padding: const EdgeInsets.only(
-                          top: 12,
-                          left: 14,
-                          right: 16,
-                          bottom: 12,
-                        ),
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFEFF2F5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Popular',
+                          Positioned(
+                            left: 45,
+                            top: 25,
+                            child: Text(
+                              'Rs. 675.00',
                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 13,
+                                color: Color(0xFFFF6A42),
+                                fontSize: 14,
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w600,
-                                height: 0.09,
-                                letterSpacing: -0.13,
+                                height: 0.08,
+                                letterSpacing: -0.14,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Container(
-                        width: 113,
-                        height: 40,
-                        padding: const EdgeInsets.only(
-                          top: 12,
-                          left: 14,
-                          right: 16,
-                          bottom: 12,
-                        ),
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFEFF2F5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Midnight',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 13,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                height: 0.09,
-                                letterSpacing: -0.13,
-                              ),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: 1,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OrderMenu()),
-                            );
-                          },
-                          child: Container(
-                            width: 400,
-                            height: 110,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Container(
-                                    width: 130,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage("assets/imgs/pizzalist.png"),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20, top: 15),
-                                        child: Text(
-                                          'Peperoni Special Pizza',
-                                          style: TextStyle(
-                                            color: Color(0xFF1E1E1E),
-                                            fontSize: 16,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600,
-                                            height: 0.10,
-                                            letterSpacing: -0.15,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20),
-                                        child: Text(
-                                          'Single Serving',
-                                          style: TextStyle(
-                                            color: Color(0xFF292D32),
-                                            fontSize: 15,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w300,
-                                            height: 0.12,
-                                            letterSpacing: -0.14,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20, top: 20),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              '2500 Rs',
-                                              style: TextStyle(
-                                                color: Color(0xFF292D32),
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w400,
-                                                height: 0.09,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 13),
-                                            Text(
-                                              '1000 Rs',
-                                              style: TextStyle(
-                                                color: Color(0xFFFD9700),
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                                height: 0.09,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Divider(), // Divider between items
-                      ],
-                    );
-                  },
-                ),
-
-                GestureDetector(
-                  onTap: () {
-                    // Handle button tap
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OrderDetails()),
-                    );
-                  },
-                  child: Container(
-                    width: 394,
-                    height: 79,
-                    padding: const EdgeInsets.only(
-                      top: 13,
-                      left: 18,
-                      right: 18,
-                      bottom: 12.59,
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 358,
-                          height: 53.41,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 358,
-                                  height: 52.50,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0x26FD6500),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 162,
-                                top: 0.91,
-                                child: Container(
-                                  width: 196,
-                                  height: 52.50,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFFF6A42),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 230,
-                                top: 25,
-                                child: Text(
-                                  'View Cart',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0.08,
-                                    letterSpacing: -0.14,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 45,
-                                top: 25,
-                                child: Text(
-                                  'Rs. 675.00',
-                                  style: TextStyle(
-                                    color: Color(0xFFFF6A42),
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0.08,
-                                    letterSpacing: -0.14,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-
-
-              ]
-          ),
-        )));
+              ),
+            ),
+          ]),
+    )));
   }
 }
