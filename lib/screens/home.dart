@@ -19,8 +19,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _advancedDrawerController = AdvancedDrawerController();
 
-  int currentIndex = 0; // Index of the selected tab
-
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -74,55 +72,57 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedItemColor: Colors.amber[800],
           onTap: _onItemTapped,
         ),
-        appBar: AppBar(
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.primaryColor,
-          leading: IconButton(
-            onPressed: _handleMenuButtonPressed,
-            icon: const Icon(Icons.menu),
-            color: AppColors.secondaryColor,
-          ),
-          title: GestureDetector(
-            onTap: () => print("Asim"),
-            child: Container(
-              child: const Row(
-                children: <Widget>[
-                  Icon(Icons.location_searching,
-                      color: AppColors.secondaryColor),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    'Select your location',
-                    style: TextStyle(
-                      color: AppColors.secondaryColor,
-                      fontSize: 14,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
+        appBar: _selectedIndex == 1
+            ? null
+            : AppBar(
+                centerTitle: false,
+                automaticallyImplyLeading: false,
+                backgroundColor: AppColors.primaryColor,
+                leading: IconButton(
+                  onPressed: _handleMenuButtonPressed,
+                  icon: const Icon(Icons.menu),
+                  color: AppColors.secondaryColor,
+                ),
+                title: GestureDetector(
+                  onTap: () => print("Asim"),
+                  child: Container(
+                    child: const Row(
+                      children: <Widget>[
+                        Icon(Icons.location_searching,
+                            color: AppColors.secondaryColor),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Select your location',
+                          style: TextStyle(
+                            color: AppColors.secondaryColor,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                ),
+                actions: const [
+                  Icon(
+                    Icons.favorite_border,
+                    color: AppColors.secondaryColor,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    color: AppColors.secondaryColor,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
                 ],
               ),
-            ),
-          ),
-          actions: const [
-            Icon(
-              Icons.favorite_border,
-              color: AppColors.secondaryColor,
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Icon(
-              Icons.shopping_cart_outlined,
-              color: AppColors.secondaryColor,
-            ),
-            SizedBox(
-              width: 15,
-            ),
-          ],
-        ),
 
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
