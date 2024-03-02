@@ -1,7 +1,8 @@
-import 'package:chefease/screens/DonationRequestsScreen.dart';
 import 'package:flutter/material.dart';
-import '../constants/buttons.dart';
-import '../constants/colors.dart';
+
+import '../../../constants/colors.dart';
+import '../../../widgets/buttons.dart';
+import 'DonationRequestScreen.dart';
 
 class DonationMainScreen extends StatefulWidget {
   const DonationMainScreen({super.key});

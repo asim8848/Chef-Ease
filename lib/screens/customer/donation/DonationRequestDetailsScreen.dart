@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../../../constants/buttons.dart';
 import '../../../constants/colors.dart';
+import '../../../widgets/buttons.dart';
 
 class DonationRequestDetails extends StatefulWidget {
   const DonationRequestDetails({super.key});

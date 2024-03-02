@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../TabBarScreens/Screen1.dart';
 import '../../../TabBarScreens/Screen2.dart';
-
 import '../../../constants/colors.dart';
 
 class CompanyDetails extends StatefulWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:chefease/Constants/constants.dart';
+
+import '../constants/colors.dart';
 
 class DrawerContent extends StatelessWidget {
   @override

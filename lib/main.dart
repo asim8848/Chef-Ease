@@ -1,6 +1,7 @@
-import 'package:chefease/screens/PizzaCategory.dart';
-import 'package:flutter/material.dart';
 import 'package:chefease/screens/OnBoardingScreen.dart';
+import 'package:flutter/material.dart';
+
+import 'constants/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,8 +16,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Chef Ease',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          titleTextStyle: TextStyle(color: AppColors.textColor),
+          iconTheme: const IconThemeData(color: AppColors.textColor),
+        ),
+        useMaterial3: false,
       ),
       home: const OnBoardingDelayScreen(), // Display splash screen initially
     );
