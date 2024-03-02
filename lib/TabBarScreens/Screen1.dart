@@ -1,6 +1,5 @@
 import 'package:chefease/TabBarScreens/MapDemo.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -63,12 +62,9 @@ class FirstScreen extends StatelessWidget {
               width: 390,
               height: 250,
               decoration: BoxDecoration(
-
-                  borderRadius: BorderRadius.circular(12),
-
+                borderRadius: BorderRadius.circular(12),
               ),
-            child: MapSample()
-          ),
+              child: MapSample()),
         ),
       ],
     );

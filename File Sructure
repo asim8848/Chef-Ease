@@ -1,0 +1,35 @@
+lib/
+  |- main.dart
+  |- screens/
+     |- HomeScreen.dart
+     |- OnBoardingScreen.dart
+     |- authentication
+     |- chef
+     |- customer/
+        |- customer_profile_screen.dart
+        |- customer_dashboard_screen.dart
+        |- food_order/
+           |- FoodCategoryScreen.dart
+           |- FoodDetailScreen.dart
+           |- HomeOrderScreen.dart
+           |- KitchenDetailsScreen.dart
+           |- KitchenMenuScreen.dart
+           |- OrderDetailsScreen.dart
+           |- ViewCartScreen.dart
+        |- reels/
+           |- ReelScreen.dart
+        |- donation/
+           |- AddDonationRequestScreen.dart
+           |- DonationMainScreen.dart
+           |- DonationRequestDetailsScreen.dart
+           |- DonationRequestScreen.dart
+  |- constants/
+     |- colors.dart
+
+
+  |- widgets/
+     |- Drawer.dart
+     |- buttons.dart
+     |- form_fields.dart
+     |- text_styles.dart
+

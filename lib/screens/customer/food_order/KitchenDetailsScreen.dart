@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../Constants/constants.dart';
-import '../TabBarScreens/Screen1.dart';
-import '../TabBarScreens/Screen2.dart';
+
+import '../../../TabBarScreens/Screen1.dart';
+import '../../../TabBarScreens/Screen2.dart';
+import '../../../constants/colors.dart';
 
 class CompanyDetails extends StatefulWidget {
   const CompanyDetails({Key? key}) : super(key: key);
@@ -11,11 +12,10 @@ class CompanyDetails extends StatefulWidget {
 }
 
 class _CompanyDetailsState extends State<CompanyDetails> {
-
   @override
   Widget build(BuildContext context) {
-    final height=MediaQuery.sizeOf(context).height*1;
-    final width=MediaQuery.sizeOf(context).width*1;
+    final height = MediaQuery.sizeOf(context).height * 1;
+    final width = MediaQuery.sizeOf(context).width * 1;
     return MaterialApp(
       home: Scaffold(
         body: Column(
@@ -64,12 +64,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                           ),
                           SizedBox(width: 8),
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                EdgeInsets.only(left: 10),
+                                padding: EdgeInsets.only(left: 10),
                                 child: Text(
                                   'Anna’s Kitchen',
                                   style: TextStyle(
@@ -83,8 +81,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                               ),
                               SizedBox(height: 4),
                               Padding(
-                                padding: EdgeInsets.only(
-                                    top: 14, left: 10),
+                                padding: EdgeInsets.only(top: 14, left: 10),
                                 child: Row(
                                   children: [
                                     Icon(
@@ -130,7 +127,6 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                 ),
               ],
             ),
-
             DefaultTabController(
               length: 2,
               child: Expanded(
@@ -141,7 +137,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                         color: Color(0x6DEFF2F5),
                       ),
                       child: PreferredSize(
-                        preferredSize: Size.fromHeight(kToolbarHeight), // Set the preferred size to match the height of the default app bar
+                        preferredSize: Size.fromHeight(
+                            kToolbarHeight), // Set the preferred size to match the height of the default app bar
                         child: TabBar(
                           labelColor: Color(0xFFFF6A42),
                           indicatorColor: Color(0xFFFF6A42),
@@ -155,8 +152,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                     Expanded(
                       child: TabBarView(
                         children: [
-                         FirstScreen(),
-                         SecondScreen(),
+                          FirstScreen(),
+                          SecondScreen(),
                         ],
                       ),
                     ),

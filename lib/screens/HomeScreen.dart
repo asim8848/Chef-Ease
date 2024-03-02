@@ -1,13 +1,11 @@
-import 'package:chefease/Constants/constants.dart';
-import 'package:chefease/example.dart';
-import 'package:chefease/screens/Reels.dart';
-import 'package:chefease/screens/homeOrder.dart';
-import 'package:chefease/widgets/drawer.dart';
+import 'package:chefease/screens/customer/food_order/HomeOrderScreen.dart';
+import 'package:chefease/screens/customer/reels/ReelScreen.dart';
+import 'package:chefease/widgets/Drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
-import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
-import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
+import '../constants/colors.dart';
+import 'customer/donation/DonationMainScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -155,52 +153,61 @@ class _thisHomeState extends State<thisHome> {
           children: [
             Row(
               children: [
-                Container(
-                  width: 168,
-                  height: 147,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DonationMainScreen()),
+                    );
+                  },
+                  child: Container(
+                    width: 168,
+                    height: 147,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 113,
-                        height: 27,
-                        child: Text(
-                          'Donate Food',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E1E),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          width: 113,
+                          height: 27,
+                          child: Text(
+                            'Donate Food',
+                            style: TextStyle(
+                              color: Color(0xFF1E1E1E),
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 138,
-                        height: 56,
-                        child: Text(
-                          'Donate food to needy people',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E1E),
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
+                        const SizedBox(
+                          width: 138,
+                          height: 56,
+                          child: Text(
+                            'Donate food to needy people',
+                            style: TextStyle(
+                              color: Color(0xFF1E1E1E),
+                              fontSize: 12,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                            width: 69.75,
-                            height: 53.09,
-                            child: Image.asset('assets/imgs/hand.png')),
-                      ),
-                    ],
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                              width: 69.75,
+                              height: 53.09,
+                              child: Image.asset('assets/imgs/hand.png')),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -257,7 +264,6 @@ class _thisHomeState extends State<thisHome> {
               height: 20,
             ),
             InkWell(
-              //ontap i want to navigate to the homeOrdder.dart screen/
               onTap: () {
                 Navigator.push(
                   context,

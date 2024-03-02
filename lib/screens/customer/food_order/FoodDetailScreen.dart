@@ -1,5 +1,4 @@
-
-import 'package:chefease/screens/ViewCart.dart';
+import 'package:chefease/screens/customer/food_order/ViewCartScreen.dart';
 import 'package:flutter/material.dart';
 
 class OrderMenu extends StatefulWidget {
@@ -566,21 +565,20 @@ class _OrderMenuState extends State<OrderMenu> {
                                   ),
                                 ),
                               ),
-
-
                               Positioned(
                                 left: 200,
                                 top: 5,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ViewCart()),
-                                      );
-                                    },
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ViewCart()),
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFFFF6A42),// Button color
+                                    backgroundColor:
+                                        Color(0xFFFF6A42), // Button color
                                   ),
                                   child: Text(
                                     'Add to cart',
@@ -615,7 +613,6 @@ class _OrderMenuState extends State<OrderMenu> {
                                   ),
                                 ),
                               ),
-          
                             ],
                           ),
                         ),

@@ -1,6 +1,7 @@
-import 'package:chefease/Constants/constants.dart';
-import 'package:chefease/screens/home.dart';
+import 'package:chefease/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
+
+import '../constants/colors.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});

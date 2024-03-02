@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class Reels extends StatefulWidget {
   const Reels({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class Reels extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
+class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin {
   late VideoPlayerController _controller;
   bool _isPaused = false;
   double _progress = 0.0;
@@ -26,6 +26,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
       vsync: this,
     );
   }
+
   void _initializeVideoController() async {
     _controller = VideoPlayerController.asset("assets/videos/sample_video.mp4");
     await _controller.initialize();
@@ -58,6 +59,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
     _progressTimer.cancel(); // Cancel the timer to prevent memory leaks
     _animationController.dispose();
   }
+
   void _togglePause() {
     setState(() {
       if (_controller.value.isPlaying) {
@@ -90,7 +92,9 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                     children: [
                       _controller.value.isInitialized
                           ? VideoPlayer(_controller)
-                          : Container(color: Colors.blueAccent,),
+                          : Container(
+                              color: Colors.blueAccent,
+                            ),
                       AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         width: MediaQuery.of(context).size.width * _progress,
@@ -103,7 +107,6 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                 decoration: BoxDecoration(color: Color(0x5E1E1E1E)),
               ),
             ),
-
 
             Positioned(
               left: 31,
@@ -125,7 +128,8 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                     BoxShadow(
                       color: Color(0x33000000),
                       blurRadius: MediaQuery.of(context).size.width * 0.038,
-                      offset: Offset(0, MediaQuery.of(context).size.width * 0.008),
+                      offset:
+                          Offset(0, MediaQuery.of(context).size.width * 0.008),
                       spreadRadius: 0,
                     )
                   ],
@@ -137,7 +141,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               top: MediaQuery.of(context).size.height * 0.760,
               child: SizedBox(
                 width: 100,
-                height:50,
+                height: 50,
                 child: Text(
                   'Julia',
                   style: TextStyle(
@@ -155,7 +159,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               top: MediaQuery.of(context).size.height * 0.775,
               child: SizedBox(
                 width: 100,
-                height:50,
+                height: 50,
                 child: Text(
                   '21',
                   textAlign: TextAlign.center,
@@ -270,7 +274,6 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               ),
             ),
 
-
             Positioned(
               left: MediaQuery.of(context).size.width * 0.794,
               top: MediaQuery.of(context).size.height * 0.810,
@@ -310,16 +313,15 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
             Align(
               alignment: Alignment.center,
               child: Visibility(
-                visible: _isPaused, // Show the button only when the video is paused
-                child:
-                Icon(
+                visible:
+                    _isPaused, // Show the button only when the video is paused
+                child: Icon(
                   Icons.play_arrow_rounded,
                   color: Colors.white,
                   size: 70,
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -338,7 +340,9 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                     children: [
                       _controller.value.isInitialized
                           ? VideoPlayer(_controller)
-                          : Container(color: Colors.blueAccent,),
+                          : Container(
+                              color: Colors.blueAccent,
+                            ),
                       AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         width: MediaQuery.of(context).size.width * _progress,
@@ -351,7 +355,6 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                 decoration: BoxDecoration(color: Color(0x5E1E1E1E)),
               ),
             ),
-
 
             Positioned(
               left: 31,
@@ -373,7 +376,8 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                     BoxShadow(
                       color: Color(0x33000000),
                       blurRadius: MediaQuery.of(context).size.width * 0.038,
-                      offset: Offset(0, MediaQuery.of(context).size.width * 0.008),
+                      offset:
+                          Offset(0, MediaQuery.of(context).size.width * 0.008),
                       spreadRadius: 0,
                     )
                   ],
@@ -385,7 +389,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               top: MediaQuery.of(context).size.height * 0.760,
               child: SizedBox(
                 width: 100,
-                height:50,
+                height: 50,
                 child: Text(
                   'Julia',
                   style: TextStyle(
@@ -403,7 +407,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               top: MediaQuery.of(context).size.height * 0.775,
               child: SizedBox(
                 width: 100,
-                height:50,
+                height: 50,
                 child: Text(
                   '21',
                   textAlign: TextAlign.center,
@@ -518,7 +522,6 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               ),
             ),
 
-
             Positioned(
               left: MediaQuery.of(context).size.width * 0.794,
               top: MediaQuery.of(context).size.height * 0.810,
@@ -558,17 +561,15 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
             Align(
               alignment: Alignment.center,
               child: Visibility(
-                visible: _isPaused, // Show the button only when the video is paused
-                child:
-                Icon(
+                visible:
+                    _isPaused, // Show the button only when the video is paused
+                child: Icon(
                   Icons.play_arrow_rounded,
                   color: Colors.white,
                   size: 70,
                 ),
-
               ),
             ),
-
           ],
         ),
       ),
@@ -587,7 +588,9 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                     children: [
                       _controller.value.isInitialized
                           ? VideoPlayer(_controller)
-                          : Container(color: Colors.blueAccent,),
+                          : Container(
+                              color: Colors.blueAccent,
+                            ),
                       AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         width: MediaQuery.of(context).size.width * _progress,
@@ -600,7 +603,6 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                 decoration: BoxDecoration(color: Color(0x5E1E1E1E)),
               ),
             ),
-
 
             Positioned(
               left: 31,
@@ -622,7 +624,8 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
                     BoxShadow(
                       color: Color(0x33000000),
                       blurRadius: MediaQuery.of(context).size.width * 0.038,
-                      offset: Offset(0, MediaQuery.of(context).size.width * 0.008),
+                      offset:
+                          Offset(0, MediaQuery.of(context).size.width * 0.008),
                       spreadRadius: 0,
                     )
                   ],
@@ -634,7 +637,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               top: MediaQuery.of(context).size.height * 0.760,
               child: SizedBox(
                 width: 100,
-                height:50,
+                height: 50,
                 child: Text(
                   'Julia',
                   style: TextStyle(
@@ -652,7 +655,7 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               top: MediaQuery.of(context).size.height * 0.775,
               child: SizedBox(
                 width: 100,
-                height:50,
+                height: 50,
                 child: Text(
                   '21',
                   textAlign: TextAlign.center,
@@ -767,7 +770,6 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
               ),
             ),
 
-
             Positioned(
               left: MediaQuery.of(context).size.width * 0.794,
               top: MediaQuery.of(context).size.height * 0.810,
@@ -807,17 +809,15 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin{
             Align(
               alignment: Alignment.center,
               child: Visibility(
-                visible: _isPaused, // Show the button only when the video is paused
-                child:
-                Icon(
+                visible:
+                    _isPaused, // Show the button only when the video is paused
+                child: Icon(
                   Icons.play_arrow_rounded,
                   color: Colors.white,
                   size: 70,
                 ),
-
               ),
             ),
-
           ],
         ),
       ),

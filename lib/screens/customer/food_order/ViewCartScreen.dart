@@ -1,8 +1,8 @@
-import 'package:chefease/screens/OrderMenu.dart';
+import 'package:chefease/screens/customer/food_order/FoodDetailScreen.dart';
 import 'package:flutter/material.dart';
 
-import '../Constants/constants.dart';
-import 'orderDetails.dart';
+import '../../../constants/colors.dart';
+import 'OrderDetailsScreen.dart';
 
 class ViewCart extends StatefulWidget {
   const ViewCart({super.key});

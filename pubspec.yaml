@@ -41,7 +41,7 @@ dependencies:
   flutter_check_box_rounded: ^3.2.3
   google_maps_flutter: ^2.5.3
   video_player: ^2.2.13
-
+  percent_indicator: ^4.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

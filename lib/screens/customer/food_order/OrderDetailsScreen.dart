@@ -1,5 +1,5 @@
 import 'package:chefease/BottomSheetComponents/CashContainer.dart';
-import 'package:chefease/screens/Company_Details.dart';
+import 'package:chefease/screens/customer/food_order/KitchenDetailsScreen.dart';
 import 'package:flutter/material.dart';
 
 class OrderDetails extends StatefulWidget {

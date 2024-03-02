@@ -1,6 +1,8 @@
-import 'package:chefease/Constants/constants.dart';
-import 'package:chefease/screens/OrderMenu.dart';
+import 'package:chefease/screens/customer/food_order/FoodDetailScreen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../constants/colors.dart';
+
 class Menu extends StatefulWidget {
   Menu({super.key});
 
@@ -9,7 +11,6 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -347,120 +348,120 @@ class _MenuState extends State<Menu> {
                         ),
                       ],
                     ),
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                        onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OrderMenu()),
-                      );
-                    },
-                          child: Container(
-                            width: 400,
-                            height: 110,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Container(
-                                    width: 130,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage("assets/imgs/pizzalist.png"),
-                                        fit: BoxFit.fill,
+                    ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OrderMenu()),
+                                );
+                              },
+                              child: Container(
+                                width: 400,
+                                height: 110,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Container(
+                                        width: 130,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/imgs/pizzalist.png"),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20, top: 15),
-                                        child: Text(
-                                          'Peperoni Special Pizza',
-                                          style: TextStyle(
-                                            color: Color(0xFF1E1E1E),
-                                            fontSize: 16,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600,
-                                            height: 0.10,
-                                            letterSpacing: -0.15,
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20, top: 15),
+                                            child: Text(
+                                              'Peperoni Special Pizza',
+                                              style: TextStyle(
+                                                color: Color(0xFF1E1E1E),
+                                                fontSize: 16,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600,
+                                                height: 0.10,
+                                                letterSpacing: -0.15,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20),
-                                        child: Text(
-                                          'Single Serving',
-                                          style: TextStyle(
-                                            color: Color(0xFF292D32),
-                                            fontSize: 15,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w300,
-                                            height: 0.12,
-                                            letterSpacing: -0.14,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20, top: 20),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              '2500 Rs',
+                                          SizedBox(height: 20),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 20),
+                                            child: Text(
+                                              'Single Serving',
                                               style: TextStyle(
                                                 color: Color(0xFF292D32),
                                                 fontSize: 15,
                                                 fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w400,
-                                                height: 0.09,
+                                                fontWeight: FontWeight.w300,
+                                                height: 0.12,
+                                                letterSpacing: -0.14,
                                               ),
                                             ),
-                                            const SizedBox(width: 13),
-                                            Text(
-                                              '1000 Rs',
-                                              style: TextStyle(
-                                                color: Color(0xFFFD9700),
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                                height: 0.09,
-                                              ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20, top: 20),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  '2500 Rs',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF292D32),
+                                                    fontSize: 15,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 0.09,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 13),
+                                                Text(
+                                                  '1000 Rs',
+                                                  style: TextStyle(
+                                                    color: Color(0xFFFD9700),
+                                                    fontSize: 15,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 0.09,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                        Divider(), // Divider between items
-                      ],
-                    );
-                  },
-                ),
-
-
-
-                ]
-              ),
-            )
-        ));
+                            Divider(), // Divider between items
+                          ],
+                        );
+                      },
+                    ),
+                  ]),
+            )));
   }
 }
