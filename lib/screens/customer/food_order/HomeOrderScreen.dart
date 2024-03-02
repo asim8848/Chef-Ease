@@ -1,8 +1,8 @@
-import 'package:chefease/screens/PizzaCategory.dart';
+import 'package:chefease/screens/customer/food_order/PizzaCategory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:chefease/widgets/drawer.dart';
-import '../Constants/constants.dart';
+import '../../../constants/colors.dart';
 
 class homeOrder extends StatefulWidget {
   const homeOrder({super.key});
@@ -156,7 +156,8 @@ class _homeOrderState extends State<homeOrder> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => PizzaCategory()),
+                              MaterialPageRoute(
+                                  builder: (context) => PizzaCategory()),
                             );
                           },
                           child: Container(
