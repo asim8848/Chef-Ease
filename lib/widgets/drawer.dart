@@ -1,3 +1,4 @@
+import 'package:chefease/screens/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:chefease/Constants/constants.dart';
 
@@ -66,17 +67,39 @@ class DrawerContent extends StatelessWidget {
               ),
               Divider(),
               buildListTile(
-                  Icons.settings, 'Settings', screenWidth, textScaleFactor),
+                  Icons.settings, 'Settings', screenWidth, textScaleFactor,
+                  onTap: () {}),
               buildListTile(Icons.help_outline_outlined, 'Help/Support',
-                  screenWidth, textScaleFactor),
+                  screenWidth, textScaleFactor,
+                  onTap: () {}),
               buildListTile(Icons.maps_home_work_outlined, 'Chef Mode',
-                  screenWidth, textScaleFactor),
-              buildListTile(Icons.task_outlined, 'Terms & Conditions',
-                  screenWidth, textScaleFactor),
+                  screenWidth, textScaleFactor,
+                  onTap: () {}),
+              buildListTile(
+                Icons.task_outlined,
+                'Terms & Conditions',
+                screenWidth,
+                textScaleFactor,
+                onTap: () {
+                  try {
+                    print("Terms & Conditions Clicked");
+                    // Navigate to TermsAndConditionsScreen on tap
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TermsAndConditionsScreen()),
+                    );
+                  } catch (e) {
+                    print("Navigation Error: $e");
+                  }
+                },
+              ),
               buildListTile(Icons.track_changes_outlined, 'Orders Track',
-                  screenWidth, textScaleFactor),
+                  screenWidth, textScaleFactor,
+                  onTap: () {}),
               buildListTile(Icons.request_page_outlined, 'Bid Request',
-                  screenWidth, textScaleFactor),
+                  screenWidth, textScaleFactor,
+                  onTap: () {}),
               Spacer(),
               Container(
                 width: 307,
@@ -110,7 +133,8 @@ class DrawerContent extends StatelessWidget {
   }
 
   Padding buildListTile(
-      IconData icon, String title, double screenWidth, double textScaleFactor) {
+      IconData icon, String title, double screenWidth, double textScaleFactor,
+      {required VoidCallback onTap}) {
     return Padding(
       padding: EdgeInsets.only(left: 20 * screenWidth / 360),
       child: ListTile(
