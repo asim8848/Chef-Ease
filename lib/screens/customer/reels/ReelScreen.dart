@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import '../food_order/ChefProfileScreen.dart';
+
 class Reels extends StatefulWidget {
   const Reels({Key? key}) : super(key: key);
 
@@ -111,28 +113,38 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin {
             Positioned(
               left: 31,
               top: MediaQuery.of(context).size.height * 0.650,
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.241,
-                height: MediaQuery.of(context).size.width * 0.241,
-                decoration: ShapeDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/imgs/reels_pic.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width * 0.048,
+              child: InkWell(
+                onTap: ()
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen ()),
+                  );
+                },
+
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.241,
+                  height: MediaQuery.of(context).size.width * 0.241,
+                  decoration: ShapeDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/imgs/reels_pic.jpg"),
+                      fit: BoxFit.cover,
                     ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width * 0.048,
+                      ),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x33000000),
+                        blurRadius: MediaQuery.of(context).size.width * 0.038,
+                        offset:
+                            Offset(0, MediaQuery.of(context).size.width * 0.008),
+                        spreadRadius: 0,
+                      )
+                    ],
                   ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x33000000),
-                      blurRadius: MediaQuery.of(context).size.width * 0.038,
-                      offset:
-                          Offset(0, MediaQuery.of(context).size.width * 0.008),
-                      spreadRadius: 0,
-                    )
-                  ],
                 ),
               ),
             ),
