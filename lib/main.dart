@@ -1,3 +1,4 @@
+import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/screens/OnBoardingScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -89,15 +90,10 @@ class _AnimatedSplashLogoState extends State<AnimatedSplashLogo>
       builder: (context, child) {
         return Transform.scale(
           scale: _animation.value,
-          child: Container(
-            width: 251,
-            height: 237,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/imgs/splashlogo.png'),
-                fit: BoxFit.fill,
-              ),
-            ),
+          child: Image(
+            image: AssetImage('assets/imgs/splashlogo.png'),
+            fit: BoxFit.cover,
+            height: Responsive.screenHeight(context) * 0.4,
           ),
         );
       },
@@ -116,7 +112,6 @@ class OnBoardingDelayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return SplashScreen(); // Display splash screen with animation
     return const SplashScreen();
   }
 }

@@ -1,3 +1,5 @@
+import 'package:chefease/constants/responsive.dart';
+import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -16,6 +18,9 @@ class DonationRequestsScreen extends StatefulWidget {
 class _DonationRequestsScreenState extends State<DonationRequestsScreen> {
   @override
   Widget build(BuildContext context) {
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.secondaryColor,
@@ -28,12 +33,10 @@ class _DonationRequestsScreenState extends State<DonationRequestsScreen> {
             color: AppColors.textColor,
           ),
         ),
-        title: const Text('Donation Requests',
-            style: TextStyle(
-              fontSize: 17,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            )),
+        title: AppLiteText(
+          text: 'Donation Requests',
+          color: AppColors.textColor,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -80,21 +83,12 @@ class _DonationRequestsScreenState extends State<DonationRequestsScreen> {
                               AssetImage('assets/imgs/person1circle.png'),
                           radius: 20,
                         ),
-                        const SizedBox(
-                          width: 10,
+                        SizedBox(
+                          width: _screenwidth * 0.03,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Title',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
+                          children: [AppMainText(text: 'Title')],
                         ),
                         Spacer(),
                         InkWell(
@@ -106,55 +100,37 @@ class _DonationRequestsScreenState extends State<DonationRequestsScreen> {
                               ),
                             );
                           },
-                          child: Text(
-                            'View Details',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.primaryColor),
-                            textAlign: TextAlign.right,
-                          ),
+                          child: AppLiteText(
+                              text: 'View Details',
+                              color: AppColors.primaryColor),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: _screenwidth * 0.03,
                     ),
-                    Text(
-                      'Gorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla  Gorem ipsum dolor sit amet.',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                      ),
+                    AppLiteText(
+                      text:
+                          'Gorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla  Gorem ipsum dolor sit amet.',
                     ),
                     SizedBox(
-                      height: 20,
+                      height: _screenwidth * 0.03,
                     ),
                     Row(
                       children: [
-                        Text(
-                          "75 / 200 Meals",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 13,
-                            color: Colors.black38,
-                          ),
+                        AppLiteText(
+                          text: "75 / 200 Meals",
+                          color: Colors.black38,
                         ),
                         Spacer(),
-                        Text(
-                          "35%",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor,
-                          ),
+                        AppLiteText(
+                          text: "35%",
+                          color: AppColors.primaryColor,
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: _screenwidth * 0.03,
                     ),
                     // LinearProgressIndicator(
                     //   backgroundColor: AppColors.bgColor,
@@ -162,12 +138,15 @@ class _DonationRequestsScreenState extends State<DonationRequestsScreen> {
                     //   minHeight: 15,
                     // ),
                     new LinearPercentIndicator(
-                      width: 330.0,
+                      width: _screenwidth * 0.8,
                       lineHeight: 14.0,
                       percent: 0.35,
                       backgroundColor: Colors.black12,
                       progressColor: AppColors.primaryColor,
                       barRadius: Radius.circular(5),
+                    ),
+                    SizedBox(
+                      height: _screenwidth * 0.03,
                     ),
                     CustomButton(
                         text: 'Donate Now',

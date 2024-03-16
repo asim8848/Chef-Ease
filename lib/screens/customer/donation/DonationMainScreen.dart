@@ -1,6 +1,8 @@
+import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
 import '../../../widgets/buttons.dart';
 import 'DonationRequestScreen.dart';
 
@@ -14,6 +16,9 @@ class DonationMainScreen extends StatefulWidget {
 class _DonationMainScreenState extends State<DonationMainScreen> {
   @override
   Widget build(BuildContext context) {
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -34,7 +39,7 @@ class _DonationMainScreenState extends State<DonationMainScreen> {
               TextSpan(
                 text: 'Donate Food',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: _screenwidth * 0.05,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryColor),
@@ -48,20 +53,24 @@ class _DonationMainScreenState extends State<DonationMainScreen> {
                 ],
               ),
             ),
-            Image(image: AssetImage('assets/imgs/donationgirl.png')),
-            const SizedBox(
-              height: 20,
+            Image(
+              image: AssetImage('assets/imgs/donationgirl.png'),
+              fit: BoxFit.cover,
+              height: _screenheight *
+                  0.4, // 40% of screen height , 0.04 means 4% of screen height
+            ),
+            SizedBox(
+              height: _screenheight * 0.02, // 2% of screen height
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                "Gorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla  Gorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla ",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                ),
-                textAlign: TextAlign.center,
-              ),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: AppLiteText(
+                  textAlign: TextAlign.center,
+                  text:
+                      "Gorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla  Gorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                )),
+            SizedBox(
+              height: _screenheight * 0.02,
             ),
             CustomButton(
               text: 'Get Started',

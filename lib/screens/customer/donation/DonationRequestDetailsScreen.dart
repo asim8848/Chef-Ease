@@ -1,3 +1,5 @@
+import 'package:chefease/constants/responsive.dart';
+import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -14,6 +16,8 @@ class DonationRequestDetails extends StatefulWidget {
 class _DonationRequestDetailsState extends State<DonationRequestDetails> {
   @override
   Widget build(BuildContext context) {
+    double _screenwidth = Responsive.screenWidth(context);
+    double _screenheight = Responsive.screenHeight(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.secondaryColor,
@@ -26,12 +30,9 @@ class _DonationRequestDetailsState extends State<DonationRequestDetails> {
             color: AppColors.textColor,
           ),
         ),
-        title: const Text('Request Details',
-            style: TextStyle(
-              fontSize: 17,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            )),
+        title: const AppLiteText(
+          text: 'Request Details',
+        ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -58,33 +59,28 @@ class _DonationRequestDetailsState extends State<DonationRequestDetails> {
                         AssetImage('assets/imgs/person1circle.png'),
                     radius: 20,
                   ),
-                  const SizedBox(
-                    width: 10,
+                  SizedBox(
+                    width: _screenwidth * 0.03,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Need Doners for needy family',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        ),
+                      AppMainText(
+                        text: 'Need Doners for needy family',
+                        fontSize: 16,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
                       ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: _screenwidth * 0.03,
               ),
-              Text(
-                'I am reaching out to you with a humble request for your support. I find family in a situation where access to food has become a daily struggle, and I am reaching out to ask for a family i know who are in desperate need of food and are not able to provide for their family you can find info below lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum.',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                ),
+              AppLiteText(
+                text:
+                    'I am reaching out to you with a humble request for your support. I find family in a situation where access to food has become a daily struggle, and I am reaching out to ask for a family i know who are in desperate need of food and are not able to provide for their family you can find info below lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum.',
               ),
 
               Divider(thickness: 1, height: 50),
@@ -93,150 +89,108 @@ class _DonationRequestDetailsState extends State<DonationRequestDetails> {
                   Icon(
                     Icons.person_outline,
                     color: AppColors.primaryColor,
-                    size: 30,
+                    size: _screenwidth * 0.06,
                   ),
                   SizedBox(
-                    width: 20,
+                    width: _screenwidth * 0.03,
                   ),
-                  Text(
-                    "Beneficiary Name : ",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textColor,
-                    ),
+                  AppMainText(
+                    text: "Beneficiary Name : ",
+                    fontSize: 14,
                   ),
-                  Text(
-                    "Jack",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      color: AppColors.textColor,
-                    ),
+                  AppLiteText(
+                    text: "Jack",
+                    fontSize: 14,
                   ),
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: _screenwidth * 0.03,
               ),
               Row(
                 children: [
                   Icon(
                     Icons.phone_outlined,
                     color: AppColors.primaryColor,
+                    size: _screenwidth * 0.06,
                   ),
                   SizedBox(
-                    width: 20,
+                    width: _screenwidth * 0.03,
                   ),
-                  Text(
-                    "Contact No : ",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textColor,
-                    ),
+                  AppMainText(
+                    text: "Contact No : ",
+                    fontSize: 14,
                   ),
-                  Text(
-                    "03175648614",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      color: AppColors.textColor,
-                    ),
+                  AppLiteText(
+                    text: "0300-1234567",
+                    fontSize: 14,
                   ),
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: _screenwidth * 0.03,
               ),
               Row(
                 children: [
                   Icon(
                     Icons.dinner_dining_outlined,
                     color: AppColors.primaryColor,
+                    size: _screenwidth * 0.06,
                   ),
                   SizedBox(
-                    width: 20,
+                    width: _screenwidth * 0.03,
                   ),
-                  Text(
-                    "Meal Requirment : ",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textColor,
-                    ),
+                  AppMainText(
+                    text: "Meal Requirment : ",
+                    fontSize: 14,
                   ),
-                  Text(
-                    "Rice x 5",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      color: AppColors.textColor,
-                    ),
+                  AppLiteText(
+                    text: "Rice x 5",
+                    fontSize: 14,
                   ),
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: _screenwidth * 0.03,
               ),
               Row(
                 children: [
                   Icon(
                     Icons.clean_hands_outlined,
                     color: AppColors.primaryColor,
+                    size: _screenwidth * 0.06,
                   ),
                   SizedBox(
-                    width: 20,
+                    width: _screenwidth * 0.03,
                   ),
-                  Text(
-                    "Donation Amount : ",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textColor,
-                    ),
+                  AppMainText(
+                    text: "Donation Amount : ",
+                    fontSize: 14,
                   ),
-                  Text(
-                    "2000 PKR",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      color: AppColors.textColor,
-                    ),
+                  AppLiteText(
+                    text: "2000 PKR",
+                    fontSize: 14,
                   ),
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: _screenwidth * 0.05,
               ),
               Row(
                 children: [
-                  Text(
-                    "75 / 200 Meals",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 13,
-                      color: Colors.black38,
-                    ),
+                  AppLiteText(
+                    text: "75 / 200 Meals",
+                    color: Colors.black38,
                   ),
                   Spacer(),
-                  Text(
-                    "35%",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
+                  AppLiteText(
+                    text: "35%",
+                    color: AppColors.primaryColor,
                   ),
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: _screenwidth * 0.03,
               ),
               // LinearProgressIndicator(
               //   backgroundColor: AppColors.bgColor,
@@ -244,12 +198,15 @@ class _DonationRequestDetailsState extends State<DonationRequestDetails> {
               //   minHeight: 15,
               // ),
               new LinearPercentIndicator(
-                width: 330.0,
+                width: Responsive.screenWidth(context) * 0.8,
                 lineHeight: 14.0,
                 percent: 0.35,
                 backgroundColor: Colors.black12,
                 progressColor: AppColors.primaryColor,
                 barRadius: Radius.circular(5),
+              ),
+              SizedBox(
+                height: _screenwidth * 0.04,
               ),
               CustomButton(
                   text: 'Donate Now',
