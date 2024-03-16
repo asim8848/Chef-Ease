@@ -1,4 +1,6 @@
+import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/screens/HomeScreen.dart';
+import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
@@ -39,7 +41,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         alignment: Alignment.bottomRight,
         child: TextButton(
           onPressed: () {
-            // Navigate to HomeScreen
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -51,83 +52,68 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           child: Text('Skip'),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 30),
-          child: Column(
-            children: [
-              Expanded(
-                child: PageView.builder(
-                    itemCount: OnboardingItems.length,
-                    onPageChanged: (value) {
-                      setState(() {
-                        _currentPage = value;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Image.asset(
-                            OnboardingItems[index].image,
-                            height: 400,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: Text(
-                              OnboardingItems[index].title,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 326,
-                            height: 117,
-                            child: Text(
-                              OnboardingItems[index].description,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black
-                                    .withOpacity(0.4300000071525574),
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          )
-                        ],
-                      );
-                    }),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(OnboardingItems.length, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      height: 10,
-                      width: _currentPage == index ? 30 : 10,
-                      decoration: BoxDecoration(
-                        color: _currentPage == index
-                            ? Color(0xFFFF6A42)
-                            : Colors.grey.shade400,
-                        borderRadius: BorderRadius.circular(5),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+                itemCount: OnboardingItems.length,
+                onPageChanged: (value) {
+                  setState(() {
+                    _currentPage = value;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        OnboardingItems[index].image,
+                        height: Responsive.screenHeight(context) * 0.4,
                       ),
-                    ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      AppMainText(
+                        text: OnboardingItems[index].title,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: AppLiteText(
+                          text: OnboardingItems[index].description,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
                   );
                 }),
-              ),
-            ],
           ),
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: List.generate(OnboardingItems.length, (index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 30.0),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  height: Responsive.screenWidth(context) * 0.03,
+                  width: _currentPage == index
+                      ? Responsive.screenWidth(context) * 0.1
+                      : Responsive.screenWidth(context) * 0.0333,
+                  decoration: BoxDecoration(
+                    color: _currentPage == index
+                        ? Color(0xFFFF6A42)
+                        : Colors.grey.shade400,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ],
       ),
     );
   }

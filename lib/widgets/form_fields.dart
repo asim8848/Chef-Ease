@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../constants/colors.dart';
 
 class AppTextFormField extends StatelessWidget {
@@ -10,7 +9,8 @@ class AppTextFormField extends StatelessWidget {
   final String? fontFamily;
   final double? fontSize;
   final int? maxLines;
-  final TextInputType? keyboardType; // Added keyboardType parameter
+  final TextInputType? keyboardType;
+  final bool obscureText; // Add obscureText parameter with default value
 
   const AppTextFormField({
     required this.hintText,
@@ -20,14 +20,17 @@ class AppTextFormField extends StatelessWidget {
     this.fontFamily,
     this.fontSize,
     this.maxLines,
-    this.keyboardType, // Updated constructor
+    this.keyboardType,
+    this.obscureText = false, // Provide default value
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: maxLines,
-      keyboardType: keyboardType, // Set keyboardType
+      maxLines: obscureText ? 1 : maxLines,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      textAlignVertical: TextAlignVertical.center, // Center the text vertically
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
@@ -37,13 +40,13 @@ class AppTextFormField extends StatelessWidget {
           color: color ?? AppColors.textColor,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(
             color: AppColors.bgColor,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(
             color: AppColors.primaryColor,
           ),

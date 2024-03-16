@@ -1,6 +1,9 @@
+import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/screens/customer/food_order/HomeOrderScreen.dart';
+import 'package:chefease/screens/customer/post_bids/BidsReviewScreen.dart';
 import 'package:chefease/screens/customer/reels/ReelScreen.dart';
 import 'package:chefease/widgets/Drawer.dart';
+import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
@@ -144,14 +147,21 @@ class thisHome extends StatefulWidget {
 class _thisHomeState extends State<thisHome> {
   @override
   Widget build(BuildContext context) {
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
+        padding: EdgeInsets.only(
+            top: _screenheight * 0.03,
+            left: _screenwidth * 0.03,
+            right: _screenwidth * 0.03),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 'Donate Food' and 'Post Bids' Containers
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
                   onTap: () {
@@ -162,107 +172,74 @@ class _thisHomeState extends State<thisHome> {
                     );
                   },
                   child: Container(
-                    width: 168,
-                    height: 147,
+                    width: _screenwidth * 0.45,
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          width: 113,
-                          height: 27,
-                          child: Text(
-                            'Donate Food',
-                            style: TextStyle(
-                              color: Color(0xFF1E1E1E),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
+                    child: Container(
+                      margin: EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppMainText(text: 'Donate Food', fontSize: 15),
+                          AppLiteText(
+                              text: 'Donate food to needy people',
+                              fontSize: 12),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                                width: _screenwidth * 0.2,
+                                child: Image.asset('assets/imgs/hand.png')),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 138,
-                          height: 56,
-                          child: Text(
-                            'Donate food to needy people',
-                            style: TextStyle(
-                              color: Color(0xFF1E1E1E),
-                              fontSize: 12,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                              width: 69.75,
-                              height: 53.09,
-                              child: Image.asset('assets/imgs/hand.png')),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  width: 168,
-                  height: 147,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                // 'Post Bids' Container
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BidsReviewScreen()),
+                    );
+                  },
+                  child: Container(
+                    width: _screenwidth * 0.43,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 113,
-                        height: 27,
-                        child: Text(
-                          'Post Bids',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E1E),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
+                    child: Container(
+                      margin: EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppMainText(text: 'Post Bids', fontSize: 15),
+                          AppLiteText(text: 'Tell What you need', fontSize: 12),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                                width: _screenwidth * 0.2,
+                                child: Image.asset('assets/imgs/bidding.png')),
                           ),
-                        ),
+                        ],
                       ),
-                      const SizedBox(
-                        width: 138,
-                        height: 56,
-                        child: Text(
-                          'Tell What you need',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E1E),
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                            width: 80.75,
-                            height: 53.09,
-                            child: Image.asset('assets/imgs/bidding.png')),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: _screenwidth * 0.03,
             ),
+            // 'Order Food from nearby Chefs' Container
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -271,92 +248,79 @@ class _thisHomeState extends State<thisHome> {
                 );
               },
               child: Container(
-                width: double.maxFinite,
-                height: 147,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Row(children: [
-                  //col1
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20.0, left: 20),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            height: 70,
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //col1
+                        Container(
+                          margin: EdgeInsets.all(15),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text.rich(
                                   TextSpan(
-                                    text: 'Order Food from \nnearby ',
-                                    style: TextStyle(
-                                      color: Color(0xFF1E1E1E),
-                                      fontSize: 21,
-                                      fontFamily: 'Snappy Service NF',
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Order Food from \nnearby ',
+                                        style: TextStyle(
+                                          fontSize: _screenwidth * 0.06,
+                                          fontFamily: 'SnappyServiceNF',
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: 'Chefs',
+                                        style: TextStyle(
+                                          color: AppColors.primaryColor,
+                                          fontSize: _screenwidth * 0.06,
+                                          fontFamily: 'SnappyServiceNF',
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  TextSpan(
-                                    text: 'Chefs',
-                                    style: TextStyle(
-                                      color: Color(0xFFFF6A42),
-                                      fontSize: 21,
-                                      fontFamily: 'Snappy Service NF',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 160,
-                            height: 21,
-                            child: Text(
-                              '10% off on first order',
-                              style: TextStyle(
-                                color: Color(0xFF1E1E1E),
-                                fontSize: 13,
-                                fontFamily: 'Merge One',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          )
-                        ]),
-                  ),
-                  //col2
-                  Column(
-                    children: [
-                      Image.asset(
-                        'assets/imgs/hamburger.png',
-                        fit: BoxFit.fill,
-                        width: 150,
-                      ),
-                    ],
-                  ),
-                ]),
-              ),
-            ),
-            const SizedBox(
-              width: 184,
-              height: 27,
-              child: Text(
-                'Deals from Chefs',
-                style: TextStyle(
-                  color: Color(0xFF1E1E1E),
-                  fontSize: 17,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
+                                ),
+                                SizedBox(
+                                  height: _screenwidth * 0.03, // 15
+                                ),
+                                AppLiteText(
+                                  text: '10% off on first order',
+                                  fontFamily: 'MergeOne',
+                                ),
+                              ]),
+                        ),
+                        //col2
+                        Image.asset(
+                          'assets/imgs/hamburger.png',
+                          fit: BoxFit.cover,
+                          width: _screenwidth * 0.4,
+                        ),
+                      ]),
                 ),
               ),
             ),
+            SizedBox(
+              height: _screenwidth * 0.03,
+            ),
+            // 'Deals from Chefs' text
+            AppMainText(
+              text: 'Deals from Chefs',
+            ),
+            SizedBox(
+              height: _screenwidth * 0.03,
+            ),
+            //Deals menu items
             Container(
-              height: 133, // Set a fixed height for the container
+              width: double.maxFinite,
+              height: _screenheight * 0.2,
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: 5,
@@ -365,8 +329,7 @@ class _thisHomeState extends State<thisHome> {
                   return Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Container(
-                      width: 134,
-                      height: 133, // Set a fixed height for each container
+                      width: _screenwidth * 0.38,
                       decoration: ShapeDecoration(
                         gradient: const RadialGradient(
                           center: Alignment(0, 1),
@@ -378,21 +341,26 @@ class _thisHomeState extends State<thisHome> {
                         ),
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset('assets/imgs/burger.png'),
-                          const SizedBox(
-                            width: 87,
-                            height: 42,
-                            child: Text(
-                              'Buy 1 GET 1 free',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontFamily: 'Chieezy Burger',
-                                fontWeight: FontWeight.w400,
-                              ),
+                          FractionallySizedBox(
+                            widthFactor:
+                                0.5, // 40% of the parent widget's width
+                            child: Image.asset(
+                              'assets/imgs/burger.png',
+                              fit: BoxFit.cover,
                             ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          AppMainText(
+                            text: 'Buy 1 Get\n1 free',
+                            fontFamily: 'ChieezyBurger',
+                            color: Colors.white,
+                            textAlign: TextAlign.center,
+                            fontSize: 17,
                           )
                         ],
                       ),
@@ -401,79 +369,75 @@ class _thisHomeState extends State<thisHome> {
                 },
               ),
             ),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: _screenwidth * 0.03,
             ),
-            Container(
-              width: double.maxFinite,
-              height: 250,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => homeOrder()),
+                );
+              },
+              child: Container(
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-              ),
-              child: Row(children: [
-                //col1
-                const Padding(
-                  padding: EdgeInsets.only(top: 20.0, left: 20),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          width: 160,
-                          height: 70,
-                          child: Text.rich(
-                            TextSpan(
+                        //col1
+                        Container(
+                          margin: EdgeInsets.all(15),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                TextSpan(
-                                  text: 'Order Food from \nnearby ',
-                                  style: TextStyle(
-                                    color: Color(0xFF1E1E1E),
-                                    fontSize: 21,
-                                    fontFamily: 'Snappy Service NF',
-                                    fontWeight: FontWeight.w400,
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'Order Food from \nnearby ',
+                                        style: TextStyle(
+                                          fontSize: _screenwidth * 0.06,
+                                          fontFamily: 'SnappyServiceNF',
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: 'Chefs',
+                                        style: TextStyle(
+                                          color: AppColors.primaryColor,
+                                          fontSize: _screenwidth * 0.06,
+                                          fontFamily: 'SnappyServiceNF',
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                TextSpan(
-                                  text: 'Chefs',
-                                  style: TextStyle(
-                                    color: Color(0xFFFF6A42),
-                                    fontSize: 21,
-                                    fontFamily: 'Snappy Service NF',
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                SizedBox(
+                                  height: _screenwidth * 0.03, // 15
                                 ),
-                              ],
-                            ),
-                          ),
+                                AppLiteText(
+                                  text: '10% off on first order',
+                                  fontFamily: 'MergeOne',
+                                ),
+                              ]),
                         ),
-                        SizedBox(
-                          width: 160,
-                          height: 21,
-                          child: Text(
-                            '10% off on first order',
-                            style: TextStyle(
-                              color: Color(0xFF1E1E1E),
-                              fontSize: 13,
-                              fontFamily: 'Merge One',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        )
+                        //col2
+                        Image.asset(
+                          'assets/imgs/hamburger.png',
+                          fit: BoxFit.cover,
+                          width: _screenwidth * 0.4,
+                        ),
                       ]),
                 ),
-                //col2
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/imgs/hamburger.png',
-                      fit: BoxFit.fill,
-                      width: 150,
-                    ),
-                  ],
-                ),
-              ]),
+              ),
             ),
           ],
         ),
