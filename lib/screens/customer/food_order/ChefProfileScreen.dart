@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../TabBarScreens/ChefMenu.dart';
+import '../../../TabBarScreens/ChefMenuTab.dart';
 import '../../../TabBarScreens/ChefPictures.dart';
 import '../../../TabBarScreens/ChefReels.dart';
 
