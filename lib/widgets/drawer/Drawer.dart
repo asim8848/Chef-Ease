@@ -3,10 +3,12 @@ import 'package:chefease/widgets/form_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chefease/widgets/text_styles.dart';
-import '../constants/colors.dart';
-import '../constants/responsive.dart';
+import '../../constants/colors.dart';
+import '../../constants/responsive.dart';
+import '../../screens/chef/ChefDashboardScreen.dart';
 
-import '../screens/customer/profile/UserProfileScreen.dart';
+import '../../screens/customer/profile/UserProfileScreen.dart';
+
 
 class DrawerContent extends StatefulWidget {
   @override
@@ -78,7 +80,19 @@ class _DrawerContentState extends State<DrawerContent> {
                     child: ListTile(
                       onTap: () {
                         setState(() {
-                          _selectedIndex = index; // Update selected index
+                          _selectedIndex = index; //
+                          if (_getTileTitle(index) == 'Chef Mode') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ChefDashboardScreen();
+                                },
+                              ),
+                            );
+                          } else {
+                            // Handle navigation for other tiles if needed
+                          }
                         });
                       },
                       leading: Icon(
