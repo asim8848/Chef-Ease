@@ -1,9 +1,12 @@
 import 'package:chefease/widgets/buttons.dart';
 import 'package:chefease/widgets/form_fields.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import '../constants/colors.dart';
 import '../constants/responsive.dart';
+
+import '../screens/customer/profile/UserProfileScreen.dart';
 
 class DrawerContent extends StatefulWidget {
   @override
@@ -47,10 +50,19 @@ class _DrawerContentState extends State<DrawerContent> {
             SizedBox(
               height: _screenheight * 0.02,
             ),
-            AppLiteText(
-              text: 'View Profile',
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                // Navigate to profile screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                );
+              },
+              child: AppLiteText(
+                text: 'View Profile',
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Divider(
               height: 20,
