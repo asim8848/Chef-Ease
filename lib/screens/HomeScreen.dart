@@ -2,7 +2,7 @@ import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/screens/customer/food_order/HomeOrderScreen.dart';
 import 'package:chefease/screens/customer/post_bids/BidsReviewScreen.dart';
 import 'package:chefease/screens/customer/reels/ReelScreen.dart';
-import 'package:chefease/widgets/Drawer.dart';
+import 'package:chefease/widgets/drawer/Drawer.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: DrawerContent(),
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
