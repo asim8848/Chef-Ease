@@ -1,5 +1,7 @@
 import 'package:chefease/constants/responsive.dart';
+import 'package:chefease/screens/customer/chat/ChatListScreen.dart';
 import 'package:chefease/screens/customer/food_order/HomeOrderScreen.dart';
+import 'package:chefease/screens/customer/food_order/OrderHistory.dart';
 import 'package:chefease/screens/customer/post_bids/BidsReviewScreen.dart';
 import 'package:chefease/screens/customer/reels/ReelScreen.dart';
 import 'package:chefease/widgets/drawer/Drawer.dart';
@@ -16,34 +18,24 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
 class _HomeScreenState extends State<HomeScreen> {
   final _advancedDrawerController = AdvancedDrawerController();
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     thisHome(),
     Reels(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    ChatList(),
+    OrderHistory(), // Added new screen
   ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-
-  List<IconData> listOfIcons = [
-    Icons.home_rounded,
-    Icons.favorite_rounded,
-    Icons.settings_rounded,
-    Icons.person_rounded,
-    Icons.star_rounded, // Added new icon
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Reels',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'School',
+              icon: Icon(Icons.chat_bubble_outline_outlined),
+              label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.history), // New item
+              label: 'Order',
             ),
           ],
           currentIndex: _selectedIndex,
@@ -77,58 +73,57 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: _selectedIndex == 1
             ? null
             : AppBar(
-                centerTitle: false,
-                automaticallyImplyLeading: false,
-                backgroundColor: AppColors.primaryColor,
-                leading: IconButton(
-                  onPressed: _handleMenuButtonPressed,
-                  icon: const Icon(Icons.menu),
-                  color: AppColors.secondaryColor,
-                ),
-                title: GestureDetector(
-                  onTap: () => print("Asim"),
-                  child: Container(
-                    child: const Row(
-                      children: <Widget>[
-                        Icon(Icons.location_searching,
-                            color: AppColors.secondaryColor),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Select your location',
-                          style: TextStyle(
-                            color: AppColors.secondaryColor,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-                      ],
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          backgroundColor: AppColors.primaryColor,
+          leading: IconButton(
+            onPressed: _handleMenuButtonPressed,
+            icon: const Icon(Icons.menu),
+            color: AppColors.secondaryColor,
+          ),
+          title: GestureDetector(
+            onTap: () => print("Asim"),
+            child: Container(
+              child: const Row(
+                children: <Widget>[
+                  Icon(Icons.location_searching,
+                      color: AppColors.secondaryColor),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Select your location',
+                    style: TextStyle(
+                      color: AppColors.secondaryColor,
+                      fontSize: 14,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
                     ),
-                  ),
-                ),
-                actions: const [
-                  Icon(
-                    Icons.favorite_border,
-                    color: AppColors.secondaryColor,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    color: AppColors.secondaryColor,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
+                  )
                 ],
               ),
-
+            ),
+          ),
+          actions: const [
+            Icon(
+              Icons.favorite_border,
+              color: AppColors.secondaryColor,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            Icon(
+              Icons.shopping_cart_outlined,
+              color: AppColors.secondaryColor,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+          ],
+        ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
-        ), // Your existing body content
+        ),
       ),
     );
   }
@@ -137,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _advancedDrawerController.showDrawer();
   }
 }
+
 
 class thisHome extends StatefulWidget {
   const thisHome({super.key});
