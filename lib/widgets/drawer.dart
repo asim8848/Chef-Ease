@@ -1,3 +1,4 @@
+import 'package:chefease/screens/OrderTrack.dart';
 import 'package:chefease/screens/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:chefease/Constants/constants.dart';
@@ -67,39 +68,69 @@ class DrawerContent extends StatelessWidget {
               ),
               Divider(),
               buildListTile(
-                  Icons.settings, 'Settings', screenWidth, textScaleFactor,
-                  onTap: () {}),
-              buildListTile(Icons.help_outline_outlined, 'Help/Support',
-                  screenWidth, textScaleFactor,
-                  onTap: () {}),
-              buildListTile(Icons.maps_home_work_outlined, 'Chef Mode',
-                  screenWidth, textScaleFactor,
-                  onTap: () {}),
+                Icons.settings,
+                'Settings',
+                screenWidth,
+                textScaleFactor,
+                onTap: () {
+                  // Add your Settings onTap logic here
+                },
+              ),
+              buildListTile(
+                Icons.help_outline_outlined,
+                'Help/Support',
+                screenWidth,
+                textScaleFactor,
+                onTap: () {
+                  // Add your Help/Support onTap logic here
+                },
+              ),
+              buildListTile(
+                Icons.maps_home_work_outlined,
+                'Chef Mode',
+                screenWidth,
+                textScaleFactor,
+                onTap: () {
+                  // Add your Chef Mode onTap logic here
+                },
+              ),
               buildListTile(
                 Icons.task_outlined,
                 'Terms & Conditions',
                 screenWidth,
                 textScaleFactor,
                 onTap: () {
-                  try {
-                    print("Terms & Conditions Clicked");
-                    // Navigate to TermsAndConditionsScreen on tap
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TermsAndConditionsScreen()),
-                    );
-                  } catch (e) {
-                    print("Navigation Error: $e");
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TermsAndConditionsScreen(),
+                    ),
+                  );
                 },
               ),
-              buildListTile(Icons.track_changes_outlined, 'Orders Track',
-                  screenWidth, textScaleFactor,
-                  onTap: () {}),
-              buildListTile(Icons.request_page_outlined, 'Bid Request',
-                  screenWidth, textScaleFactor,
-                  onTap: () {}),
+              buildListTile(
+                Icons.track_changes_outlined,
+                'Orders Track',
+                screenWidth,
+                textScaleFactor,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderTrack(),
+                    ),
+                  );
+                },
+              ),
+              buildListTile(
+                Icons.request_page_outlined,
+                'Bid Request',
+                screenWidth,
+                textScaleFactor,
+                onTap: () {
+                  // Add your Bid Request onTap logic here
+                },
+              ),
               Spacer(),
               Container(
                 width: 307,
@@ -110,7 +141,9 @@ class DrawerContent extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20.0, left: 20),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      // Add your Signup or Login onTap logic here
+                    },
                     leading: const Icon(
                       Icons.exit_to_app_outlined,
                       color: AppColors.secondaryColor,
@@ -133,12 +166,16 @@ class DrawerContent extends StatelessWidget {
   }
 
   Padding buildListTile(
-      IconData icon, String title, double screenWidth, double textScaleFactor,
-      {required VoidCallback onTap}) {
+    IconData icon,
+    String title,
+    double screenWidth,
+    double textScaleFactor, {
+    required VoidCallback onTap,
+  }) {
     return Padding(
       padding: EdgeInsets.only(left: 20 * screenWidth / 360),
       child: ListTile(
-        onTap: () {},
+        onTap: onTap,
         leading: Icon(icon),
         title: Text(
           title,
