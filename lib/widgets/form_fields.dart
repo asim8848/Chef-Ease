@@ -15,8 +15,6 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller; // Add controller parameter
   final bool obscureText; // Add obscureText parameter with default value
 
-  final bool obscureText;
-
   const AppTextFormField({
     required this.hintText,
     this.icon,
@@ -29,8 +27,6 @@ class AppTextFormField extends StatelessWidget {
     this.keyboardType,
     this.controller, // Provide controller parameter
     this.obscureText = false, // Provide default value
-
-    this.obscureText = false,
   });
 
   @override
