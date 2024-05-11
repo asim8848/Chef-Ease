@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 import 'package:chefease/widgets/buttons.dart';
 import 'package:chefease/widgets/form_fields.dart';
 import 'package:chefease/widgets/text_styles.dart';
