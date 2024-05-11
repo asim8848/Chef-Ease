@@ -1,38 +1,50 @@
-lib/
-  |- main.dart
-  |- screens/
-     |- HomeScreen.dart
-     |- OnBoardingScreen.dart
-     |- authentication
-     |- chef
-     |- customer/
-        |- customer_profile_screen.dart
-        |- customer_dashboard_screen.dart
-        |- food_order/
-           |- FoodCategoryScreen.dart
-           |- FoodDetailScreen.dart
-           |- HomeOrderScreen.dart
-           |- KitchenDetailsScreen.dart
-           |- KitchenMenuScreen.dart
-           |- OrderDetailsScreen.dart
-           |- ViewCartScreen.dart
-        |- reels/
-           |- ReelScreen.dart
-        |- donation/
-           |- AddDonationRequestScreen.dart
-           |- DonationMainScreen.dart
-           |- DonationRequestDetailsScreen.dart
-           |- DonationRequestScreen.dart
-  |- constants/
-     |- colors.dart
-
-
-  |- widgets/
-     |- Drawer.dart
-     |- buttons.dart
-     |- form_fields.dart
-     |- text_styles.dart
-
-
-
-FractionallySizedBox
+.
+├── lib/
+│   ├── main.dart
+│   ├── firebase_options.dart
+│   ├── screens/
+│   │   ├── HomeScreen.dart
+│   │   ├── OnBoardingScreen.dart
+│   │   ├── authentication/
+│   │   ├── chef/
+│   │   │   ├── ChefDashboardScreen.dart
+│   │   │   ├── ChefProfileScreen.dart
+│   │   │   ├── tabs/
+│   │   │   │   ├── ChefMenuTab.dart
+│   │   │   │   ├── ChefPicturesTab.dart
+│   │   │   │   └── ChefReelsTab.dart
+│   │   ├── customer/
+│   │   │   ├── profile/
+│   │   │   │   └── UserProfileScreen.dart
+│   │   │   ├── food_order/
+│   │   │   │   ├── FoodCategoryScreen.dart
+│   │   │   │   ├── FoodDetailScreen.dart
+│   │   │   │   ├── HomeOrderScreen.dart
+│   │   │   │   ├── KitchenDetailsScreen.dart
+│   │   │   │   ├── KitchenMenuScreen.dart
+│   │   │   │   ├── OrderDetailsScreen.dart
+│   │   │   │   └── ViewCartScreen.dart
+│   │   │   ├── reels/
+│   │   │   │   └── ReelScreen.dart
+│   │   │   ├── donation/
+│   │   │   │   ├── AddDonationRequestScreen.dart
+│   │   │   │   ├── DonationMainScreen.dart
+│   │   │   │   ├── DonationRequestDetailsScreen.dart
+│   │   │   │   └── DonationRequestScreen.dart
+│   │   │   ├── post_bids/
+│   │   │   │   ├── BidsReviewScreen.dart
+│   │   │   │   └── PostBidsScreen.dart
+│   │   │   └── chat/
+│   │   │       ├── ChatListScreen.dart
+│   │   │       └── ChatUserScreen.dart
+│   ├── constants/
+│   │   ├── colors.dart
+│   │   └── responsive.dart
+│   └── widgets/
+│       ├── Drawer.dart
+│       ├── buttons.dart
+│       ├── form_fields.dart
+│       ├── text_styles.dart
+│       ├── appbars.dart
+│       └── toast.dart
+└── FractionallySizedBox

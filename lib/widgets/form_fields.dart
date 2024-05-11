@@ -10,6 +10,7 @@ class AppTextFormField extends StatelessWidget {
   final double? fontSize;
   final int? maxLines;
   final TextInputType? keyboardType;
+  final TextEditingController? controller; // Add controller parameter
   final bool obscureText; // Add obscureText parameter with default value
 
   const AppTextFormField({
@@ -21,12 +22,14 @@ class AppTextFormField extends StatelessWidget {
     this.fontSize,
     this.maxLines,
     this.keyboardType,
+    this.controller, // Provide controller parameter
     this.obscureText = false, // Provide default value
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller, // Assign controller to TextFormField
       maxLines: obscureText ? 1 : maxLines,
       keyboardType: keyboardType,
       obscureText: obscureText,
