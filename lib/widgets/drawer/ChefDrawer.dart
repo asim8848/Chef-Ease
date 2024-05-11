@@ -1,3 +1,7 @@
+import 'package:chefease/screens/HomeScreen.dart';
+import 'package:chefease/screens/chef/chefdrawerscreens/AnalyticsInsightsScreen.dart';
+import 'package:chefease/screens/chef/chefdrawerscreens/EarningsScreen.dart';
+import 'package:chefease/screens/chef/chefdrawerscreens/Help&Support.dart';
 import 'package:chefease/widgets/buttons.dart';
 import 'package:chefease/widgets/form_fields.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,15 +11,17 @@ import '../../constants/colors.dart';
 import '../../constants/responsive.dart';
 import '../../screens/chef/ChefDashboardScreen.dart';
 
+import '../../screens/chef/chefdrawerscreens/SettingsScreen.dart';
+import '../../screens/chef/chefdrawerscreens/TermsConditionsScreen.dart';
 import '../../screens/customer/profile/UserProfileScreen.dart';
 
 
-class DrawerContent extends StatefulWidget {
+class ChefDrawerContent extends StatefulWidget {
   @override
-  State<DrawerContent> createState() => _DrawerContentState();
+  State<ChefDrawerContent> createState() => _DrawerContentState();
 }
 
-class _DrawerContentState extends State<DrawerContent> {
+class _DrawerContentState extends State<ChefDrawerContent> {
   int _selectedIndex = -1; // Tracks the selected index of the tile
 
   @override
@@ -39,7 +45,7 @@ class _DrawerContentState extends State<DrawerContent> {
                 shape: BoxShape.circle,
               ),
               child: Image.asset(
-                'assets/imgs/jack.png',
+                'assets/imgs/person1circle.png',
                 fit: BoxFit.fill,
               ),
             ),
@@ -81,12 +87,24 @@ class _DrawerContentState extends State<DrawerContent> {
                       onTap: () {
                         setState(() {
                           _selectedIndex = index; //
-                          if (_getTileTitle(index) == 'Chef Mode') {
+                          if (_getTileTitle(index) == 'Customer Mode') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return ChefDashboardScreen();
+                                  return HomeScreen();
+                                },
+                              ),
+                            );
+                          } else {
+                            // Handle navigation for other tiles if needed
+                          }
+                          if (_getTileTitle(index) == 'Settings') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Settings();
                                 },
                               ),
                             );
@@ -94,6 +112,54 @@ class _DrawerContentState extends State<DrawerContent> {
                             // Handle navigation for other tiles if needed
                           }
                         });
+                        if (_getTileTitle(index) == 'Help/Support') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return HelpSupport();
+                              },
+                            ),
+                          );
+                        } else {
+                          // Handle navigation for other tiles if needed
+                        }
+                        if (_getTileTitle(index) == 'Terms & Conditions') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return TermsConditions();
+                              },
+                            ),
+                          );
+                        } else {
+                          // Handle navigation for other tiles if needed
+                        }
+                        if (_getTileTitle(index) == 'Analytics & Insights') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return AnalyticsInsights();
+                              },
+                            ),
+                          );
+                        } else {
+                          // Handle navigation for other tiles if needed
+                        }
+                        if (_getTileTitle(index) == 'Earnings') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ChefEarnings();
+                              },
+                            ),
+                          );
+                        } else {
+                          // Handle navigation for other tiles if needed
+                        }
                       },
                       leading: Icon(
                         _getLeadingIcon(index), // Function to get leading icon
@@ -237,9 +303,9 @@ class _DrawerContentState extends State<DrawerContent> {
       case 3:
         return Icons.task_outlined;
       case 4:
-        return Icons.track_changes_outlined;
+        return Icons.attach_money_outlined;
       case 5:
-        return Icons.request_page_outlined;
+        return Icons.auto_graph_outlined;
       default:
         return Icons.settings;
     }
@@ -254,13 +320,13 @@ class _DrawerContentState extends State<DrawerContent> {
       case 1:
         return 'Help/Support';
       case 2:
-        return 'Chef Mode';
+        return 'Customer Mode';
       case 3:
         return 'Terms & Conditions';
       case 4:
-        return 'Orders Track';
+        return 'Earnings';
       case 5:
-        return 'Bid Request';
+        return 'Analytics & Insights';
       default:
         return 'Settings';
     }
