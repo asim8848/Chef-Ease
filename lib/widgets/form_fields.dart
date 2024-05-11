@@ -4,18 +4,21 @@ import '../constants/colors.dart';
 class AppTextFormField extends StatelessWidget {
   final String hintText;
   final IconData? icon;
+  final Widget? suffixIcon; // Change suffixIcon to Widget?
   final FontWeight? fontWeight;
   final Color? color;
   final String? fontFamily;
   final double? fontSize;
   final int? maxLines;
   final TextInputType? keyboardType;
+
   final TextEditingController? controller; // Add controller parameter
   final bool obscureText; // Add obscureText parameter with default value
 
   const AppTextFormField({
     required this.hintText,
     this.icon,
+    this.suffixIcon, // Change suffixIcon to Widget?
     this.fontWeight,
     this.color,
     this.fontFamily,
@@ -55,6 +58,7 @@ class AppTextFormField extends StatelessWidget {
           ),
         ),
         prefixIcon: icon != null ? Icon(icon) : null,
+        suffixIcon: suffixIcon, // Use suffixIcon directly
       ),
     );
   }

@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:chefease/screens/chef/chefdrawerscreens/SettingsScreen.dart';
+import 'package:chefease/screens/customer/drawerscreens/OrderTrack.dart';
+
 import 'package:chefease/widgets/buttons.dart';
 import 'package:chefease/widgets/form_fields.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import '../../constants/colors.dart';
 import '../../constants/responsive.dart';
 import '../../screens/chef/ChefDashboardScreen.dart';
+
+import '../../screens/chef/chefdrawerscreens/Help&Support.dart';
+import '../../screens/chef/chefdrawerscreens/TermsConditionsScreen.dart';
+
 import '../../screens/customer/profile/UserProfileScreen.dart';
 import '../toast.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -111,7 +119,55 @@ class _DrawerContentState extends State<DrawerContent> {
                           } else {
                             // Handle navigation for other tiles if needed
                           }
+                          if (_getTileTitle(index) == 'Settings') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Settings();
+                                },
+                              ),
+                            );
+                          } else {
+                            // Handle navigation for other tiles if needed
+                          }
                         });
+                        if (_getTileTitle(index) == 'Help/Support') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return HelpSupport();
+                              },
+                            ),
+                          );
+                        } else {
+                          // Handle navigation for other tiles if needed
+                        }
+                        if (_getTileTitle(index) == 'Terms & Conditions') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return TermsConditions();
+                              },
+                            ),
+                          );
+                        } else {
+                          // Handle navigation for other tiles if needed
+                        }
+                        if (_getTileTitle(index) == 'Orders Track') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return OrderTrack();
+                              },
+                            ),
+                          );
+                        } else {
+                          // Handle navigation for other tiles if needed
+                        }
                       },
                       leading: Icon(
                         _getLeadingIcon(index),

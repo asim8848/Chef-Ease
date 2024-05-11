@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/responsive.dart';
 import '../../chef/tabs/ChefMenuTab.dart';
 
 class OrderHistory extends StatefulWidget {
@@ -52,6 +53,7 @@ class _OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
+
     return ListView.builder(
       itemCount: foodItems.length,
       itemBuilder: (context, index) {
@@ -106,18 +108,20 @@ class FoodItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 355,
-      height: 190,
-      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
+    return  Container(
+      width: _screenwidth * 0.8875, // 88.75% of screen width
+      height: _screenheight * 0.2375, // 23.75% of screen height
+      margin: EdgeInsets.symmetric(vertical: _screenheight * 0.00625, horizontal: _screenwidth * 0.05), // 0.625% of screen height and 5% of screen width
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(_screenwidth * 0.0225), // 2.25% of screen width
         boxShadow: [
           BoxShadow(
             color: Color(0x26000000),
-            blurRadius: 11,
-            offset: Offset(0, 2),
+            blurRadius: _screenwidth * 0.0275, // 2.75% of screen width
+            offset: Offset(0, _screenheight * 0.0025), // 0.25% of screen height
             spreadRadius: 0,
           ),
         ],
@@ -128,89 +132,89 @@ class FoodItemCard extends StatelessWidget {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: _screenwidth * 0.05), // 5% of screen width
                 child: Container(
-                  width: 100,
-                  height: 105,
+                  width: _screenwidth * 0.25, // 25% of screen width
+                  height: _screenheight * 0.13125, // 13.125% of screen height
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(imageUrl),
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: BorderRadius.circular(9),
+                    borderRadius: BorderRadius.circular(_screenwidth * 0.0225), // 2.25% of screen width
                   ),
                 ),
               ),
-              SizedBox(width: 15),
+              SizedBox(width: _screenwidth * 0.0375), // 3.75% of screen width
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                      padding: EdgeInsets.only(top: _screenheight * 0.0125), // 1.25% of screen height
                       child: Text(
                         name,
                         style: TextStyle(
                           color: Color(0xFF222222),
-                          fontSize: 16,
+                          fontSize: _screenwidth * 0.04, // 4% of screen width
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: _screenheight * 0.0125), // 1.25% of screen height
                     Row(
                       children: [
                         CircleAvatar(
                           backgroundImage: NetworkImage(chefImage),
-                          radius: 12,
+                          radius: _screenwidth * 0.03, // 3% of screen width
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: _screenwidth * 0.0125), // 1.25% of screen width
                         Text(
                           chefName,
                           style: TextStyle(
                             color: Color(0xFF666666),
-                            fontSize: 12,
+                            fontSize: _screenwidth * 0.03, // 3% of screen width
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: _screenheight * 0.025), // 2.5% of screen height
                     Row(
                       children: [
                         Text(
                           date,
                           style: TextStyle(
                             color: Color(0xFF666666),
-                            fontSize: 12,
+                            fontSize: _screenwidth * 0.03, // 3% of screen width
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                        SizedBox(width: 75), // Add spacing between date and price
+                        SizedBox(width: _screenwidth * 0.099), // 18.75% of screen width
                         Text(
                           price, // Display price
                           style: TextStyle(
                             color: Colors.deepOrange, // Orange color
-                            fontSize: 14,
+                            fontSize: _screenwidth * 0.035, // 3.5% of screen width
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: _screenheight * 0.025), // 2.5% of screen height
                   ],
                 ),
               ),
             ],
           ),
-          SizedBox(height: 5),
+          SizedBox(height: _screenheight * 0.00625), // 0.625% of screen height
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.05), // 5% of screen width
             child: ElevatedButton(
               onPressed: () {
                 // Add onPressed functionality here
@@ -218,18 +222,18 @@ class FoodItemCard extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFFF6A42),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(_screenwidth * 0.0125), // 1.25% of screen width
                 ),
               ),
               child: Container(
                 width: double.infinity,
-                height: 30,
+                height: _screenheight * 0.0375, // 3.75% of screen height
                 alignment: Alignment.center,
                 child: Text(
                   'Reorder Now',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: _screenwidth * 0.035, // 3.5% of screen width
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                   ),
