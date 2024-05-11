@@ -1,95 +1,93 @@
+// ChefAddMenuBottomSheet.dart
+
 import 'package:chefease/screens/chef/Chef_add_menu/AddMealScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:chefease/constants/colors.dart';
 import '../../../constants/responsive.dart';
 import 'AddPhotoVideoScreen.dart';
+
 class AddBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double _screenheight = Responsive.screenHeight(context);
-    double _screenwidth = Responsive.screenWidth(context);
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: _screenwidth*0.02, vertical: _screenheight*0.01),
-        height: _screenheight * 0.18,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFFFF7F50), Color(0xFFFF6347)],
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 10.0,
+        ),
+        Expanded(
+          child: _buildCustomButton(
+            icon: Icons.add,
+            text: 'Add Meal',
+            onPressed: () {
+              // Action for adding a meal
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AddMeal()));
+            },
+            context: context,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildCustomButton(
-              icon: Icons.add,
-              text: 'Add Meal',
-              onPressed: () {
-                // Action for adding a meal
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddMeal()));
-              }, context: context,
-            ),
-
-            _buildCustomButton(
-              icon: Icons.file_upload_outlined,
-              text: 'Upload Reel',
-              onPressed: () {
-                // Action for uploading reels
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddPhotoVideo()));
-              }, context: context,
-            ),
-
-          ],
+        SizedBox(
+          height: 10.0,
         ),
-      ),
+        Expanded(
+          child: _buildCustomButton(
+            icon: Icons.file_upload_outlined,
+            text: 'Upload Reel',
+            onPressed: () {
+              // Action for uploading reels
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AddPhotoVideo()));
+            },
+            context: context,
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildCustomButton({required IconData icon, required String text, required VoidCallback onPressed, required BuildContext context}) {
-    double _screenheight = Responsive.screenHeight(context);
-    double _screenwidth = Responsive.screenWidth(context);
-
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        height: _screenheight * 0.1, // 10% of screen height
-        width: _screenwidth * 0.22, // 20% of screen width
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: AppColors.primaryColor,
-              size: _screenwidth * 0.08, // 8% of screen width
-            ),
-            SizedBox(height: _screenheight * 0.01), // 1% of screen height
-            Text(
-              text,
-              style: TextStyle(fontSize: _screenwidth * 0.03, color: AppColors.primaryColor), // Font size is 4% of screen width
-              textAlign: TextAlign.center,
-            ),
-          ],
+  Widget _buildCustomButton(
+      {required IconData icon,
+      required String text,
+      required VoidCallback onPressed,
+      required BuildContext context}) {
+    return Padding(
+      padding: EdgeInsets.all(10.0), // Add some padding
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(10.0), // Add border radius
+            boxShadow: [
+              // Add shadow effect
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: Colors.white, // Change icon color to white
+                size: 50.0,
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontFamily:
+                        'Roboto'), // Change text color to white and use Roboto font
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
