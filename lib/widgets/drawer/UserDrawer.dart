@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 import 'package:chefease/widgets/buttons.dart';
 import 'package:chefease/widgets/form_fields.dart';
 import 'package:chefease/widgets/text_styles.dart';
@@ -186,26 +185,47 @@ class _DrawerContentState extends State<DrawerContent> {
                   },
                 ),
               ),
-              Container(
-                width: _screenWidth,
-                height: _screenHeight * 0.08,
-                color: AppColors.primaryColor,
-                child: Center(
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.exit_to_app_outlined,
-                      color: AppColors.secondaryColor,
+              _auth.currentUser == null
+                  ? Container(
+                      width: _screenWidth,
+                      height: _screenHeight * 0.08,
+                      color: AppColors.primaryColor,
+                      child: Center(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.exit_to_app_outlined,
+                            color: AppColors.secondaryColor,
+                          ),
+                          title: AppLiteText(
+                            text: 'Signup or Login',
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                          ),
+                          contentPadding: const EdgeInsets.only(left: 40),
+                          onTap: _showSignupLoginModal,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: _screenWidth,
+                      height: _screenHeight * 0.08,
+                      color: AppColors.primaryColor,
+                      child: Center(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.logout,
+                            color: AppColors.secondaryColor,
+                          ),
+                          title: AppLiteText(
+                            text: 'Logout',
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                          ),
+                          contentPadding: const EdgeInsets.only(left: 40),
+                          onTap: _handleSignOut,
+                        ),
+                      ),
                     ),
-                    title: AppLiteText(
-                      text: 'Signup or Login',
-                      color: Colors.white,
-                      fontFamily: 'Poppins',
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 40),
-                    onTap: _showSignupLoginModal,
-                  ),
-                ),
-              ),
             ],
           ),
         ),
@@ -465,6 +485,8 @@ class _DrawerContentState extends State<DrawerContent> {
       _emailController.clear();
       _passwordController.clear();
       _confirmPasswordController.clear();
+      // Close the modal
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         AppToast().toastMessage('The password provided is too weak.');
@@ -508,6 +530,8 @@ class _DrawerContentState extends State<DrawerContent> {
 
       _emailController.clear();
       _passwordController.clear();
+      // Close the modal
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         AppToast().toastMessage('No user found for that email.');
@@ -537,6 +561,15 @@ class _DrawerContentState extends State<DrawerContent> {
       await _auth.signInWithProvider(_googleAuthProvider);
     } catch (error) {
       print('Google sign in failed: $error');
+    }
+  }
+
+  Future<void> _handleSignOut() async {
+    try {
+      await _auth.signOut();
+      setState(() {}); // Refresh the UI after logout
+    } catch (e) {
+      print('Sign out failed: $e');
     }
   }
 }
