@@ -1,30 +1,29 @@
-import 'package:chefease/constants/responsive.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
-import '../../widgets/buttons.dart';
-import '../../widgets/form_fields.dart';
-import '../../widgets/text_styles.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/form_fields.dart';
+import '../../../widgets/text_styles.dart';
 
-class UpdateMeal extends StatefulWidget {
-  const UpdateMeal({super.key});
+class AddMeal extends StatefulWidget {
+  const AddMeal({super.key});
 
   @override
-  State<UpdateMeal> createState() => _UpdateMealState();
+  State<AddMeal> createState() => _AddMealState();
 }
 
-class _UpdateMealState extends State<UpdateMeal> {
+class _AddMealState extends State<AddMeal> {
   @override
   Widget build(BuildContext context) {
     double _screenheight = Responsive.screenHeight(context);
     double _screenwidth = Responsive.screenWidth(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        title: AppMainText(text: "Add Meal Details",color: AppColors.secondaryColor,fontSize: 20,),
+        backgroundColor: AppColors.secondaryColor,
+        title: AppMainText(text: "Add Meal Details",color: AppColors.textColor,fontSize: 20,),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new,color: AppColors.secondaryColor),
+          icon: Icon(Icons.arrow_back_ios_new,color: AppColors.textColor),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -35,7 +34,7 @@ class _UpdateMealState extends State<UpdateMeal> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Personal Information Heading
+
             SizedBox(height: _screenheight * 0.02), // 3% of screen height
 
             // Profile Image Upload
@@ -104,7 +103,7 @@ class _UpdateMealState extends State<UpdateMeal> {
               alignment: Alignment.center,
               child: CustomButton(
                 borderRadius: _screenwidth * 0.0375, // 3.75% of screen width
-                text: 'Update',
+                text: 'Add Meal',
                 onPressed: () {
                   // Handle form submission
                 },

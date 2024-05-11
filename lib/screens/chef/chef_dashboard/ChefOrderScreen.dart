@@ -3,7 +3,7 @@ import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
-import '../../constants/responsive.dart';
+import '../../../constants/responsive.dart';
 
 class ChefOrder extends StatefulWidget {
   const ChefOrder({Key? key}) : super(key: key);

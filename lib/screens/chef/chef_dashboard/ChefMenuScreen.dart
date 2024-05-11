@@ -1,12 +1,12 @@
 
 import 'package:chefease/constants/colors.dart';
-import 'package:chefease/screens/chef/UpdateMealScreen.dart';
+import 'package:chefease/screens/chef/Chef_add_menu/UpdateMealScreen.dart';
 import 'package:chefease/widgets/drawer/UserDrawer.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
-import '../../constants/responsive.dart';
+import '../../../constants/responsive.dart';
 class ChefMenu extends StatefulWidget {
   const ChefMenu({super.key});
 
