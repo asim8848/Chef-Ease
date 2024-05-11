@@ -26,7 +26,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
               height: 50,
             ),
             Container(
-              width: width * 0.8,
+              width: width * 1,
               height: height * 0.3,
               decoration: const BoxDecoration(
                 image: DecorationImage(

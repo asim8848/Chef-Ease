@@ -1,6 +1,8 @@
 import 'package:chefease/screens/customer/food_order/FoodCategoryScreen.dart';
-import 'package:chefease/widgets/drawer/Drawer.dart';
+import 'package:chefease/widgets/drawer/UserDrawer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
 import '../../../constants/colors.dart';
@@ -126,9 +128,7 @@ class _homeOrderState extends State<homeOrder> {
                   ),
                   const SizedBox(height: 10),
                   buildDotsIndicator(),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   const Padding(
                     padding: EdgeInsets.only(left: 20, top: 10),
                     child: Row(
@@ -400,7 +400,7 @@ class _homeOrderState extends State<homeOrder> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
                   const Row(
                     children: [
@@ -435,47 +435,48 @@ class _homeOrderState extends State<homeOrder> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: double.infinity, // Set a width for the container
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                          8,
-                          (index) => Container(
-                            width: 120,
-                            height: 145,
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 120,
-                                  height: 125,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          "assets/imgs/person${index % 4 + 1}.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                        8,
+                            (index) => Container(
+                          width: 120,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min, // Restrict maximum size
+                            children: [
+                              Container(
+                                width: 120,
+                                height: 125,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/imgs/person${index % 4 + 1}.png"),
+                                    fit: BoxFit.fill,
                                   ),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                Text(
-                                  names[index % names.length],
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              ),
+                              Text(
+                                names[index % names.length],
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  )
+                  ),
+
+
+
+
+
                 ],
               ),
             )));
