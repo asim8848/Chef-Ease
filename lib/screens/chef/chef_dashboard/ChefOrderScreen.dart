@@ -1,5 +1,6 @@
 import 'package:chefease/constants/colors.dart';
 import 'package:chefease/widgets/text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
@@ -180,10 +181,12 @@ class _ChefOrderState extends State<ChefOrder> {
                   fontWeight: FontWeight.w600,
                 ),
                 SizedBox(width: _screenwidth * 0.01), // 1% of screen width
-                AppLiteText(
-                  text: 'House#2, Street 16, Bahria Town, Lahore',
-                  fontSize: _screenwidth * 0.028, // 3% of screen width
-                  fontWeight: FontWeight.w400,
+                Expanded(
+                  child: AppLiteText(
+                    text: 'House#2, Street 16, Bahria Town, Lahore',
+                    fontSize: _screenwidth * 0.028, // 3% of screen width
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),

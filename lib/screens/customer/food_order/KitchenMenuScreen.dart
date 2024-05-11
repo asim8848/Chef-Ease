@@ -2,6 +2,7 @@ import 'package:chefease/screens/customer/food_order/FoodDetailScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
 
 class Menu extends StatefulWidget {
   Menu({super.key});
@@ -13,6 +14,8 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
     return MaterialApp(
         home: Scaffold(
             backgroundColor: Color(0xffFBFBFB),

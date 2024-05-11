@@ -17,21 +17,23 @@ class _LineChartSample2State extends State<LineChartSample2> {
     AppColors.liteOrange,    // Change this color
   ];
 
-
   bool showAvg = false;
 
   @override
   Widget build(BuildContext context) {
+    final _screenWidth = MediaQuery.of(context).size.width;
+    final _screenHeight = MediaQuery.of(context).size.height;
+
     return Stack(
       children: <Widget>[
         AspectRatio(
           aspectRatio: 1.70,
           child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 32, // Increase bottom padding for text
+            padding: EdgeInsets.only(
+              right: _screenWidth * 0.05,
+              left: _screenWidth * 0.03,
+              top: _screenHeight * 0.06,
+              bottom: _screenHeight * 0.08,
             ),
             child: Column(
               children: [
@@ -40,70 +42,68 @@ class _LineChartSample2State extends State<LineChartSample2> {
                     showAvg ? avgData() : mainData(),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: _screenHeight * 0.01),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(width: 20),
+                    SizedBox(width: _screenWidth * 0.01),
                     AppLiteText(
                       text: '10AM',
-                      fontSize: 12,
+                      fontSize: _screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.6), // Adjust opacity as needed
+                      color: Colors.black.withOpacity(0.6),
                     ),
-                    const SizedBox(width: 25),
+                    SizedBox(width: _screenWidth * 0.06),
                     AppLiteText(
                       text: '11AM',
-                      fontSize: 12,
+                      fontSize: _screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.6), // Adjust opacity as needed
+                      color: Colors.black.withOpacity(0.6),
                     ),
-                    const SizedBox(width: 25),
+                    SizedBox(width: _screenWidth * 0.06),
                     AppLiteText(
                       text: '12PM',
-                      fontSize: 12,
+                      fontSize: _screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.6), // Adjust opacity as needed
+                      color: Colors.black.withOpacity(0.6),
                     ),
-                    const SizedBox(width: 25),
+                    SizedBox(width: _screenWidth * 0.06),
                     AppLiteText(
                       text: '1PM',
-                      fontSize: 12,
+                      fontSize: _screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.6), // Adjust opacity as needed
+                      color: Colors.black.withOpacity(0.6),
                     ),
-                    const SizedBox(width: 25),
+                    SizedBox(width: _screenWidth * 0.06),
                     AppLiteText(
                       text: '2PM',
-                      fontSize: 12,
+                      fontSize: _screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.6), // Adjust opacity as needed
+                      color: Colors.black.withOpacity(0.6),
                     ),
-                    const SizedBox(width: 25),
+                    SizedBox(width: _screenWidth * 0.06),
                     AppLiteText(
                       text: '3PM',
-                      fontSize: 12,
+                      fontSize: _screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.6), // Adjust opacity as needed
+                      color: Colors.black.withOpacity(0.6),
                     ),
-                    const SizedBox(width: 25),
+                    SizedBox(width: _screenWidth * 0.06),
                     AppLiteText(
-                      text: '4PM',
-                      fontSize: 12,
+                      text: '3PM',
+                      fontSize: _screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.6), // Adjust opacity as needed
+                      color: Colors.black.withOpacity(0.6),
                     ),
-
                   ],
-                ) // Add space between line chart and text
-
+                )
               ],
             ),
           ),
         ),
         SizedBox(
-          width: 60,
-          height: 34,
+          width: _screenWidth * 0.15,
+          height: _screenHeight * 0.08,
           child: TextButton(
             onPressed: () {
               setState(() {
@@ -113,7 +113,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             child: Text(
               'avg',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: _screenWidth * 0.03,
                 color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
               ),
             ),
@@ -145,7 +145,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             FlSpot(2.6, 2),
             FlSpot(4.9, 5),
             FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
+            FlSpot(8, 8),
             FlSpot(9.5, 3),
             FlSpot(11, 4),
           ],
@@ -153,7 +153,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           gradient: LinearGradient(
             colors: gradientColors,
           ),
-          barWidth: 5,
+          barWidth: 4,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -174,7 +174,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           getTooltipItems: (List<LineBarSpot> touchedSpots) {
             return touchedSpots.map((LineBarSpot touchedSpot) {
               return LineTooltipItem(
-                '\$${touchedSpot.y.toStringAsFixed(2)}',
+                '\$${touchedSpot.y.toStringAsFixed(5)}',
                 const TextStyle(color: Colors.white),
               );
             }).toList();

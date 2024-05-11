@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
 import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
+import '../../../widgets/text_styles.dart';
 
 class homeOrder extends StatefulWidget {
   const homeOrder({super.key});
@@ -40,6 +42,8 @@ class _homeOrderState extends State<homeOrder> {
 
   @override
   Widget build(BuildContext context) {
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
     return AdvancedDrawer(
         controller: _advancedDrawerController,
         childDecoration: const BoxDecoration(
@@ -99,10 +103,10 @@ class _homeOrderState extends State<homeOrder> {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  const SizedBox(height: 18),
+                  SizedBox(height: _screenheight * 0.02),
                   Container(
-                    width: 352,
-                    height: 180,
+                    width: _screenwidth * 0.9, // 90% of screen width
+                    height: _screenheight * 0.2, // 30% of screen height
                     child: PageView(
                       controller: _pageController,
                       onPageChanged: (int page) {
@@ -126,315 +130,105 @@ class _homeOrderState extends State<homeOrder> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: _screenheight * 0.01), // 1% of screen height
                   buildDotsIndicator(),
-                  const SizedBox(height: 20),
+                  SizedBox(height: _screenheight * 0.02), // 2% of screen height
                   const Padding(
                     padding: EdgeInsets.only(left: 20, top: 10),
                     child: Row(
                       children: [
-                        Text(
-                          'Popular Food',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E1E),
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w900,
-                            height: 0,
-                          ),
+                        AppMainText(
+                          text: 'Popular Food',
+                          fontSize: 20,
+                          color:AppColors.textColor,
+                          fontWeight: FontWeight.w600,
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                SizedBox(height: _screenheight * 0.02),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: GridView.count(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 15,
                       children: [
-                        InkWell(
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/pizza.png",
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => PizzaCategory()),
+                              MaterialPageRoute(builder: (context) => PizzaCategory()),
                             );
                           },
-                          child: Container(
-                            width: 78,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image: AssetImage("assets/imgs/pizza.png")),
-                                color: const Color(0x0FFD6500),
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
+                          title: 'Pizza',
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Container(
-                            width: 78,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/imgs/burger2.png")),
-                                color: const Color(0x0FFD6500),
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/burger2.png",
+                          title: 'Burger',
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Container(
-                            width: 78,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/imgs/chinese.png")),
-                                color: const Color(0x0FFD6500),
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/chinese.png",
+                          title: 'Chinese',
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Container(
-                            width: 78,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image: AssetImage("assets/imgs/tea.png")),
-                                color: const Color(0x0FFD6500),
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/tea.png",
+                          title: 'Shakes',
+                        ),
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/biryani.png",
+                          title: 'Biryani',
+                        ),
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/burgerwithcoke.png",
+                          title: 'Fast Food',
+                        ),
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/burger2.png",
+                          title: 'Pasta',
+                        ),
+                        foodItem(
+                          context: context,
+                          image: "assets/imgs/burger2.png",
+                          title: 'Halwa Puri',
                         ),
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 42, top: 8),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PizzaCategory()),
-                            );
-                          },
-                          child: Text(
-                            'Pizza',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 58, top: 8),
-                        child: Text(
-                          'Burger',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 52, top: 8),
-                        child: Text(
-                          'Chinese',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 45, top: 8),
-                        child: Text(
-                          'Shakes',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 78,
-                          height: 76,
-                          decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage("assets/imgs/biryani.png")),
-                              color: const Color(0x0FFD6500),
-                              borderRadius: BorderRadius.circular(12)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Container(
-                            width: 78,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        "assets/imgs/burgerwithcoke.png")),
-                                color: const Color(0x0FFD6500),
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Container(
-                            width: 78,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/imgs/burger2.png")),
-                                color: const Color(0x0FFD6500),
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Container(
-                            width: 78,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/imgs/burger2.png")),
-                                color: const Color(0x0FFD6500),
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 35, top: 8, right: 20),
-                        child: Text(
-                          'Biryani',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 25, top: 8),
-                        child: Text(
-                          'Fast Food',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 45, top: 8),
-                        child: Text(
-                          'Pasta',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 45, top: 8),
-                        child: Text(
-                          'Halwa Puri',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                SizedBox(height: _screenheight * 0.02),
                   const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.only(left: 20, top: 10),
-                        child: Text(
-                          'Top Chefs',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E1E),
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w900,
-                            height: 0,
-                          ),
+                        child:  AppMainText(
+                          text: 'Top Chefs',
+                          fontSize: 20,
+                          color:AppColors.textColor,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 225),
-                        child: Text(
-                          'See all',
-                          style: TextStyle(
-                            color: Color(0xFF1E1E1E),
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
+                        padding: EdgeInsets.only(left: 200),
+                        child: AppLiteText(
+                          text: 'See all',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textColor,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: _screenheight * 0.01),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -456,15 +250,12 @@ class _homeOrderState extends State<homeOrder> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              Text(
-                                names[index % names.length],
+                              AppLiteText(
+                                text: names[index % names.length],
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
                               ),
                             ],
                           ),
@@ -483,9 +274,11 @@ class _homeOrderState extends State<homeOrder> {
   }
 
   Widget buildContainer(String title, String discount, String imagePath) {
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
     return Container(
-      width: 352,
-      height: 180,
+      width: _screenwidth * 0.9, // 90% of screen width
+      height: _screenheight * 0.3, // 30% of screen height
       decoration: BoxDecoration(
         color: AppColors.primaryColor, // Change this to your desired color
         borderRadius: BorderRadius.circular(22),
@@ -493,7 +286,7 @@ class _homeOrderState extends State<homeOrder> {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 30, top: 30),
+            padding: EdgeInsets.only(left: _screenwidth * 0.075, top: _screenheight * 0.04),
             child: Text(
               title,
               style: const TextStyle(
@@ -540,8 +333,8 @@ class _homeOrderState extends State<homeOrder> {
             left: 200,
             top: 16,
             child: Container(
-              width: 150,
-              height: 165,
+              width: _screenwidth * 0.4, // 40% of screen width
+              height: _screenheight * 0.2, // 30% of screen height
               decoration: ShapeDecoration(
                 image: DecorationImage(
                   image: AssetImage(imagePath),
@@ -577,6 +370,34 @@ class _homeOrderState extends State<homeOrder> {
             ),
           ),
         ),
+      ),
+    );
+  }
+  Widget foodItem({
+
+    required BuildContext context,
+    required String image,
+    required String title,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 51,
+            height: 51,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(image),
+              ),
+              color: const Color(0x0FFD6500),
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          AppLiteText(text: title,fontSize: 13,fontWeight: FontWeight.w600,),
+        ],
       ),
     );
   }

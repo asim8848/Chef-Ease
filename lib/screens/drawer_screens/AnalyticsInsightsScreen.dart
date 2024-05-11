@@ -47,10 +47,6 @@ class _AnalyticsInsightsState extends State<AnalyticsInsights> {
                     child: Container(
                       padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
                       margin: EdgeInsets.only(right: _screenwidth * 0.05), // 5% of screen width
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F5F5), // Light gray color
-                        borderRadius: BorderRadius.circular(_screenwidth * 0.03), // 3% of screen width
-                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -75,10 +71,6 @@ class _AnalyticsInsightsState extends State<AnalyticsInsights> {
                     child: Container(
                       padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
                       margin: EdgeInsets.only(right: _screenwidth * 0.05), // 5% of screen width
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F5F5), // Light gray color
-                        borderRadius: BorderRadius.circular(_screenwidth * 0.03), // 3% of screen width
-                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -168,108 +160,38 @@ class _AnalyticsInsightsState extends State<AnalyticsInsights> {
                 ],
               ),
               LineChartSample2(),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: AppMainText(
+                  text: 'All Reviews (500+)',
+                  fontSize: _screenwidth * 0.045, // 4.5% of screen width
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               Container(
-                height: _screenheight * 1, // 100% of screen height
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: _screenwidth * 0.05, top: _screenheight * 0.075), // 5% of screen width and 7.5% of screen height
-                          child: Row(
-                            children: [
-                              AppMainText(
-                                text: 'All Reviews (500+)',
-                                fontSize: _screenwidth * 0.045, // 4.5% of screen width
-                                fontWeight: FontWeight.w600,
-                              ),
-                              SizedBox(width: _screenwidth * 0.270),
-                              Icon(Icons.star, color: Colors.orange, size: _screenwidth * 0.055), // 5.5% of screen width
-                              SizedBox(width: _screenwidth * 0.01), // 1% of screen width
-                              AppLiteText(
-                                text: '4.3',
-                                fontSize: _screenwidth * 0.045, // 4.5% of screen width
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: _screenheight * 0.025), // 2.5% of screen height
-                        ListTile(
-                          tileColor: Color(0xFFF8F9FB),
-                          leading: CircleAvatar(
-                            backgroundImage: AssetImage('assets/imgs/person1circle.png'),
-                            radius: _screenwidth * 0.05, // 5% of screen width
-                          ),
-                          title: AppMainText(
-                            text: 'Anna',
-                            fontSize: _screenwidth * 0.0325, // 3.25% of screen width
-                            fontWeight: FontWeight.w400,
-                          ),
-                          subtitle: AppLiteText(
-                            text: 'Great Taste <3',
-                            fontSize: _screenwidth * 0.0275, // 2.75% of screen width
-                            fontWeight: FontWeight.w400,
-                          ),
-                          trailing: Icon(Icons.star, color: Colors.orange, size: _screenwidth * 0.065), // 6.5% of screen width
-                        ),
-                        SizedBox(height: _screenheight * 0.0125), // 1.25% of screen height
-                        ListTile(
-                          tileColor: Color(0xFFF8F9FB),
-                          leading: CircleAvatar(
-                            backgroundImage: AssetImage('assets/imgs/person1circle.png'),
-                            radius: _screenwidth * 0.05, // 5% of screen width
-                          ),
-                          title: AppMainText(
-                            text: 'Anna',
-                            fontSize: _screenwidth * 0.0325, // 3.25% of screen width
-                            fontWeight: FontWeight.w400,
-                          ),
-                          subtitle: AppLiteText(
-                            text: 'Great Taste <3',
-                            fontSize: _screenwidth * 0.0275, // 2.75% of screen width
-                            fontWeight: FontWeight.w400,
-                          ),
-                          trailing: Icon(Icons.star, color: Colors.orange, size: _screenwidth * 0.065), // 6.5% of screen width
-                        ),
-                        SizedBox(height: _screenheight * 0.0125), // 1.25% of screen height
-                        ListTile(
-                          tileColor: Color(0xFFF8F9FB),
-                          leading: CircleAvatar(
-                            backgroundImage: AssetImage('assets/imgs/person1circle.png'),
-                            radius: _screenwidth * 0.05, // 5% of screen width
-                          ),
-                          title: AppMainText(
-                            text: 'Anna',
-                            fontSize: _screenwidth * 0.0325, // 3.25% of screen width
-                            fontWeight: FontWeight.w400,
-                          ),
-                          subtitle: AppLiteText(
-                            text: 'Great Taste <3',
-                            fontSize: _screenwidth * 0.0275, // 2.75% of screen width
-                            fontWeight: FontWeight.w400,
-                          ),
-                          trailing: Icon(Icons.star, color: Colors.orange, size: _screenwidth * 0.065), // 6.5% of screen width
-                        ),
-                        SizedBox(height: _screenheight * 0.0125), // 1.25% of screen height
-                        TextButton(
-                          onPressed: () {
-                            print("Clicked");
-                          },
-                          child: Center(
-                            child: AppLiteText(
-                              text: 'View More',
-                              fontSize: _screenwidth * 0.0275, // 2.75% of screen width
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        Divider(thickness: 1),
-                      ],
-                    ),
-                  ],
+                height: _screenheight ,
+                child: ListView.builder(
+                  itemCount: 5, // Replace with the actual number of reviews
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      tileColor: Color(0xFFF8F9FB),
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage('assets/imgs/person1circle.png'),
+                        radius: _screenwidth * 0.05,
+                      ),
+                      title: AppMainText(
+                        text: 'Anna',
+                        fontSize: _screenwidth * 0.0325,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      subtitle: AppLiteText(
+                        text: 'Great Taste <3',
+                        fontSize: _screenwidth * 0.0275,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      trailing: Icon(Icons.star, color: Colors.orange, size: _screenwidth * 0.065),
+                    );
+                  },
                 ),
               ),
             ],

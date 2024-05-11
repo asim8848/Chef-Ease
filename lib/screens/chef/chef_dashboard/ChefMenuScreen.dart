@@ -131,7 +131,7 @@ class _ChefMenuState extends State<ChefMenu> {
                             flex: 5,
                             child: ListTile(
                               title: Padding(
-                                padding: EdgeInsets.only(top: _screenheight * 0.03), // 3% of screen height
+                                padding: EdgeInsets.only(top: _screenheight * 0.04), // 3% of screen height
                                 child: AppMainText(
                                   text: 'Peperoni Special Pizza',
                                   fontWeight: FontWeight.w500,
@@ -173,10 +173,10 @@ class _ChefMenuState extends State<ChefMenu> {
                         ],
                       ),
                       Positioned(
-                        top: _screenheight * 0.01, // 1% of screen height
-                        right: _screenwidth * 0.01, // 1% of screen width
+                        top: _screenheight * 0.00, // 1% of screen height
+                        right: _screenwidth * 0.00, // 1% of screen width
                         child: IconButton(
-                          icon: Icon(Icons.edit_outlined, color: AppColors.primaryColor, size: _screenwidth * 0.04), // 4% of screen width
+                          icon: Icon(Icons.edit_outlined, color: AppColors.primaryColor, size: _screenwidth * 0.05), // 4% of screen width
                           onPressed: () {
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UpdateMeal()));
                           },
