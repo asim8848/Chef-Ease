@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../constants/colors.dart';
-import '../../../constants/responsive.dart';
-import '../linechart/LineChart.dart';
+import '../../constants/colors.dart';
+import '../../constants/responsive.dart';
+import '../../widgets/line_chart.dart';
 
 class AnalyticsInsights extends StatefulWidget {
   const AnalyticsInsights({super.key});

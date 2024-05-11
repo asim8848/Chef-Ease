@@ -7,8 +7,20 @@
 │   │   ├── OnBoardingScreen.dart
 │   │   ├── authentication/
 │   │   ├── chef/
-│   │   │   ├── ChefDashboardScreen.dart
-│   │   │   ├── ChefProfileScreen.dart
+│   │   │   ├── chef_add_menu/
+│   │   │   │   └── AddMealScreen.dart
+│   │   │   │   └── AddPhotoVideoScreen.dart
+│   │   │   │   └── ChefAddMenuBottomSheet.dart
+│   │   │   │   └── UpdateMealScreen.dart
+│   │   │   ├── chef_dashboard/
+│   │   │   │   ├── ChefDashboardScreen.dart
+│   │   │   │   ├── ChefMenuScreen.dart
+│   │   │   │   ├── ChefOrderScreen.dart
+│   │   │   ├── notifications/
+│   │   │   │   └── NotificationScreen.dart
+│   │   │   ├── profile/
+│   │   │   │   ├── ChefProfileScreen.dart
+│   │   │   │   ├── ChefProfileSetup.dart
 │   │   │   ├── tabs/
 │   │   │   │   ├── ChefMenuTab.dart
 │   │   │   │   ├── ChefPicturesTab.dart
@@ -37,6 +49,13 @@
 │   │   │   └── chat/
 │   │   │       ├── ChatListScreen.dart
 │   │   │       └── ChatUserScreen.dart
+│   │   ├── drawer_screens/
+│   │   │   ├── AnalyticsInsightsScreen.dart
+│   │   │   ├── EarningsScreen.dart
+│   │   │   ├── Help&SupportScreen.dart
+│   │   │   ├── CustomerOrderTrackScreen.dart
+│   │   │   ├── SettingsScreen.dart
+│   │   │   ├── TermsConditionsScreen.dart
 │   ├── constants/
 │   │   ├── colors.dart
 │   │   └── responsive.dart
@@ -47,4 +66,5 @@
 │       ├── text_styles.dart
 │       ├── appbars.dart
 │       └── toast.dart
+│       └── line_chart.dart
 └── FractionallySizedBox

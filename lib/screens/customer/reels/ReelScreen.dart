@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../chef/ChefProfileScreen.dart';
+import '../../chef/profile/ChefProfileScreen.dart';
 
 class Reels extends StatefulWidget {
   const Reels({Key? key}) : super(key: key);

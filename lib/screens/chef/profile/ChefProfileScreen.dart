@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-import 'tabs/ChefMenuTab.dart';
-import 'tabs/ChefPicturesTab.dart';
-import 'tabs/ChefReelsTab.dart';
+import '../tabs/ChefMenuTab.dart';
+import '../tabs/ChefPicturesTab.dart';
+import '../tabs/ChefReelsTab.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

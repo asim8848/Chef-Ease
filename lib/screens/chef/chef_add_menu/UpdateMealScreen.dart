@@ -1,29 +1,30 @@
+import 'package:chefease/constants/responsive.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
-import '../../constants/responsive.dart';
-import '../../widgets/buttons.dart';
-import '../../widgets/form_fields.dart';
-import '../../widgets/text_styles.dart';
+import '../../../constants/colors.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/form_fields.dart';
+import '../../../widgets/text_styles.dart';
 
-class AddPhotoVideo extends StatefulWidget {
-  const AddPhotoVideo({super.key});
+class UpdateMeal extends StatefulWidget {
+  const UpdateMeal({super.key});
 
   @override
-  State<AddPhotoVideo> createState() => _AddPhotoVideoState();
+  State<UpdateMeal> createState() => _UpdateMealState();
 }
 
-class _AddPhotoVideoState extends State<AddPhotoVideo> {
+class _UpdateMealState extends State<UpdateMeal> {
   @override
   Widget build(BuildContext context) {
     double _screenheight = Responsive.screenHeight(context);
     double _screenwidth = Responsive.screenWidth(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.secondaryColor,
-        title: AppMainText(text: "Upload Picture or Video",color: AppColors.textColor,fontSize: 18,),
+        backgroundColor: AppColors.primaryColor,
+        title: AppMainText(text: "Add Meal Details",color: AppColors.secondaryColor,fontSize: 20,),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new,color: AppColors.textColor),
+          icon: Icon(Icons.arrow_back_ios_new,color: AppColors.secondaryColor),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -34,10 +35,11 @@ class _AddPhotoVideoState extends State<AddPhotoVideo> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Personal Information Heading
             SizedBox(height: _screenheight * 0.02), // 3% of screen height
 
             // Profile Image Upload
-            AppLiteText(text: "Add Media",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
+            AppLiteText(text: "Add picture",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
             SizedBox(height: _screenheight * 0.010),// 1.5% of screen height
             Stack(
               alignment: Alignment.center,
@@ -75,19 +77,34 @@ class _AddPhotoVideoState extends State<AddPhotoVideo> {
               fontSize: _screenwidth * 0.030,
             ),
             SizedBox(height: _screenheight * 0.015),
-            AppLiteText(text: "Location",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
+            AppLiteText(text: "Ingredients",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
             SizedBox(height: _screenheight * 0.010),// 1.5% of screen height
             AppTextFormField(
-              hintText: 'Location',
+              hintText: 'Add Ingredients',
+              maxLines: 6,
               fontSize: _screenwidth * 0.030,
             ),
-            SizedBox(height: _screenheight * 0.050),// 1.5% of screen height
+            SizedBox(height: _screenheight * 0.015),
+            AppLiteText(text: "Portion/Sizes",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
+            SizedBox(height: _screenheight * 0.010),// 1.5% of screen height// 1.5% of screen height
+            AppTextFormField(
+              hintText: '1.5 Grams',
+              fontSize: _screenwidth * 0.030,
+            ),
+            SizedBox(height: _screenheight * 0.015),
+            AppLiteText(text: "Price",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
+            SizedBox(height: _screenheight * 0.010),// 1.5% of screen height// 1.5% of screen height
+            AppTextFormField(
+              hintText: '0.00 Rs.',
+              fontSize: _screenwidth * 0.030,
+            ),
+            SizedBox(height: _screenheight * 0.030),
             // Continue Button
             Align(
               alignment: Alignment.center,
               child: CustomButton(
                 borderRadius: _screenwidth * 0.0375, // 3.75% of screen width
-                text: 'Add Media',
+                text: 'Update',
                 onPressed: () {
                   // Handle form submission
                 },

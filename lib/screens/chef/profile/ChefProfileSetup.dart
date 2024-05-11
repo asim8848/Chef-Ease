@@ -1,9 +1,9 @@
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
-import '../../constants/colors.dart';
-import '../../constants/responsive.dart';
-import '../../widgets/buttons.dart';
-import '../../widgets/form_fields.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/form_fields.dart';
 
 class ChefProfileSetupScreen extends StatefulWidget {
   const ChefProfileSetupScreen({super.key});

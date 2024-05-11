@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../constants/colors.dart';
-import '../../../constants/responsive.dart';
-import '../../../widgets/text_styles.dart';
+import '../../constants/colors.dart';
+import '../../constants/responsive.dart';
+import '../../widgets/text_styles.dart';
 import 'ManagePaymentMethodScreen.dart';
 
 class ChefEarnings extends StatefulWidget {

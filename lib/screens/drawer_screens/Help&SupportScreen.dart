@@ -1,8 +1,8 @@
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
-import '../../../constants/responsive.dart';
+import '../../constants/colors.dart';
+import '../../constants/responsive.dart';
 
 class HelpSupport extends StatefulWidget {
   const HelpSupport({super.key});

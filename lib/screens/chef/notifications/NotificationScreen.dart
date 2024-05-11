@@ -2,8 +2,8 @@ import 'package:chefease/constants/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
-import '../../widgets/text_styles.dart';
+import '../../../constants/colors.dart';
+import '../../../widgets/text_styles.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);

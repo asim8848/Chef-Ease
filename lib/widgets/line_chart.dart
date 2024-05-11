@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
-import '../../../widgets/text_styles.dart';
+import '../constants/colors.dart';
+import 'text_styles.dart';
 
 class LineChartSample2 extends StatefulWidget {
   const LineChartSample2({Key? key}) : super(key: key);
