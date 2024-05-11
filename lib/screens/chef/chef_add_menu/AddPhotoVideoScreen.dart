@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
-import '../../constants/responsive.dart';
-import '../../widgets/buttons.dart';
-import '../../widgets/form_fields.dart';
-import '../../widgets/text_styles.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/form_fields.dart';
+import '../../../widgets/text_styles.dart';
 
-class AddMeal extends StatefulWidget {
-  const AddMeal({super.key});
+
+class AddPhotoVideo extends StatefulWidget {
+  const AddPhotoVideo({super.key});
 
   @override
-  State<AddMeal> createState() => _AddMealState();
+  State<AddPhotoVideo> createState() => _AddPhotoVideoState();
 }
 
-class _AddMealState extends State<AddMeal> {
+class _AddPhotoVideoState extends State<AddPhotoVideo> {
   @override
   Widget build(BuildContext context) {
     double _screenheight = Responsive.screenHeight(context);
@@ -21,7 +22,7 @@ class _AddMealState extends State<AddMeal> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.secondaryColor,
-        title: AppMainText(text: "Add Meal Details",color: AppColors.textColor,fontSize: 20,),
+        title: AppMainText(text: "Upload Picture or Video",color: AppColors.textColor,fontSize: 18,),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new,color: AppColors.textColor),
           onPressed: () {
@@ -34,11 +35,10 @@ class _AddMealState extends State<AddMeal> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             SizedBox(height: _screenheight * 0.02), // 3% of screen height
 
             // Profile Image Upload
-            AppLiteText(text: "Add picture",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
+            AppLiteText(text: "Add Media",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
             SizedBox(height: _screenheight * 0.010),// 1.5% of screen height
             Stack(
               alignment: Alignment.center,
@@ -76,34 +76,19 @@ class _AddMealState extends State<AddMeal> {
               fontSize: _screenwidth * 0.030,
             ),
             SizedBox(height: _screenheight * 0.015),
-            AppLiteText(text: "Ingredients",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
+            AppLiteText(text: "Location",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
             SizedBox(height: _screenheight * 0.010),// 1.5% of screen height
             AppTextFormField(
-              hintText: 'Add Ingredients',
-              maxLines: 6,
+              hintText: 'Location',
               fontSize: _screenwidth * 0.030,
             ),
-            SizedBox(height: _screenheight * 0.015),
-            AppLiteText(text: "Portion/Sizes",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
-            SizedBox(height: _screenheight * 0.010),// 1.5% of screen height// 1.5% of screen height
-            AppTextFormField(
-              hintText: '1.5 Grams',
-              fontSize: _screenwidth * 0.030,
-            ),
-            SizedBox(height: _screenheight * 0.015),
-            AppLiteText(text: "Price",fontSize: _screenwidth * 0.04,fontWeight: FontWeight.w500,), // 4% of screen width
-            SizedBox(height: _screenheight * 0.010),// 1.5% of screen height// 1.5% of screen height
-            AppTextFormField(
-              hintText: '0.00 Rs.',
-              fontSize: _screenwidth * 0.030,
-            ),
-            SizedBox(height: _screenheight * 0.030),
+            SizedBox(height: _screenheight * 0.050),// 1.5% of screen height
             // Continue Button
             Align(
               alignment: Alignment.center,
               child: CustomButton(
                 borderRadius: _screenwidth * 0.0375, // 3.75% of screen width
-                text: 'Add Meal',
+                text: 'Add Media',
                 onPressed: () {
                   // Handle form submission
                 },

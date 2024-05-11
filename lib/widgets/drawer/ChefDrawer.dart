@@ -1,7 +1,5 @@
 import 'package:chefease/screens/HomeScreen.dart';
-import 'package:chefease/screens/chef/chefdrawerscreens/AnalyticsInsightsScreen.dart';
-import 'package:chefease/screens/chef/chefdrawerscreens/EarningsScreen.dart';
-import 'package:chefease/screens/chef/chefdrawerscreens/Help&Support.dart';
+
 import 'package:chefease/widgets/buttons.dart';
 import 'package:chefease/widgets/form_fields.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,11 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import '../../constants/colors.dart';
 import '../../constants/responsive.dart';
-import '../../screens/chef/ChefDashboardScreen.dart';
+import '../../screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 
-import '../../screens/chef/chefdrawerscreens/SettingsScreen.dart';
-import '../../screens/chef/chefdrawerscreens/TermsConditionsScreen.dart';
 import '../../screens/customer/profile/UserProfileScreen.dart';
+import '../../screens/drawer_screens/AnalyticsInsightsScreen.dart';
+import '../../screens/drawer_screens/EarningsScreen.dart';
+import '../../screens/drawer_screens/Help&SupportScreen.dart';
+import '../../screens/drawer_screens/SettingsScreen.dart';
+import '../../screens/drawer_screens/TermsConditionsScreen.dart';
+
 
 
 class ChefDrawerContent extends StatefulWidget {

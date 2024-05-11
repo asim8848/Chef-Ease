@@ -3,9 +3,9 @@ import 'package:chefease/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/responsive.dart';
-import '../../../widgets/form_fields.dart';
-import '../../../widgets/text_styles.dart';
+import '../../constants/responsive.dart';
+import '../../widgets/form_fields.dart';
+import '../../widgets/text_styles.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);

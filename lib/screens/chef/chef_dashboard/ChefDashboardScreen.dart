@@ -1,18 +1,17 @@
 
-import 'package:chefease/screens/chef/ChefAddMenuBottomSheet.dart';
-import 'package:chefease/screens/chef/ChefOrderScreen.dart';
+import 'package:chefease/screens/chef/chef_dashboard/ChefOrderScreen.dart';
 import 'package:chefease/screens/customer/chat/ChatListScreen.dart';
-import 'package:chefease/widgets/drawer/UserDrawer.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
-import '../../constants/colors.dart';
-import '../../constants/responsive.dart';
-import '../../widgets/drawer/ChefDrawer.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
+import '../../../widgets/drawer/ChefDrawer.dart';
+import '../Chef_add_menu/ChefAddMenuBottomSheet.dart';
 import 'ChefMenuScreen.dart';
-import 'NotificationScreen.dart';
+import '../notifications/NotificationScreen.dart';
 
 class CustomNavBar extends StatefulWidget {
   final BuildContext context;

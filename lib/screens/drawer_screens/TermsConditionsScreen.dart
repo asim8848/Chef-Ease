@@ -1,7 +1,7 @@
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
+import '../../constants/colors.dart';
 
 class TermsConditions extends StatefulWidget {
   const TermsConditions({super.key});
