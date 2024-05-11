@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "428978225420",
+    "project_id": "chefease-d32f6",
+    "storage_bucket": "chefease-d32f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428978225420:android:daf7ce0f37cd1faaf10929",
+        "android_client_info": {
+          "package_name": "com.chefease.chefease"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428978225420-meqtdml7f8lhvsdvm0tvtpq18f12nat1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chefease.chefease",
+            "certificate_hash": "c0f4781d489bdb350dd58b9cbf30a64f205671c4"
+          }
+        },
+        {
+          "client_id": "428978225420-2m9pdg310n1i28hpd7p22ho41787e8ct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcUJwjkm5nw6-qJSFVRU4QBIUe0A7S0GU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428978225420-2m9pdg310n1i28hpd7p22ho41787e8ct.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "428978225420-h3af3no4kfdr0qrk7q4or68u2kvtefag.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chefease.chefease"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

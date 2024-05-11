@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>428978225420-h3af3no4kfdr0qrk7q4or68u2kvtefag.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.428978225420-h3af3no4kfdr0qrk7q4or68u2kvtefag</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>428978225420-meqtdml7f8lhvsdvm0tvtpq18f12nat1.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCn3iMBIMXANDYNGg-k0b2cC-vo0Lfddvo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>428978225420</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.chefease.chefease</string>
+	<key>PROJECT_ID</key>
+	<string>chefease-d32f6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chefease-d32f6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:428978225420:ios:6302260acb6d9d14f10929</string>
+</dict>
+</plist>
