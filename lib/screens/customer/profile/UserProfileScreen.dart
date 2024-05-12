@@ -1,48 +1,85 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 import '../../../constants/colors.dart';
 import '../../../widgets/text_styles.dart';
 
-class UserProfileScreen extends StatelessWidget {
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import '../../../widgets/toast.dart';
+import '../../HomeScreen.dart';
+
+class UserProfileScreen extends StatefulWidget {
+  final bool firstTime;
+
+  UserProfileScreen({this.firstTime = false});
+
+  @override
+  _UserProfileScreenState createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  final _usernameController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _nameController = TextEditingController();
+
+  File? _profileImage;
+  String? _profileImageUrl;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
-        title: AppMainText(text: "Profile",color: AppColors.secondaryColor,fontSize: 20,),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new,color: AppColors.secondaryColor),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+        title: AppMainText(
+          text: "Profile",
+          color: AppColors.secondaryColor,
+          fontSize: 20,
         ),
+        automaticallyImplyLeading: widget.firstTime ? false : true,
+        leading: widget.firstTime
+            ? null
+            : IconButton(
+                icon: Icon(Icons.arrow_back_ios_new,
+                    color: AppColors.secondaryColor),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+        actions: [
+          TextButton(
+            onPressed: _saveProfile,
+            child: Text(
+              widget.firstTime ? 'Save' : 'Update',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundImage: AssetImage('assets/imgs/jack.png'), // Change to your image path
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.all(5),
-                    child: Icon(Icons.edit, color: AppColors.primaryColor),
-                  ),
-                ),
-              ],
+            GestureDetector(
+              onTap: _pickProfileImage,
+              child: CircleAvatar(
+                radius: 60,
+                backgroundImage: _profileImageUrl != null
+                    ? NetworkImage(_profileImageUrl!)
+                    : _profileImage != null
+                        ? FileImage(_profileImage!)
+                        : AssetImage('assets/imgs/jack.png')
+                            as ImageProvider<Object>,
+              ),
+            ),
+            TextButton(
+              onPressed: _pickProfileImage,
+              child: Text('Upload Image'),
             ),
             SizedBox(height: 40),
             Padding(
@@ -52,39 +89,234 @@ class UserProfileScreen extends StatelessWidget {
             SizedBox(height: 5),
             ProfileCard(
               icon: Icons.person_outlined,
+              title: 'Name',
+              value: _nameController.text,
+              onEdit: () {
+                _editProfileDetail('Name', _nameController);
+              },
+            ),
+            ProfileCard(
+              icon: Icons.person_outlined,
               title: 'User Name',
-              value: 'John Doe', // Replace with actual user name
+              value: _usernameController.text,
+              onEdit: () {
+                _editProfileDetail('User Name', _usernameController);
+              },
             ),
             ProfileCard(
               icon: Icons.email_outlined,
               title: 'Email',
-              value: 'johndoe@example.com', // Replace with actual email
+              value: FirebaseAuth.instance.currentUser!.email!,
+              onEdit: null, // Email cannot be edited
             ),
             ProfileCard(
               icon: Icons.phone_outlined,
-              title: 'Phone',
-              value: '+1234567890', // Replace with actual phone number
+              title: 'Phone Number',
+              value: _phoneNumberController.text,
+              onEdit: () {
+                _editProfileDetail('Phone Number', _phoneNumberController);
+              },
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(right: 150),
-              child: AppMainText(text: "Connected Accounts"),
-            ),
-            SizedBox(height: 10),
-            ProfileCard(
-              icon: Icons.email_rounded,
-              title: 'Connected',
-              value: 'link@gmail.com', // Replace with actual user name
-            ),
-            ProfileCard(
-              icon: Icons.facebook_outlined,
-              title: 'Connected',
-              value: 'Lorem Ipsum', // Replace with actual email
-            ),
-
+            // Add more ProfileCard widgets as needed
           ],
         ),
       ),
+    );
+  }
+
+  void _pickProfileImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  void _fetchUserData() async {
+    try {
+      final firebaseUser = FirebaseAuth.instance.currentUser;
+      if (firebaseUser != null) {
+        final response = await http.get(
+          Uri.parse(
+              'https://chefease.azurewebsites.net/customer/firebase/${firebaseUser.uid}'),
+        );
+
+        if (response.statusCode == 200) {
+          final userData = jsonDecode(response.body);
+          _usernameController.text = userData['Username'];
+          _phoneNumberController.text = userData['PhoneNumber'];
+          _nameController.text = userData['Name'];
+          // Load the profile image from the URL
+          setState(() {
+            _profileImageUrl = userData['ProfileImageURL'];
+          });
+        } else {
+          AppToast().toastMessage(
+            'Failed to fetch user data. Status code: ${response.statusCode}',
+            isError: true,
+          );
+        }
+      }
+    } catch (e) {
+      AppToast().toastMessage(
+        'An error occurred while fetching user data: $e',
+        isError: true,
+      );
+    }
+  }
+
+  void _saveProfile() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    // Check if the user is logged in
+    if (firebaseUser == null) {
+      AppToast().toastMessage('User is not logged in.', isError: true);
+      return;
+    }
+
+    // Check if the user's uid is not null
+    if (firebaseUser.uid == null) {
+      AppToast()
+          .toastMessage('User\'s Firebase ID is not available.', isError: true);
+      return;
+    }
+
+    // Prepare the data to send to the server
+    var request = http.MultipartRequest(
+      widget.firstTime ? 'POST' : 'PATCH',
+      widget.firstTime
+          ? Uri.parse('https://chefease.azurewebsites.net/customer')
+          : Uri.parse(
+              'https://chefease.azurewebsites.net/customer/firebase/${FirebaseAuth.instance.currentUser!.uid}'),
+    );
+
+    if (firebaseUser.email != null) {
+      request.fields['Email'] = firebaseUser.email!;
+      request.fields['CustomerFirebaseID'] = firebaseUser.uid;
+    } else {
+      // Handle the case when the user is null or email is null
+      AppToast().toastMessage(
+          'User is not logged in or email is not available.',
+          isError: true);
+      return;
+    }
+
+    if (_usernameController.text.isEmpty ||
+        _phoneNumberController.text.isEmpty ||
+        _nameController.text.isEmpty) {
+      // Show an error and return
+      AppToast().toastMessage('All fields are required.', isError: true);
+      return;
+    }
+
+    request.fields['Name'] = _nameController.text;
+    request.fields['Username'] = _usernameController.text;
+    request.fields['PhoneNumber'] = _phoneNumberController.text;
+
+    // Print the content of the request
+    debugPrint('Request fields: ${request.fields}');
+
+    try {
+      // Call the API to create or update the customer
+      var response = await request.send();
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        AppToast().toastMessage(widget.firstTime
+            ? 'Customer created successfully.'
+            : 'Customer updated successfully.');
+        // Navigate to HomeScreen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      } else if (response.statusCode == 500) {
+        var responseBody = await response.stream.bytesToString();
+        var responseJson = jsonDecode(responseBody);
+
+        if (responseJson['message'] ==
+            'A customer with this username already exists') {
+          AppToast().toastMessage(
+              'This username is already taken. Please choose another one.',
+              isError: true);
+        } else {
+          AppToast().toastMessage(
+              'Failed to ${widget.firstTime ? "create" : "update"} customer. Status code: ${response.statusCode}',
+              isError: true);
+        }
+      } else {
+        AppToast().toastMessage(
+            'Failed to ${widget.firstTime ? "create" : "update"} customer. Status code: ${response.statusCode}',
+            isError: true);
+      }
+    } catch (e) {
+      AppToast().toastMessage('An error occurred: $e', isError: true);
+    }
+  }
+
+  void _editProfileDetail(String title, TextEditingController controller) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Edit $title',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: title,
+              labelStyle: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                setState(() {});
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          backgroundColor: Colors.white,
+        );
+      },
     );
   }
 }
@@ -93,12 +325,14 @@ class ProfileCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String value;
+  final VoidCallback? onEdit;
 
   const ProfileCard({
     Key? key,
     required this.icon,
     required this.title,
     required this.value,
+    this.onEdit,
   }) : super(key: key);
 
   @override
@@ -145,13 +379,12 @@ class ProfileCard extends StatelessWidget {
               ],
             ),
             Spacer(),
-            IconButton(
-              icon: Icon(Icons.edit),
-              color: AppColors.primaryColor,
-              onPressed: () {
-                // Add functionality for editing profile details
-              },
-            ),
+            if (onEdit != null)
+              IconButton(
+                icon: Icon(Icons.edit),
+                color: AppColors.primaryColor,
+                onPressed: onEdit,
+              ),
           ],
         ),
       ),
