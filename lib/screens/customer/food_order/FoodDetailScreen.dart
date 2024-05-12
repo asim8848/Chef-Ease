@@ -1,629 +1,349 @@
-import 'package:chefease/screens/customer/food_order/ViewCartScreen.dart';
+import 'package:chefease/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class OrderMenu extends StatefulWidget {
-  const OrderMenu({super.key});
+import '../../../constants/responsive.dart';
+import '../../../widgets/text_styles.dart';
+import 'ViewCartScreen.dart';
+
+class RoundCheckbox extends StatefulWidget {
+
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  RoundCheckbox({required this.value, required this.onChanged});
 
   @override
-  State<OrderMenu> createState() => _OrderMenuState();
+  _RoundCheckboxState createState() => _RoundCheckboxState();
+}
+
+class _RoundCheckboxState extends State<RoundCheckbox> {
+
+  @override
+  Widget build(BuildContext context) {
+    double _screenwidth = Responsive.screenWidth(context);
+    return GestureDetector(
+      onTap: () {
+        widget.onChanged(!widget.value);
+      },
+      child: Container(
+        width: _screenwidth * 0.045, // Adjust width based on screen width
+        height: _screenwidth * 0.045, // Adjust height based on screen width
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: widget.value ? AppColors.primaryColor : Colors.transparent,
+          border: Border.all(color: AppColors.primaryColor),
+        ),
+        child: widget.value
+            ? Icon(
+          Icons.check,
+          size: _screenwidth * 0.035, // Adjust icon size based on screen width
+          color: Colors.white,
+        )
+            : null,
+      ),
+    );
+
+  }
+}
+
+class OrderMenu extends StatefulWidget {
+  @override
+  _OrderMenuState createState() => _OrderMenuState();
 }
 
 class _OrderMenuState extends State<OrderMenu> {
+  bool _checkBoxValue1 = false;
+  bool _checkBoxValue2 = false;
+  bool _checkBoxValue3 = false;
+  bool _checkBoxValue4 = false;
+  bool _checkBoxValue5 = false;
+  bool _checkBoxValue6 = false;
+  int _quantity = 1;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            width: 393,
-            height: 958,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Stack(
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: AppMainText(
+          text: 'Order Menu',
+          fontSize: 18,
+          color: AppColors.textColor,
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: _screenheight * 0.04), // Adjust margin based on screen height
+              child: Image.asset(
+                'assets/imgs/pizzapic.png',
+                width: double.infinity,
+                height: _screenheight * 0.20, // Adjust height based on screen height
+                fit: BoxFit.cover,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Positioned(
-                  left: 48,
-                  top: 117,
-                  child: Container(
-                    width: 297,
-                    height: 168,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/imgs/pizzalist.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
+                AppMainText(
+                  text: 'Pepperoni Special Pizza',
+                  fontSize: _screenwidth * 0.04, // Adjust font size based on screen width
                 ),
-                Positioned(
-                  left: 20,
-                  top: 319,
-                  child: Text(
-                    'Peperoni Special Pizza',
-                    style: TextStyle(
-                      color: Color(0xFF1E1E1E),
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      height: 0.06,
-                      letterSpacing: -0.16,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 402,
-                  child: SizedBox(
-                    width: 187,
-                    height: 19,
-                    child: Text(
-                      'Choose your variation',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        height: 0.06,
-                        letterSpacing: -0.16,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 565,
-                  child: Text(
-                    'Choose Your Extra Topping',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      height: 0.06,
-                      letterSpacing: -0.16,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 26,
-                  top: 691,
-                  child: Text(
-                    'Choose Your Drinks',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      height: 0.06,
-                      letterSpacing: -0.16,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 313,
-                  top: 319,
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Rs.',
-                          style: TextStyle(
-                            color: Color(0xFFFF6A42),
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            height: 0.08,
-                            letterSpacing: -0.14,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' 1200',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            height: 0.08,
-                            letterSpacing: -0.14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 349,
-                  child: Text(
-                    'Korem ipsum',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 440,
-                  child: Text(
-                    '7 Inches (Single Serving)',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 288,
-                  top: 442,
-                  child: Text(
-                    'Rs 2000',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 288,
-                  top: 602,
-                  child: Text(
-                    'Rs +60',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 292,
-                  top: 728,
-                  child: Text(
-                    'Rs +60',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 288,
-                  top: 635,
-                  child: Text(
-                    'Rs +60',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 292,
-                  top: 761,
-                  child: SizedBox(
-                    width: 62,
-                    height: 21,
-                    child: Text(
-                      'Rs +60',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w300,
-                        height: 0.09,
-                        letterSpacing: -0.13,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 288,
-                  top: 475,
-                  child: Text(
-                    'Rs 2000',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 288,
-                  top: 510,
-                  child: Text(
-                    'Rs 2000',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 475,
-                  child: Text(
-                    '12 Inches (Single Serving)',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 510,
-                  child: Text(
-                    '15 Inches (Single Serving)',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 602,
-                  child: Text(
-                    'Chicken (Single Serving)',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 26,
-                  top: 728,
-                  child: Text(
-                    'Pepsi (250ml)',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 298,
-                  top: 565,
-                  child: Text(
-                    '(Optional)',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.46000000834465027),
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 303,
-                  top: 692,
-                  child: Text(
-                    '(Optional)',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.46000000834465027),
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 22,
-                  top: 635,
-                  child: Text(
-                    'Garlic Mayo (Single Serving)',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                      height: 0.09,
-                      letterSpacing: -0.13,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 26,
-                  top: 761,
-                  child: SizedBox(
-                    width: 198,
-                    height: 21,
-                    child: Text(
-                      'Sprite (250ml)',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w300,
-                        height: 0.09,
-                        letterSpacing: -0.13,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 352,
-                  top: 435,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 2, color: Color(0xFFFF6A42)),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 355,
-                  top: 438,
-                  child: Container(
-                    width: 7,
-                    height: 7,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFFF6A42),
-                      shape: OvalBorder(),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 352,
-                  top: 470,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 2, color: Color(0xFFFF6A42)),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 352,
-                  top: 505,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 2, color: Color(0xFFFF6A42)),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 352,
-                  top: 597,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 2, color: Color(0xFFFF6A42)),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 356,
-                  top: 722,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 2, color: Color(0xFFF58601)),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 352,
-                  top: 630,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 2, color: Color(0xFFFF6A42)),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 356,
-                  top: 765,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 2, color: Color(0xFFF58601)),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 66,
-                  top: 71,
-                  child: Text(
-                    'Order Menu',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF1E1E1E),
-                      fontSize: 17,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      height: 0.06,
-                      letterSpacing: -0.17,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: -1,
-                  top: 736,
-                  child: Container(
-                    width: 394,
-                    height: 79,
-                    padding: const EdgeInsets.only(
-                      top: 13,
-                      left: 18,
-                      right: 18,
-                      bottom: 12.59,
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 358,
-                          height: 53.41,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 358,
-                                  height: 52.50,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0x26FD6500),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 162,
-                                top: 0.91,
-                                child: Container(
-                                  width: 196,
-                                  height: 52.50,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFFF6A42),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 200,
-                                top: 5,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ViewCart()),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color(0xFFFF6A42), // Button color
-                                  ),
-                                  child: Text(
-                                    'Add to cart',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.08,
-                                      letterSpacing: -0.14,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 69,
-                                top: 5,
-                                child: TextButton(
-                                  onPressed: () {
-                                    // Handle the button press
-                                  },
-                                  child: Text(
-                                    '1',
-                                    style: TextStyle(
-                                      color: Color(0xFF1E1E1E),
-                                      fontSize: 14,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.08,
-                                      letterSpacing: -0.14,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                AppMainText(
+                  text: 'Rs 2000',
+                  fontSize: _screenwidth * 0.04, // Adjust font size based on screen width
                 ),
               ],
             ),
-          ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            AppLiteText(
+              text: 'Korem ipsum',
+              fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+            ),
+            SizedBox(height: _screenheight * 0.010), // Adjust height based on screen height
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(height: _screenheight * 0.010), // Adjust height based on screen height
+            AppMainText(
+              text: 'Choose your variation',
+              fontSize: _screenwidth * 0.04, // Adjust font size based on screen width
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLiteText(
+                  text: '7 Inches (Single Serving) Rs 2000',
+                  fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                ),
+                RoundCheckbox(
+                  value: _checkBoxValue1,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxValue1 = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLiteText(
+                  text: '8 Inches (Double Serving) Rs 2500',
+                  fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                ),
+                RoundCheckbox(
+                  value: _checkBoxValue2,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxValue2 = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLiteText(
+                  text: '9 Inches (Family Size) Rs 3000',
+                  fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                ),
+                RoundCheckbox(
+                  value: _checkBoxValue3,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxValue3 = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: _screenheight * 0.010), // Adjust height based on screen height
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(height: _screenheight * 0.010), // Adjust height based on screen height
+            AppMainText(
+              text: 'Choose Your Extra Topping',
+              fontSize: _screenwidth * 0.04, // Adjust font size based on screen width
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLiteText(
+                  text: 'Mushrooms Rs 200',
+                  fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                ),
+                RoundCheckbox(
+                  value: _checkBoxValue4,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxValue4 = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLiteText(
+                  text: 'Olives Rs 150',
+                  fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                ),
+                RoundCheckbox(
+                  value: _checkBoxValue5,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxValue5 = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(height: _screenheight * 0.02), // Adjust height based on screen height
+            AppMainText(
+              text: 'Choose Your Drinks',
+              fontSize: _screenwidth * 0.04, // Adjust font size based on screen width
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLiteText(
+                  text: 'Pepsi (250ml) Rs 50',
+                  fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                ),
+                RoundCheckbox(
+                  value: _checkBoxValue6,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxValue6 = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: _screenheight * 0.01), // Adjust height based on screen height
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLiteText(
+                  text: 'Coca-Cola (250ml) Rs 50',
+                  fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                ),
+                RoundCheckbox(
+                  value: false, // Change this value based on checkbox state
+                  onChanged: (newValue) {
+                    // Implement checkbox logic here
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: _screenheight * 0.03), // Adjust height based on screen height
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.04), // Adjust padding based on screen width
+              child: Stack(
+                children: [
+                  SizedBox(
+                    height: _screenheight * 0.070, // Adjust height based on screen height
+                    width: _screenwidth, // Adjust width based on screen width
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Implement add to cart logic here
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFFFDBBB), // Dark orange color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.01), // Adjust padding based on screen width
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.remove,color: AppColors.primaryColor,),
+                              onPressed: () {
+                                setState(() {
+                                  _quantity--; // Decrement the quantity
+                                });
+                              },
+                            ),
+                            AppLiteText(
+                              text: '$_quantity',
+                              fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                              color: AppColors.textColor,
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.add,color: AppColors.primaryColor),
+                              onPressed: () {
+                                setState(() {
+                                  _quantity++; // Increment the quantity
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: _screenwidth * 0.35, // Adjust position based on screen width
+                    child: SizedBox(
+                      height: _screenheight * 0.070, // Adjust height based on screen height
+                      width: _screenwidth * 0.5, // Adjust width based on screen width
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewCart()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor, // Dark orange color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: AppMainText(
+                          color: AppColors.secondaryColor,
+                          text: 'Add to Cart',
+                          fontSize: _screenwidth * 0.03, // Adjust font size based on screen width
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
+
       ),
     );
   }

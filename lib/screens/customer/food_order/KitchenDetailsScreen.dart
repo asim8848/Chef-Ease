@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../TabBarScreens/Screen1.dart';
 import '../../../TabBarScreens/Screen2.dart';
 import '../../../constants/colors.dart';
+import '../../../constants/responsive.dart';
 
 class CompanyDetails extends StatefulWidget {
   const CompanyDetails({Key? key}) : super(key: key);
@@ -14,27 +15,39 @@ class CompanyDetails extends StatefulWidget {
 class _CompanyDetailsState extends State<CompanyDetails> {
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.sizeOf(context).height * 1;
-    final width = MediaQuery.sizeOf(context).width * 1;
+    double _screenheight = Responsive.screenHeight(context);
+    double _screenwidth = Responsive.screenWidth(context);
     return MaterialApp(
       home: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(_screenheight * 0.3), // Adjusted height
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height:double.infinity, // Adjusted height
+                child: Image.asset(
+                  "assets/imgs/pizzamenu.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: _screenheight * 0.07, // Adjusted position
+                left: _screenheight * 0.00, // Adjusted position
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: AppColors.secondaryColor),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Container(
-              width: width * 1,
-              height: height * 0.3,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/imgs/pizzamenu.png"),
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
             Stack(
               children: [
                 Padding(
