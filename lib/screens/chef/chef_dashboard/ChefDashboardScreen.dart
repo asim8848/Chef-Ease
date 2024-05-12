@@ -10,7 +10,6 @@ import '../../../constants/colors.dart';
 import '../../../constants/responsive.dart';
 import '../../../widgets/drawer/ChefDrawer.dart';
 import '../Chef_add_menu/ChefAddMenuBottomSheet.dart';
-import 'ChefMenuScreen.dart';
 import '../notifications/NotificationScreen.dart';
 
 class CustomNavBar extends StatefulWidget {
@@ -37,7 +36,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefDashboardScreen()));
         break;
       case 1:
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefMenu()));
+       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefMenu()));
         break;
       case 2:
         showModalBottomSheet(
