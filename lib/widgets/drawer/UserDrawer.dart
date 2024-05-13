@@ -473,30 +473,26 @@ class _DrawerContentState extends State<DrawerContent> {
         _isLoading = true;
       });
 
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // Sign up the user
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      debugPrint('User signup successful: ${userCredential.user!.uid}');
-
-      // Clear the form fields after successful signup
-      _emailController.clear();
-      _passwordController.clear();
-      _confirmPasswordController.clear();
-      // Close the modal
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        AppToast().toastMessage('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        AppToast().toastMessage('The account already exists for that email.');
-      } else {
-        AppToast().toastMessage('Signup failed. ${e.message}');
+      // If the sign up was successful, navigate to the UserProfileScreen
+      if (userCredential.user != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserProfileScreen(firstTime: true),
+          ),
+        );
       }
+    } on FirebaseAuthException catch (e) {
+      AppToast().toastMessage('Failed to sign up: $e');
     } catch (e) {
-      AppToast().toastMessage('Signup failed. ${e.toString()}');
+      AppToast().toastMessage('An error occurred: $e');
     } finally {
       setState(() {
         _isLoading = false;

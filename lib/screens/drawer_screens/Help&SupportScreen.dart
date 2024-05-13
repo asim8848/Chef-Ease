@@ -14,6 +14,7 @@ class HelpSupport extends StatefulWidget {
 class _HelpSupportState extends State<HelpSupport> {
   @override
   Widget build(BuildContext context) {
+    double _screenHeight = Responsive.screenHeight(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -24,10 +25,10 @@ class _HelpSupportState extends State<HelpSupport> {
         backgroundColor: AppColors.secondaryColor,
       ),
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(_screenHeight*0.02),
         child: ListView(
           children: <Widget>[
-            SizedBox(height: 20),
+            SizedBox(height: _screenHeight * 0.02),
             buildSettingOption('Get help with my orders',  _GetHelpOrderPressed),
             buildSettingOption('My Account',  _MyAccountPressed),
             buildSettingOption('FAQ',  _FAQPressed),

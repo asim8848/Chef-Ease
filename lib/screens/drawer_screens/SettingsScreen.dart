@@ -25,6 +25,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    double _screenHeight = Responsive.screenHeight(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -35,10 +36,10 @@ class _SettingsState extends State<Settings> {
         backgroundColor: AppColors.secondaryColor,
       ),
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(_screenHeight*0.02),
         child: ListView(
           children: <Widget>[
-            SizedBox(height: 20),
+            SizedBox(height: _screenHeight * 0.02), // 2% of screen height
             buildSettingOption('Change Password', Icons.lock_outline, _changePasswordPressed),
             buildSettingOption('Notification Settings', Icons.notifications_outlined, _notificationSettingsPressed),
             buildSettingOption('Privacy', Icons.privacy_tip_outlined, _privacyPressed),
