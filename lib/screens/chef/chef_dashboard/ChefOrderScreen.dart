@@ -14,59 +14,9 @@ class ChefOrder extends StatefulWidget {
 }
 
 class _ChefOrderState extends State<ChefOrder> {
-  final _advancedDrawerController = AdvancedDrawerController();
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.primaryColor,
-        leading: IconButton(
-          onPressed: _handleMenuButtonPressed,
-          icon: const Icon(Icons.menu),
-          color: AppColors.secondaryColor,
-        ),
-        title: GestureDetector(
-          child: Container(
-            child: const Row(
-              children: <Widget>[
-                Icon(Icons.location_searching,
-                    color: AppColors.secondaryColor),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  'Select your location',
-                  style: TextStyle(
-                    color: AppColors.secondaryColor,
-                    fontSize: 14,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-        actions: const [
-          Icon(
-            Icons.favorite_border,
-            color: AppColors.secondaryColor,
-          ),
-          SizedBox(
-            width: 15,
-          ),
-          Icon(
-            Icons.shopping_cart_outlined,
-            color: AppColors.secondaryColor,
-          ),
-          SizedBox(
-            width: 15,
-          ),
-        ],
-      ),
       body: ListView.builder(
         itemCount: 5, // Replace 5 with the actual number of orders
         itemBuilder: (BuildContext context, int index) {
@@ -82,18 +32,22 @@ class _ChefOrderState extends State<ChefOrder> {
     return Card(
       margin: EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.02), // 2% of screen width // Add padding horizontally
+        padding: EdgeInsets.symmetric(
+            horizontal: _screenwidth *
+                0.02), // 2% of screen width // Add padding horizontally
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
+              padding:
+                  EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
               child: Row(
                 children: [
                   CircleAvatar(
                     // Replace with actual image
                     radius: _screenwidth * 0.03, // 3% of screen width
-                    backgroundImage: AssetImage('assets/imgs/person1circle.png'),
+                    backgroundImage:
+                        AssetImage('assets/imgs/person1circle.png'),
                   ),
                   SizedBox(width: _screenwidth * 0.02), // 2% of screen width
                   Column(
@@ -127,7 +81,8 @@ class _ChefOrderState extends State<ChefOrder> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
+              padding:
+                  EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -148,19 +103,25 @@ class _ChefOrderState extends State<ChefOrder> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: _screenwidth * 0.02), // 2% of screen width
+                          padding: EdgeInsets.only(
+                              left: _screenwidth * 0.02), // 2% of screen width
                           child: AppMainText(
                             text: 'Pepperoni Special Pizza',
                             fontSize: _screenwidth * 0.04, // 4% of screen width
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: _screenheight * 0.01), // 1% of screen height
+                        SizedBox(
+                            height:
+                                _screenheight * 0.01), // 1% of screen height
                         Padding(
-                          padding: EdgeInsets.only(left: _screenwidth * 0.02), // 2% of screen width
+                          padding: EdgeInsets.only(
+                              left: _screenwidth * 0.02), // 2% of screen width
                           child: AppLiteText(
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, Lorem Ipsum, lorem.',
-                            fontSize: _screenwidth * 0.032, // 3.5% of screen width
+                            text:
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, Lorem Ipsum, lorem.',
+                            fontSize:
+                                _screenwidth * 0.032, // 3.5% of screen width
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -173,7 +134,8 @@ class _ChefOrderState extends State<ChefOrder> {
             SizedBox(height: _screenheight * 0.02), // 2% of screen height
             Row(
               children: [
-                Icon(Icons.location_on_outlined, size: _screenwidth * 0.05), // 5% of screen width
+                Icon(Icons.location_on_outlined,
+                    size: _screenwidth * 0.05), // 5% of screen width
                 SizedBox(width: _screenwidth * 0.01), // 1% of screen width
                 AppLiteText(
                   text: 'Delivery Address:',
@@ -194,7 +156,8 @@ class _ChefOrderState extends State<ChefOrder> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.person_pin, size: _screenwidth * 0.05), // 5% of screen width
+                Icon(Icons.person_pin,
+                    size: _screenwidth * 0.05), // 5% of screen width
                 SizedBox(width: _screenwidth * 0.01), // 1% of screen width
                 AppLiteText(
                   text: 'Invoice:',
@@ -236,7 +199,8 @@ class _ChefOrderState extends State<ChefOrder> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
+              padding:
+                  EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -255,7 +219,7 @@ class _ChefOrderState extends State<ChefOrder> {
                   ),
                   SizedBox(
                     width: _screenwidth * 0.4, // 40% of screen width
-                    child:  ElevatedButton(
+                    child: ElevatedButton(
                       child: Text("Accept"),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
@@ -271,9 +235,5 @@ class _ChefOrderState extends State<ChefOrder> {
         ),
       ),
     );
-
-  }
-  void _handleMenuButtonPressed() {
-    _advancedDrawerController.showDrawer();
   }
 }
