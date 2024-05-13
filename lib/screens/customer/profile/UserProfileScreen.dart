@@ -189,24 +189,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     }
 
     // Prepare the data to send to the server
-    var request = http.MultipartRequest(
-      widget.firstTime ? 'POST' : 'PATCH',
-      widget.firstTime
-          ? Uri.parse('https://chefease.azurewebsites.net/customer')
-          : Uri.parse(
-              'https://chefease.azurewebsites.net/customer/firebase/${FirebaseAuth.instance.currentUser!.uid}'),
-    );
+    var url = widget.firstTime
+        ? Uri.parse('https://chefease.azurewebsites.net/customer')
+        : Uri.parse(
+            'https://chefease.azurewebsites.net/customer/firebase/${FirebaseAuth.instance.currentUser!.uid}');
 
-    if (firebaseUser.email != null) {
-      request.fields['Email'] = firebaseUser.email!;
-      request.fields['CustomerFirebaseID'] = firebaseUser.uid;
-    } else {
-      // Handle the case when the user is null or email is null
-      AppToast().toastMessage(
-          'User is not logged in or email is not available.',
-          isError: true);
-      return;
-    }
+    var headers = {"Content-Type": "application/json"};
+
+    var body = {
+      'Email': firebaseUser.email,
+      'CustomerFirebaseID': firebaseUser.uid,
+      'Name': _nameController.text,
+      'Username': _usernameController.text,
+      'PhoneNumber': _phoneNumberController.text,
+    };
 
     if (_usernameController.text.isEmpty ||
         _phoneNumberController.text.isEmpty ||
@@ -216,16 +212,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       return;
     }
 
-    request.fields['Name'] = _nameController.text;
-    request.fields['Username'] = _usernameController.text;
-    request.fields['PhoneNumber'] = _phoneNumberController.text;
-
     // Print the content of the request
-    debugPrint('Request fields: ${request.fields}');
+    debugPrint('Request body: $body');
 
     try {
       // Call the API to create or update the customer
-      var response = await request.send();
+      var response;
+      if (widget.firstTime) {
+        var request = http.MultipartRequest('POST', url);
+        request.fields
+            .addAll(body.map((key, value) => MapEntry(key, value ?? '')));
+        if (_profileImage != null) {
+          var multipartFile = await http.MultipartFile.fromPath(
+            'ProfileImageURL',
+            _profileImage!.path,
+          );
+          request.files.add(multipartFile);
+        }
+        response = await request.send();
+      } else {
+        response =
+            await http.patch(url, headers: headers, body: json.encode(body));
+      }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         AppToast().toastMessage(widget.firstTime
