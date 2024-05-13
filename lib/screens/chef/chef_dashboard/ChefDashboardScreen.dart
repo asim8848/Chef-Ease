@@ -11,11 +11,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/responsive.dart';
 import '../../../widgets/drawer/ChefDrawer.dart';
-
-import '../Chef_add_menu/ChefAddMenuBottomSheet.dart';
-
 import 'ChefMenuScreen.dart';
-
 import '../notifications/NotificationScreen.dart';
 
 class ChefDashboardScreen extends StatefulWidget {
@@ -33,36 +29,6 @@ class _ChefDashboardScreenState extends State<ChefDashboardScreen> {
     setState(() {
       _selectedIndex = index;
     });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => ChefDashboardScreen()));
-        break;
-      case 1:
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefMenu()));
-        break;
-      case 2:
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return AddBottomSheet();
-          },
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ChefOrder()));
-        break;
-      case 4:
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ChatList()));
-        break;
-      default:
-        break;
-    }
-
-    widget.onItemTapped(index);
   }
 
   void _handleMenuButtonPressed() {
