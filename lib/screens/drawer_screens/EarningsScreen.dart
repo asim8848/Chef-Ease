@@ -46,106 +46,97 @@ class _ChefEarningsState extends State<ChefEarnings> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // First Container with larger height
-                Padding(
-                  padding: EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
-                  child: Container(
-                    height: _screenheight * 0.220, // 47.5% of screen height
-                    width: _screenwidth * 0.396, // 42.5% of screen width
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: AppMainText(
-                            text: '\$500',
-                            color: AppColors.secondaryColor,
-                            fontSize: _screenwidth * 0.065, // 7.5% of screen width
-                            fontWeight: FontWeight.w600,
-                          ),
+                Container(
+                  height: _screenheight * 0.235, // 47.5% of screen height
+                  width: _screenwidth * 0.396, // 42.5% of screen width
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: AppMainText(
+                          text: '\$500',
+                          color: AppColors.secondaryColor,
+                          fontSize: _screenwidth * 0.065, // 7.5% of screen width
+                          fontWeight: FontWeight.w600,
                         ),
-                        Center(
-                          child: AppLiteText(
-                            text: 'Total Earnings',
-                            color: AppColors.secondaryColor,
-                            fontSize: _screenwidth * 0.040, // 4.5% of screen width
-                          ),
+                      ),
+                      Center(
+                        child: AppLiteText(
+                          text: 'Total Earnings',
+                          color: AppColors.secondaryColor,
+                          fontSize: _screenwidth * 0.040, // 4.5% of screen width
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(width: _screenwidth*0.01,),
                 // Second and Third Containers on the right side
-                Padding(
-                  padding: EdgeInsets.only(top: _screenheight * 0.011), // 1% of screen height
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: _screenheight * 0.002), // 0.2% of screen height
-                        child: Container(
-                            width: _screenwidth * 0.48, // 52% of screen width
-                            height: _screenheight * 0.1028, // 11.25% of screen height
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.primaryColor), // Add border
-                              borderRadius: BorderRadius.circular(12.0),
+                Column(
+                  children: [
+                    Container(
+                      width: _screenwidth * 0.48, // 52% of screen width
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.primaryColor), // Add border
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                            child: AppMainText(
+                              text: '\$200',
+                              color: AppColors.primaryColor,
+                              fontSize: _screenwidth * 0.055, // 5.5% of screen width
+                              fontWeight: FontWeight.w600,
                             ),
-                            padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: AppMainText(text:
-                                  '\$200',
-                                    color: AppColors.primaryColor,
-                                    fontSize: _screenwidth * 0.055, // 5.5% of screen width
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Center(
-                                  child: AppLiteText(text:
-                                  'Total Tips',
-                                    color: AppColors.primaryColor,
-                                    fontSize: _screenwidth * 0.0375, // 3.75% of screen width
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(height: _screenheight * 0.0075), // 0.75% of screen height
-                      Container(
-                          width: _screenwidth * 0.48, // 52% of screen width
-                          height: _screenheight * 0.1028, // 11.25% of screen height
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.primaryColor), // Add border
-                            borderRadius: BorderRadius.circular(12.0),
                           ),
-                          padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
-                          child: Column(
-                            children: [
-                              Center(
-                                child: AppMainText(text:
-                                '\$300',
-                                  color: AppColors.primaryColor,
-                                  fontSize: _screenwidth * 0.055, // 5.5% of screen width
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Center(
-                                child: AppLiteText(text:
-                                'Order Earnings',
-                                  color: AppColors.primaryColor,
-                                  fontSize: _screenwidth * 0.0375, // 3.75% of screen width
-                                ),
-                              ),
-                            ],
-                          )
+                          Center(
+                            child: AppLiteText(
+                              text: 'Total Tips',
+                              color: AppColors.primaryColor,
+                              fontSize: _screenwidth * 0.0375, // 3.75% of screen width
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: _screenheight * 0.0075), // 0.75% of screen height
+                    Container(
+                      width: _screenwidth * 0.48, // 52% of screen width
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.primaryColor), // Add border
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                            child: AppMainText(
+                              text: '\$300',
+                              color: AppColors.primaryColor,
+                              fontSize: _screenwidth * 0.055, // 5.5% of screen width
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Center(
+                            child: AppLiteText(
+                              text: 'Order Earnings',
+                              color: AppColors.primaryColor,
+                              fontSize: _screenwidth * 0.0375, // 3.75% of screen width
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
 
               ],

@@ -106,7 +106,7 @@ class _homeOrderState extends State<homeOrder> {
                   SizedBox(height: _screenheight * 0.02),
                   Container(
                     width: _screenwidth * 0.9, // 90% of screen width
-                    height: _screenheight * 0.2, // 30% of screen height
+                    height: _screenheight * 0.22, // 30% of screen height
                     child: PageView(
                       controller: _pageController,
                       onPageChanged: (int page) {
@@ -396,7 +396,7 @@ class _homeOrderState extends State<homeOrder> {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          AppLiteText(text: title,fontSize: 13,fontWeight: FontWeight.w600,),
+          AppLiteText(text: title,fontSize: 12,fontWeight: FontWeight.w600,),
         ],
       ),
     );

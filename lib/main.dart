@@ -2,7 +2,6 @@ import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/screens/OnBoardingScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'constants/colors.dart';
 import 'firebase_options.dart';
 //Sameer
