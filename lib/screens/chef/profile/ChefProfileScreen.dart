@@ -1,23 +1,22 @@
-
 import 'package:flutter/material.dart';
 
 import '../tabs/ChefMenuTab.dart';
 import '../tabs/ChefPicturesTab.dart';
 import '../tabs/ChefReelsTab.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ChefProfileScreen extends StatefulWidget {
+  ChefProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ChefProfileScreen> createState() => _ChefProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ChefProfileScreenState extends State<ChefProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final  height=MediaQuery.sizeOf(context).height*1;
-    final  width=MediaQuery.sizeOf(context).width*1;
-    return  Scaffold(
+    final height = MediaQuery.sizeOf(context).height * 1;
+    final width = MediaQuery.sizeOf(context).width * 1;
+    return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
@@ -35,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Container(
                 width: width * 0.26,
-                height: height* 0.12 ,
+                height: height * 0.12,
                 decoration: ShapeDecoration(
                   image: const DecorationImage(
                     image: AssetImage("assets/imgs/reels_pic.jpg"),
@@ -68,10 +67,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: height * 0.02,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w400,
-
                 ),
               ),
-              SizedBox(height: height * 0.02,),
+              SizedBox(
+                height: height * 0.02,
+              ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -83,7 +83,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontSize: 16,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w900,
-
                     ),
                   ),
                   Text(
@@ -94,7 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontSize: 16,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w900,
-
                     ),
                   ),
                   Text(
@@ -105,7 +103,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontSize: 16,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w900,
-
                     ),
                   ),
                 ],
@@ -121,7 +118,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontSize: 12,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
-
                     ),
                   ),
                   Text(
@@ -148,7 +144,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Container(
@@ -156,7 +154,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 45,
                     decoration: ShapeDecoration(
                       color: const Color(0xFFFF6A42),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6)),
                     ),
                     child: const Center(
                       child: Text(
@@ -171,11 +170,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           letterSpacing: -0.12,
                         ),
                       ),
-                    )
-                ),
+                    )),
               ),
-              const SizedBox(height: 20,),
-
+              const SizedBox(
+                height: 20,
+              ),
               const Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
@@ -189,14 +188,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               const Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
                   'Yorem ipsum dolor sit amet, consectetur adipiscing\n elit. Nunc vulputate libero et velit interdum, ac\n aliquet odio mattis.',
                   textAlign: TextAlign.center,
-
-
                   style: TextStyle(
                     color: Color(0x6D1E1E1E),
                     fontSize: 12,
@@ -206,10 +205,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           const DefaultTabController(
             length: 3, // Changed length to 2 since there are 2 tabs
             child: Expanded(
@@ -219,13 +219,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelColor: Color(0xFFFF6A42),
                     indicatorColor: Color(0xFFFF6A42),
                     tabs: [
-                      Tab( icon: Icon(Icons.grid_view_outlined),),
-                      Tab( icon: Icon(Icons.menu_outlined),),
-                      Tab( icon: Icon(Icons.video_collection_outlined),),
-
+                      Tab(
+                        icon: Icon(Icons.grid_view_outlined),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.menu_outlined),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.video_collection_outlined),
+                      ),
                     ],
                   ),
-
                   Expanded(
                     child: TabBarView(
                       children: [
@@ -239,7 +243,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-
         ],
       ),
     );

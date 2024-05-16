@@ -4,7 +4,7 @@ import 'package:chefease/screens/customer/food_order/HomeOrderScreen.dart';
 import 'package:chefease/screens/customer/food_order/OrderHistory.dart';
 import 'package:chefease/screens/customer/post_bids/BidsReviewScreen.dart';
 import 'package:chefease/screens/customer/reels/ReelScreen.dart';
-import 'package:chefease/widgets/drawer/UserDrawer.dart';
+import 'package:chefease/widgets/drawer/CustomerDrawer.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -18,12 +18,13 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
 class _HomeScreenState extends State<HomeScreen> {
   final _advancedDrawerController = AdvancedDrawerController();
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     thisHome(),
     Reels(),
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       childDecoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      drawer: DrawerContent(),
+      drawer: CustomerDrawerContent(),
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -73,54 +74,54 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: _selectedIndex == 1
             ? null
             : AppBar(
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.primaryColor,
-          leading: IconButton(
-            onPressed: _handleMenuButtonPressed,
-            icon: const Icon(Icons.menu),
-            color: AppColors.secondaryColor,
-          ),
-          title: GestureDetector(
-            onTap: () => print("Asim"),
-            child: Container(
-              child: const Row(
-                children: <Widget>[
-                  Icon(Icons.location_searching,
-                      color: AppColors.secondaryColor),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    'Select your location',
-                    style: TextStyle(
-                      color: AppColors.secondaryColor,
-                      fontSize: 14,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
+                centerTitle: false,
+                automaticallyImplyLeading: false,
+                backgroundColor: AppColors.primaryColor,
+                leading: IconButton(
+                  onPressed: _handleMenuButtonPressed,
+                  icon: const Icon(Icons.menu),
+                  color: AppColors.secondaryColor,
+                ),
+                title: GestureDetector(
+                  onTap: () => print("Asim"),
+                  child: Container(
+                    child: const Row(
+                      children: <Widget>[
+                        Icon(Icons.location_searching,
+                            color: AppColors.secondaryColor),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Select your location',
+                          style: TextStyle(
+                            color: AppColors.secondaryColor,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                ),
+                actions: const [
+                  Icon(
+                    Icons.favorite_border,
+                    color: AppColors.secondaryColor,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    color: AppColors.secondaryColor,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
                 ],
               ),
-            ),
-          ),
-          actions: const [
-            Icon(
-              Icons.favorite_border,
-              color: AppColors.secondaryColor,
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Icon(
-              Icons.shopping_cart_outlined,
-              color: AppColors.secondaryColor,
-            ),
-            SizedBox(
-              width: 15,
-            ),
-          ],
-        ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
@@ -132,7 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _advancedDrawerController.showDrawer();
   }
 }
-
 
 class thisHome extends StatefulWidget {
   const thisHome({super.key});

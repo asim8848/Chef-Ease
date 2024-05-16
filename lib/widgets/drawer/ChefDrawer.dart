@@ -1,22 +1,25 @@
-import 'package:chefease/screens/HomeScreen.dart';
+import 'dart:io';
 
+import 'package:chefease/api/chef_api.dart';
+import 'package:chefease/screens/HomeScreen.dart';
+import 'package:chefease/screens/chef/profile/ChefProfileScreen.dart';
+import 'package:chefease/screens/chef/profile/ChefProfileSetup.dart';
 import 'package:chefease/widgets/buttons.dart';
 import 'package:chefease/widgets/form_fields.dart';
+import 'package:chefease/widgets/text_styles.dart';
+import 'package:chefease/widgets/toast.dart'; // Import the AppToast class
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:chefease/widgets/text_styles.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+
 import '../../constants/colors.dart';
 import '../../constants/responsive.dart';
-import '../../screens/chef/chef_dashboard/ChefDashboardScreen.dart';
-
-import '../../screens/customer/profile/UserProfileScreen.dart';
 import '../../screens/drawer_screens/AnalyticsInsightsScreen.dart';
 import '../../screens/drawer_screens/EarningsScreen.dart';
 import '../../screens/drawer_screens/Help&SupportScreen.dart';
 import '../../screens/drawer_screens/SettingsScreen.dart';
 import '../../screens/drawer_screens/TermsConditionsScreen.dart';
-
-
 
 class ChefDrawerContent extends StatefulWidget {
   @override
@@ -24,7 +27,45 @@ class ChefDrawerContent extends StatefulWidget {
 }
 
 class _DrawerContentState extends State<ChefDrawerContent> {
-  int _selectedIndex = -1; // Tracks the selected index of the tile
+  final _chefApi = ChefApi();
+  User? _user;
+  String? _profileImageUrl;
+  File? _profileImage;
+  Map<String, dynamic>? _userData;
+  int _selectedIndex = -1;
+  bool _isSigningUp = false;
+  bool _isLoading = false;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserLoginStatus();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  void _checkUserLoginStatus() async {
+    _user = _auth.currentUser;
+    if (_user != null) {
+      _userData = await _chefApi.getChef(_user!.uid);
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +80,39 @@ class _DrawerContentState extends State<ChefDrawerContent> {
         child: Column(
           children: [
             // Profile image and text
-            Container(
-              width: _screenwidth * 0.25,
-              clipBehavior: Clip.antiAlias,
-              decoration: const BoxDecoration(
-                color: Colors.black26,
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/imgs/person1circle.png',
-                fit: BoxFit.fill,
-              ),
+            // User profile image
+            FutureBuilder<Map<String, dynamic>>(
+              future: FirebaseAuth.instance.currentUser != null
+                  ? _chefApi.getChef(FirebaseAuth.instance.currentUser!.uid)
+                  : null,
+              builder: (context, snapshot) {
+                if (FirebaseAuth.instance.currentUser == null) {
+                  // User is not logged in, display default values
+                  return CircleAvatar(
+                    radius: _screenwidth * 0.125,
+                    backgroundImage: AssetImage('assets/imgs/jack.png'),
+                  );
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return CircleAvatar(
+                    radius: _screenwidth * 0.125,
+                    backgroundImage:
+                        NetworkImage(snapshot.data!['ProfileImageURL']),
+                  );
+                }
+              },
             ),
             SizedBox(
               height: _screenheight * 0.02,
             ),
             AppMainText(
-              text: 'Jack lorem',
+              text: _user == null || _userData == null
+                  ? 'jack'
+                  : _userData!['Name'],
             ),
             SizedBox(
               height: _screenheight * 0.02,
@@ -65,15 +122,18 @@ class _DrawerContentState extends State<ChefDrawerContent> {
                 // Navigate to profile screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => ChefProfileSetupScreen()),
                 );
               },
+              // View Profile button
               child: AppLiteText(
                 text: 'View Profile',
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            //
             Divider(
               height: 20,
               thickness: 1,
@@ -88,7 +148,7 @@ class _DrawerContentState extends State<ChefDrawerContent> {
                     child: ListTile(
                       onTap: () {
                         setState(() {
-                          _selectedIndex = index; //
+                          _selectedIndex = index;
                           if (_getTileTitle(index) == 'Customer Mode') {
                             Navigator.push(
                               context,
@@ -164,7 +224,8 @@ class _DrawerContentState extends State<ChefDrawerContent> {
                         }
                       },
                       leading: Icon(
-                        _getLeadingIcon(index), // Function to get leading icon
+                        _getLeadingIcon(index),
+                        // Function to get leading icon
                         color:
                             _getTileColor(index), // Function to get tile color
                       ),
@@ -186,106 +247,48 @@ class _DrawerContentState extends State<ChefDrawerContent> {
                 ),
               ),
             ),
-            // Logout button
-            Container(
-              width: _screenwidth,
-              height: _screenheight * 0.08,
-              color: AppColors.primaryColor,
-              child: Center(
-                child: ListTile(
-                  leading: Icon(
-                    Icons.exit_to_app_outlined,
-                    color: AppColors.secondaryColor,
-                  ),
-                  title: AppLiteText(
-                    text: 'Signup or Login',
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                  ),
-                  contentPadding: const EdgeInsets.only(left: 40),
-                  onTap: () {
-                    showModalBottomSheet<void>(
-                      isScrollControlled:
-                          true, // Make the bottom sheet height match its content
-                      showDragHandle: true,
-                      useSafeArea: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+            // Signup/Login button
+            _auth.currentUser == null
+                ? Container(
+                    width: _screenwidth,
+                    height: _screenheight * 0.08,
+                    color: AppColors.primaryColor,
+                    child: Center(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.exit_to_app_outlined,
+                          color: AppColors.secondaryColor,
                         ),
+                        title: AppLiteText(
+                          text: 'Signup or Login',
+                          color: Colors.white,
+                          fontFamily: 'Poppins',
+                        ),
+                        contentPadding: const EdgeInsets.only(left: 40),
+                        onTap: _showSignupLoginModal,
                       ),
-                      backgroundColor: Colors.white,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return StatefulBuilder(
-                          builder:
-                              (BuildContext context, StateSetter setState) {
-                            final screenHeight =
-                                MediaQuery.of(context).size.height;
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: screenHeight * 0.02),
-                                  AppMainText(text: 'Signup or Login'),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  AppTextFormField(
-                                    hintText: 'chefease@gmail.com',
-                                    keyboardType: TextInputType.emailAddress,
-                                    icon: Icons.email_outlined,
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  AppTextFormField(
-                                    hintText: 'Password',
-                                    keyboardType: TextInputType.visiblePassword,
-                                    icon: Icons.lock_outline,
-                                    obscureText: true,
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  CustomButton(
-                                    text: 'Continue',
-                                    width: 0.9,
-                                    height: 0.07,
-                                    borderRadius: 15,
-                                    onPressed: () {},
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  CustomButton(
-                                    icon: Icons.g_mobiledata_outlined,
-                                    text: 'Continue with Google',
-                                    width: 0.9,
-                                    height: 0.07,
-                                    borderRadius: 15,
-                                    backgroundColor: AppColors.secondaryColor,
-                                    textColor: AppColors.textColor,
-                                    onPressed: () {},
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  CustomButton(
-                                    icon: Icons.facebook_outlined,
-                                    text: 'Continue with Facebook',
-                                    width: 0.9,
-                                    height: 0.07,
-                                    borderRadius: 15,
-                                    backgroundColor: Color(0xFF5864CD),
-                                    textColor: AppColors.secondaryColor,
-                                    onPressed: () {},
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-            ),
+                    ),
+                  ) // Signup/Login button
+                : Container(
+                    width: _screenwidth,
+                    height: _screenheight * 0.08,
+                    color: AppColors.primaryColor,
+                    child: Center(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.logout,
+                          color: AppColors.secondaryColor,
+                        ),
+                        title: AppLiteText(
+                          text: 'Logout',
+                          color: Colors.white,
+                          fontFamily: 'Poppins',
+                        ),
+                        contentPadding: const EdgeInsets.only(left: 40),
+                        onTap: _handleSignOut,
+                      ),
+                    ),
+                  ), // Logout button
           ],
         ),
       ),
@@ -339,5 +342,301 @@ class _DrawerContentState extends State<ChefDrawerContent> {
     return _selectedIndex == index
         ? AppColors.primaryColor
         : AppColors.textColor;
+  }
+
+  void _showSignupLoginModal() {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            final screenHeight = MediaQuery.of(context).size.height;
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: screenHeight * 0.02),
+                  AppMainText(text: 'Signup or Login'),
+                  SizedBox(height: screenHeight * 0.02),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _isSigningUp = true;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: _isSigningUp
+                              ? AppColors.primaryColor
+                              : AppColors.bgColor,
+                          fixedSize:
+                              Size(MediaQuery.of(context).size.width * 0.3, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text('Signup'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _isSigningUp = false;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: !_isSigningUp
+                              ? AppColors.primaryColor
+                              : AppColors.bgColor,
+                          fixedSize:
+                              Size(MediaQuery.of(context).size.width * 0.3, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text('Signin'),
+                      ),
+                    ],
+                  ),
+                  if (_isSigningUp)
+                    Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.02),
+                        AppTextFormField(
+                          hintText: 'Email',
+                          keyboardType: TextInputType.emailAddress,
+                          icon: Icons.email_outlined,
+                          controller: _emailController,
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        AppTextFormField(
+                          hintText: 'Password',
+                          keyboardType: TextInputType.visiblePassword,
+                          icon: Icons.lock_outline,
+                          obscureText: true,
+                          controller: _passwordController,
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        AppTextFormField(
+                          hintText: 'Confirm Password',
+                          keyboardType: TextInputType.visiblePassword,
+                          icon: Icons.lock_outline,
+                          obscureText: true,
+                          controller: _confirmPasswordController,
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        CustomButton(
+                            text: 'Continue',
+                            width: 0.9,
+                            height: 0.07,
+                            borderRadius: 15,
+                            isLoading: _isLoading,
+                            onPressed: () {
+                              // Call signup function
+                              _signupButtonPressed();
+                              debugPrint('Signup button pressed');
+                            } // Call signup function
+                            ),
+                      ],
+                    ),
+                  if (!_isSigningUp)
+                    Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.02),
+                        AppTextFormField(
+                          hintText: 'Email',
+                          keyboardType: TextInputType.emailAddress,
+                          icon: Icons.email_outlined,
+                          controller: _emailController,
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        AppTextFormField(
+                          hintText: 'Password',
+                          keyboardType: TextInputType.visiblePassword,
+                          icon: Icons.lock_outline,
+                          obscureText: true,
+                          controller: _passwordController,
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        CustomButton(
+                          text: 'Continue',
+                          width: 0.9,
+                          height: 0.07,
+                          borderRadius: 15,
+                          isLoading: _isLoading,
+                          onPressed:
+                              _signinButtonPressed, // Call signin function
+                        ),
+                      ],
+                    ),
+                  SizedBox(height: screenHeight * 0.02),
+                  SignInButton(
+                    Buttons.google,
+                    text: "Sign in with Google",
+                    onPressed: _handleGoogleSignIn,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    mini: false,
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  SignInButton(
+                    Buttons.facebookNew,
+                    text: "Sign in with Facebook",
+                    onPressed: _handleGoogleSignIn,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    mini: false,
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // The rest of the methods (_signupButtonPressed, _signinButtonPressed, _handleGoogleSignIn, _handleSignOut) will be the same as in the CustomerDrawer.dart file, but you might need to adjust the navigation and API calls to fit the Chef context.
+  void _signupButtonPressed() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      AppToast().toastMessage('Please fill in all the fields.', isError: true);
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      AppToast().toastMessage('Please enter a valid email.', isError: true);
+      return;
+    }
+
+    if (password.length < 8) {
+      AppToast().toastMessage('Password should be at least 8 characters.',
+          isError: true);
+      return;
+    }
+
+    if (password != confirmPassword) {
+      AppToast().toastMessage('Passwords do not match.', isError: true);
+      return;
+    }
+
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      // Sign up the user
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // If the sign up was successful, navigate to the ChefProfileScreen
+      if (userCredential.user != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChefProfileSetupScreen(firstTime: true),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      AppToast().toastMessage('Failed to sign up: $e', isError: true);
+    } catch (e) {
+      AppToast().toastMessage('An error occurred: $e', isError: true);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  bool isEmailValid(String email) {
+    final RegExp regex =
+        RegExp(r'^[a-zA-Z0-9.a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+    return regex.hasMatch(email);
+  }
+
+  void _signinButtonPressed() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      AppToast().toastMessage('Please fill in all the fields.', isError: true);
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      AppToast().toastMessage('Please enter a valid email.', isError: true);
+      return;
+    }
+
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      _emailController.clear();
+      _passwordController.clear();
+      // Close the modal
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        AppToast().toastMessage('No user found for that email.', isError: true);
+      } else if (e.code == 'wrong-password') {
+        AppToast().toastMessage('Wrong password provided for that user.',
+            isError: true);
+      } else {
+        AppToast().toastMessage('Signin failed. ${e.message}', isError: true);
+      }
+    } catch (e) {
+      AppToast().toastMessage('Signin failed. ${e.toString()}', isError: true);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _handleGoogleSignIn() async {
+    try {
+      GoogleAuthProvider _googleAuthProvider = GoogleAuthProvider();
+      await _auth.signInWithProvider(_googleAuthProvider);
+    } catch (error) {
+      print('Google sign in failed: $error');
+    }
+  }
+
+  Future<void> _handleSignOut() async {
+    try {
+      await _auth.signOut();
+      setState(() {}); // Refresh the UI after logout
+    } catch (e) {
+      print('Sign out failed: $e');
+    }
   }
 }

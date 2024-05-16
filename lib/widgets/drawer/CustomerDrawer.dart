@@ -8,20 +8,27 @@ import '../../constants/colors.dart';
 import '../../constants/responsive.dart';
 import '../../screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 
-import '../../screens/customer/profile/UserProfileScreen.dart';
+import '../../screens/customer/profile/CustomerProfileScreen.dart';
 import '../../screens/drawer_screens/Help&SupportScreen.dart';
 import '../../screens/drawer_screens/CustomerOrderTrackScreen.dart';
 import '../../screens/drawer_screens/SettingsScreen.dart';
 import '../../screens/drawer_screens/TermsConditionsScreen.dart';
 import '../toast.dart';
 import 'package:sign_in_button/sign_in_button.dart';
+import '../../../api/customer_api.dart'; // Import the CustomerApi class
 
-class DrawerContent extends StatefulWidget {
+import 'package:flutter/services.dart';
+
+class CustomerDrawerContent extends StatefulWidget {
   @override
-  State<DrawerContent> createState() => _DrawerContentState();
+  State<CustomerDrawerContent> createState() => _CustomerDrawerContentState();
 }
 
-class _DrawerContentState extends State<DrawerContent> {
+class _CustomerDrawerContentState extends State<CustomerDrawerContent> {
+  final _customerApi = CustomerApi();
+  User? _user;
+
+  Map<String, dynamic>? _userData;
   int _selectedIndex = -1;
   bool _isSigningUp = false;
   bool _isLoading = false;
@@ -36,11 +43,25 @@ class _DrawerContentState extends State<DrawerContent> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
+  void initState() {
+    super.initState();
+    _checkUserLoginStatus();
+  }
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _checkUserLoginStatus() async {
+    _user = _auth.currentUser;
+    if (_user != null) {
+      _userData = await _customerApi.getCustomer(_user!.uid);
+    }
+    setState(() {});
   }
 
   @override
@@ -57,34 +78,59 @@ class _DrawerContentState extends State<DrawerContent> {
           height: _screenHeight,
           child: Column(
             children: [
-              Container(
-                width: _screenWidth * 0.25,
-                clipBehavior: Clip.antiAlias,
-                decoration: const BoxDecoration(
-                  color: Colors.black26,
-                  shape: BoxShape.circle,
-                ),
-                child: Image.asset(
-                  'assets/imgs/jack.png',
-                  fit: BoxFit.fill,
-                ),
+              // User profile image
+              FutureBuilder<Map<String, dynamic>>(
+                future: FirebaseAuth.instance.currentUser != null
+                    ? _customerApi
+                        .getCustomer(FirebaseAuth.instance.currentUser!.uid)
+                    : null,
+                builder: (context, snapshot) {
+                  if (FirebaseAuth.instance.currentUser == null) {
+                    // User is not logged in, display default values
+                    return CircleAvatar(
+                      radius: _screenWidth * 0.125,
+                      backgroundImage: AssetImage('assets/imgs/jack.png'),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return CircleAvatar(
+                      radius: _screenWidth * 0.125,
+                      backgroundImage:
+                          NetworkImage(snapshot.data!['ProfileImageURL']),
+                    );
+                  }
+                },
               ),
               SizedBox(
                 height: _screenHeight * 0.02,
               ),
+              // User name
               AppMainText(
-                text: 'Jack lorem',
+                text: _user == null || _userData == null
+                    ? 'jack'
+                    : _userData!['Name'],
               ),
               SizedBox(
                 height: _screenHeight * 0.02,
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UserProfileScreen()),
-                  );
+                  if (_auth.currentUser == null) {
+                    AppToast().toastMessage('Please login to view profile.',
+                        isError: true);
+                    _showSignupLoginModal();
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CustomerProfileScreen(),
+                      ),
+                    );
+                  }
                 },
                 child: AppLiteText(
                   text: 'View Profile',
@@ -183,8 +229,9 @@ class _DrawerContentState extends State<DrawerContent> {
                       selected: _selectedIndex == index,
                     );
                   },
-                ),
+                ), // Drawer items
               ),
+              // Signup/Login button
               _auth.currentUser == null
                   ? Container(
                       width: _screenWidth,
@@ -205,7 +252,7 @@ class _DrawerContentState extends State<DrawerContent> {
                           onTap: _showSignupLoginModal,
                         ),
                       ),
-                    )
+                    ) // Signup/Login button
                   : Container(
                       width: _screenWidth,
                       height: _screenHeight * 0.08,
@@ -225,7 +272,7 @@ class _DrawerContentState extends State<DrawerContent> {
                           onTap: _handleSignOut,
                         ),
                       ),
-                    ),
+                    ), // Logout button
             ],
           ),
         ),
@@ -449,22 +496,23 @@ class _DrawerContentState extends State<DrawerContent> {
     final confirmPassword = _confirmPasswordController.text.trim();
 
     if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-      AppToast().toastMessage('Please fill in all the fields.');
+      AppToast().toastMessage('Please fill in all the fields.', isError: true);
       return;
     }
 
     if (!isEmailValid(email)) {
-      AppToast().toastMessage('Please enter a valid email.');
+      AppToast().toastMessage('Please enter a valid email.', isError: true);
       return;
     }
 
     if (password.length < 8) {
-      AppToast().toastMessage('Password should be at least 8 characters.');
+      AppToast().toastMessage('Password should be at least 8 characters.',
+          isError: true);
       return;
     }
 
     if (password != confirmPassword) {
-      AppToast().toastMessage('Passwords do not match.');
+      AppToast().toastMessage('Passwords do not match.', isError: true);
       return;
     }
 
@@ -485,14 +533,14 @@ class _DrawerContentState extends State<DrawerContent> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => UserProfileScreen(firstTime: true),
+            builder: (context) => CustomerProfileScreen(firstTime: true),
           ),
         );
       }
     } on FirebaseAuthException catch (e) {
-      AppToast().toastMessage('Failed to sign up: $e');
+      AppToast().toastMessage('Failed to sign up: $e', isError: true);
     } catch (e) {
-      AppToast().toastMessage('An error occurred: $e');
+      AppToast().toastMessage('An error occurred: $e', isError: true);
     } finally {
       setState(() {
         _isLoading = false;
@@ -505,12 +553,12 @@ class _DrawerContentState extends State<DrawerContent> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      AppToast().toastMessage('Please fill in all the fields.');
+      AppToast().toastMessage('Please fill in all the fields.', isError: true);
       return;
     }
 
     if (!isEmailValid(email)) {
-      AppToast().toastMessage('Please enter a valid email.');
+      AppToast().toastMessage('Please enter a valid email.', isError: true);
       return;
     }
 
@@ -530,14 +578,15 @@ class _DrawerContentState extends State<DrawerContent> {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        AppToast().toastMessage('No user found for that email.');
+        AppToast().toastMessage('No user found for that email.', isError: true);
       } else if (e.code == 'wrong-password') {
-        AppToast().toastMessage('Wrong password provided for that user.');
+        AppToast().toastMessage('Wrong password provided for that user.',
+            isError: true);
       } else {
-        AppToast().toastMessage('Signin failed. ${e.message}');
+        AppToast().toastMessage('Signin failed. ${e.message}', isError: true);
       }
     } catch (e) {
-      AppToast().toastMessage('Signin failed. ${e.toString()}');
+      AppToast().toastMessage('Signin failed. ${e.toString()}', isError: true);
     } finally {
       setState(() {
         _isLoading = false;

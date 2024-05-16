@@ -7,22 +7,21 @@ import '../../../widgets/text_styles.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import '../../../widgets/toast.dart';
 import '../../HomeScreen.dart';
 
-class UserProfileScreen extends StatefulWidget {
+import '../../../api/customer_api.dart'; // Import the CustomerApi class
+
+class CustomerProfileScreen extends StatefulWidget {
   final bool firstTime;
 
-  UserProfileScreen({this.firstTime = false});
+  CustomerProfileScreen({this.firstTime = false});
 
   @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
+  _CustomerProfileScreenState createState() => _CustomerProfileScreenState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
+class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   final _usernameController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _nameController = TextEditingController();
@@ -30,13 +29,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   File? _profileImage;
   String? _profileImageUrl;
 
+  final _customerApi = CustomerApi(); // Create an instance of CustomerApi
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
         title: AppMainText(
-          text: "Profile",
+          text: "Customer Profile",
           color: AppColors.secondaryColor,
           fontSize: 20,
         ),
@@ -65,6 +66,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            //image
             GestureDetector(
               onTap: _pickProfileImage,
               child: CircleAvatar(
@@ -137,33 +139,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchUserData();
+    if (!widget.firstTime) {
+      _fetchUserData();
+    }
   }
 
   void _fetchUserData() async {
     try {
       final firebaseUser = FirebaseAuth.instance.currentUser;
       if (firebaseUser != null) {
-        final response = await http.get(
-          Uri.parse(
-              'https://chefease.azurewebsites.net/customer/firebase/${firebaseUser.uid}'),
-        );
+        final userData = await _customerApi.getCustomer(firebaseUser.uid);
 
-        if (response.statusCode == 200) {
-          final userData = jsonDecode(response.body);
-          _usernameController.text = userData['Username'];
-          _phoneNumberController.text = userData['PhoneNumber'];
-          _nameController.text = userData['Name'];
-          // Load the profile image from the URL
-          setState(() {
-            _profileImageUrl = userData['ProfileImageURL'];
-          });
-        } else {
-          AppToast().toastMessage(
-            'Failed to fetch user data. Status code: ${response.statusCode}',
-            isError: true,
-          );
-        }
+        _usernameController.text = userData['Username'];
+        _phoneNumberController.text = userData['PhoneNumber'];
+        _nameController.text = userData['Name'];
+        // Load the profile image from the URL
+        setState(() {
+          _profileImageUrl = userData['ProfileImageURL'];
+        });
       }
     } catch (e) {
       AppToast().toastMessage(
@@ -188,17 +181,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       return;
     }
 
-    // Prepare the data to send to the server
-    var url = widget.firstTime
-        ? Uri.parse('https://chefease.azurewebsites.net/customer')
-        : Uri.parse(
-            'https://chefease.azurewebsites.net/customer/firebase/${FirebaseAuth.instance.currentUser!.uid}');
-
-    var headers = {"Content-Type": "application/json"};
-
     var body = {
-      'Email': firebaseUser.email,
-      'CustomerFirebaseID': firebaseUser.uid,
+      'Email': firebaseUser.email ?? '',
+      'CustomerFirebaseID': firebaseUser.uid ?? '',
       'Name': _nameController.text,
       'Username': _usernameController.text,
       'PhoneNumber': _phoneNumberController.text,
@@ -219,20 +204,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       // Call the API to create or update the customer
       var response;
       if (widget.firstTime) {
-        var request = http.MultipartRequest('POST', url);
-        request.fields
-            .addAll(body.map((key, value) => MapEntry(key, value ?? '')));
-        if (_profileImage != null) {
-          var multipartFile = await http.MultipartFile.fromPath(
-            'ProfileImageURL',
-            _profileImage!.path,
-          );
-          request.files.add(multipartFile);
-        }
-        response = await request.send();
+        response = await _customerApi.createCustomer(body, _profileImage);
       } else {
-        response =
-            await http.patch(url, headers: headers, body: json.encode(body));
+        response = await _customerApi.updateCustomer(body);
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -244,20 +218,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-      } else if (response.statusCode == 500) {
-        var responseBody = await response.stream.bytesToString();
-        var responseJson = jsonDecode(responseBody);
-
-        if (responseJson['message'] ==
-            'A customer with this username already exists') {
-          AppToast().toastMessage(
-              'This username is already taken. Please choose another one.',
-              isError: true);
-        } else {
-          AppToast().toastMessage(
-              'Failed to ${widget.firstTime ? "create" : "update"} customer. Status code: ${response.statusCode}',
-              isError: true);
-        }
       } else {
         AppToast().toastMessage(
             'Failed to ${widget.firstTime ? "create" : "update"} customer. Status code: ${response.statusCode}',
