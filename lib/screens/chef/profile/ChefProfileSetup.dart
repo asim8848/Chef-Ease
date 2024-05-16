@@ -1,3 +1,4 @@
+import 'package:chefease/screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 import 'package:chefease/screens/chef/profile/ChefProfileScreen.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -254,6 +255,7 @@ class _ChefProfileSetupScreenState extends State<ChefProfileSetupScreen> {
       'Email': firebaseUser.email ?? '',
       'PhoneNumber': _phoneNumberController.text,
       'Address': _addressController.text,
+      'Role': 'Chef', // Set the role to 'Chef
       'Location': _locationController.text,
       'Availability': _availabilityController.text,
       'SkillsAndExpertise': _skillsController.text,
@@ -283,7 +285,7 @@ class _ChefProfileSetupScreenState extends State<ChefProfileSetupScreen> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ChefProfileScreen()),
+          MaterialPageRoute(builder: (context) => ChefDashboardScreen()),
         );
       } else {
         AppToast().toastMessage(

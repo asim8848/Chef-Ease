@@ -3,6 +3,7 @@ import 'package:chefease/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../api/chef_api.dart';
 import '../../constants/responsive.dart';
 import '../../widgets/form_fields.dart';
 import '../../widgets/text_styles.dart';
@@ -28,7 +29,7 @@ class _SettingsState extends State<Settings> {
   bool _messageNotifications = false;
   final _auth = FirebaseAuth.instance; // Create an instance of FirebaseAuth
   final _customerApi = CustomerApi(); // Create an instance of CustomerApi
-
+  final _chefApi = ChefApi();
   @override
   Widget build(BuildContext context) {
     double _screenHeight = Responsive.screenHeight(context);
@@ -392,25 +393,61 @@ class _SettingsState extends State<Settings> {
               onPressed: () async {
                 final firebaseUser = FirebaseAuth.instance.currentUser;
                 if (firebaseUser != null) {
-                  final response =
-                      await _customerApi.deleteCustomer(firebaseUser.uid);
-                  if (response.statusCode == 200) {
-                    // Delete the Firebase user
-                    await firebaseUser.delete();
-                    // Handle successful deletion
-                    AppToast().toastMessage("Account deleted successfully");
-                    // Navigate to HomeScreen
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                      (Route<dynamic> route) =>
-                          false, // remove all previous routes
-                    );
-                  } else {
-                    // Handle error
-                    AppToast().toastMessage(
-                        "Error occurred during account deletion",
-                        isError: true);
+                  try {
+                    final customerData =
+                        await _customerApi.getCustomer(firebaseUser.uid);
+                    if (customerData['Role'] == 'Customer') {
+                      final response =
+                          await _customerApi.deleteCustomer(firebaseUser.uid);
+                      if (response.statusCode == 200) {
+                        // Delete the Firebase user
+                        await firebaseUser.delete();
+                        // Handle successful deletion
+                        AppToast().toastMessage("Account deleted successfully");
+                        // Navigate to HomeScreen
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) =>
+                              false, // remove all previous routes
+                        );
+                      } else {
+                        // Handle error
+                        AppToast().toastMessage(
+                            "Error occurred during account deletion",
+                            isError: true);
+                      }
+                    }
+                  } catch (e) {
+                    debugPrint('No customer data found for this user');
+                  }
+
+                  try {
+                    final chefData = await _chefApi.getChef(firebaseUser.uid);
+                    if (chefData['Role'] == 'Chef') {
+                      final response =
+                          await _chefApi.deleteChef(firebaseUser.uid);
+                      if (response.statusCode == 200) {
+                        // Delete the Firebase user
+                        await firebaseUser.delete();
+                        // Handle successful deletion
+                        AppToast().toastMessage("Account deleted successfully");
+                        // Navigate to HomeScreen
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) =>
+                              false, // remove all previous routes
+                        );
+                      } else {
+                        // Handle error
+                        AppToast().toastMessage(
+                            "Error occurred during account deletion",
+                            isError: true);
+                      }
+                    }
+                  } catch (e) {
+                    debugPrint('No chef data found for this user');
                   }
                 }
               },

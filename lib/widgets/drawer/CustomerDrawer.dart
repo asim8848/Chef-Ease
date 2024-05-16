@@ -152,13 +152,41 @@ class _CustomerDrawerContentState extends State<CustomerDrawerContent> {
                         setState(() {
                           _selectedIndex = index;
                           if (_getTileTitle(index) == 'Chef Mode') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ChefDashboardScreen();
-                                },
-                              ),
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Confirmation'),
+                                  content: Text(
+                                      'Are you sure you want to switch to Chef Mode? This will sign out the current user.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('No'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text('Yes'),
+                                      onPressed: () async {
+                                        // Sign out the current user
+                                        await FirebaseAuth.instance.signOut();
+
+                                        // Navigate to ChefDashboardScreen
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ChefDashboardScreen(),
+                                          ),
+                                          (route) =>
+                                              false, // remove all previous routes
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           } else {
                             // Handle navigation for other tiles if needed

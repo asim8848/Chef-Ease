@@ -187,6 +187,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
       'Name': _nameController.text,
       'Username': _usernameController.text,
       'PhoneNumber': _phoneNumberController.text,
+      'Role': 'Customer',
     };
 
     if (_usernameController.text.isEmpty ||
