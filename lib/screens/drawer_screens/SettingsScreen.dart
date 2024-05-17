@@ -3,9 +3,15 @@ import 'package:chefease/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../api/chef_api.dart';
 import '../../constants/responsive.dart';
 import '../../widgets/form_fields.dart';
 import '../../widgets/text_styles.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
+import '../../../api/customer_api.dart'; // Import the CustomerApi class
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../screens/HomeScreen.dart';
+import '../../widgets/toast.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -21,8 +27,9 @@ class _SettingsState extends State<Settings> {
   bool _deliveryNotifications = false;
   bool _paymentNotifications = false;
   bool _messageNotifications = false;
-
-
+  final _auth = FirebaseAuth.instance; // Create an instance of FirebaseAuth
+  final _customerApi = CustomerApi(); // Create an instance of CustomerApi
+  final _chefApi = ChefApi();
   @override
   Widget build(BuildContext context) {
     double _screenHeight = Responsive.screenHeight(context);
@@ -32,34 +39,45 @@ class _SettingsState extends State<Settings> {
           icon: Icon(Icons.arrow_back_ios_new, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: AppMainText(text: 'Settings',color:  AppColors.textColor,   fontSize: 18,),
+        title: AppMainText(
+          text: 'Settings',
+          color: AppColors.textColor,
+          fontSize: 18,
+        ),
         backgroundColor: AppColors.secondaryColor,
       ),
       body: Padding(
-        padding: EdgeInsets.all(_screenHeight*0.02),
+        padding: EdgeInsets.all(_screenHeight * 0.02),
         child: ListView(
           children: <Widget>[
             SizedBox(height: _screenHeight * 0.02), // 2% of screen height
-            buildSettingOption('Change Password', Icons.lock_outline, _changePasswordPressed),
-            buildSettingOption('Notification Settings', Icons.notifications_outlined, _notificationSettingsPressed),
-            buildSettingOption('Privacy', Icons.privacy_tip_outlined, _privacyPressed),
-            buildSettingOption('Delete Account', Icons.delete_outline, _deleteAccountPressed),
+            buildSettingOption(
+                'Change Password', Icons.lock_outline, _changePasswordPressed),
+            buildSettingOption('Notification Settings',
+                Icons.notifications_outlined, _notificationSettingsPressed),
+            buildSettingOption(
+                'Privacy', Icons.privacy_tip_outlined, _privacyPressed),
+            buildSettingOption(
+                'Delete Account', Icons.delete_outline, _deleteAccountPressed),
           ],
         ),
       ),
     );
   }
 
-  Widget buildSettingOption(String title, IconData icon, VoidCallback onPressed) {
+  Widget buildSettingOption(
+      String title, IconData icon, VoidCallback onPressed) {
     double _screenheight = Responsive.screenHeight(context);
     double _screenwidth = Responsive.screenWidth(context);
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.only(bottom: _screenheight * 0.01), // 1% of screen height
+        margin: EdgeInsets.only(
+            bottom: _screenheight * 0.01), // 1% of screen height
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(_screenwidth * 0.03), // 3% of screen width
+          borderRadius:
+              BorderRadius.circular(_screenwidth * 0.03), // 3% of screen width
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.3),
@@ -73,15 +91,22 @@ class _SettingsState extends State<Settings> {
           padding: EdgeInsets.all(_screenwidth * 0.04), // 4% of screen width
           child: Row(
             children: [
-              Icon(icon, color: AppColors.primaryColor, size: _screenwidth * 0.06), // 6% of screen width
+              Icon(icon,
+                  color: AppColors.primaryColor,
+                  size: _screenwidth * 0.06), // 6% of screen width
               SizedBox(width: _screenwidth * 0.04), // 4% of screen width
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(fontSize: _screenwidth * 0.045, fontWeight: FontWeight.bold, color: Colors.black), // 4.5% of screen width
+                  style: TextStyle(
+                      fontSize: _screenwidth * 0.045,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black), // 4.5% of screen width
                 ),
               ),
-              Icon(Icons.arrow_forward_ios, color: AppColors.primaryColor, size: _screenwidth * 0.06), // 6% of screen width
+              Icon(Icons.arrow_forward_ios,
+                  color: AppColors.primaryColor,
+                  size: _screenwidth * 0.06), // 6% of screen width
             ],
           ),
         ),
@@ -136,7 +161,7 @@ class _SettingsState extends State<Settings> {
       ),
       backgroundColor: Colors.white,
       context: context,
-      builder: (context) => _privacyBottomSheet() ,
+      builder: (context) => _privacyBottomSheet(),
     );
   }
 
@@ -186,7 +211,9 @@ class _SettingsState extends State<Settings> {
               icon: Icons.lock,
               obscureText: _obscureOldPassword,
               suffixIcon: IconButton(
-                icon: Icon(_obscureOldPassword ? Icons.visibility : Icons.visibility_off),
+                icon: Icon(_obscureOldPassword
+                    ? Icons.visibility
+                    : Icons.visibility_off),
                 onPressed: () {
                   setState(() {
                     _obscureOldPassword = !_obscureOldPassword;
@@ -206,7 +233,9 @@ class _SettingsState extends State<Settings> {
               icon: Icons.lock,
               obscureText: _obscureNewPassword,
               suffixIcon: IconButton(
-                icon: Icon(_obscureNewPassword ? Icons.visibility : Icons.visibility_off),
+                icon: Icon(_obscureNewPassword
+                    ? Icons.visibility
+                    : Icons.visibility_off),
                 onPressed: () {
                   setState(() {
                     _obscureNewPassword = !_obscureNewPassword;
@@ -220,7 +249,9 @@ class _SettingsState extends State<Settings> {
               icon: Icons.lock,
               obscureText: _obscureConfirmPassword,
               suffixIcon: IconButton(
-                icon: Icon(_obscureConfirmPassword ? Icons.visibility : Icons.visibility_off),
+                icon: Icon(_obscureConfirmPassword
+                    ? Icons.visibility
+                    : Icons.visibility_off),
                 onPressed: () {
                   setState(() {
                     _obscureConfirmPassword = !_obscureConfirmPassword;
@@ -240,9 +271,6 @@ class _SettingsState extends State<Settings> {
         ),
       ),
     );
-
-
-
   }
 
   Widget _notificationSettingsBottomSheet() {
@@ -262,11 +290,14 @@ class _SettingsState extends State<Settings> {
           ),
           SizedBox(height: _screenheight * 0.02), // 2% of screen height
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.075), // 7.5% of screen width
-            child: Column( // Inner column for notification settings
+            padding: EdgeInsets.symmetric(
+                horizontal: _screenwidth * 0.075), // 7.5% of screen width
+            child: Column(
+              // Inner column for notification settings
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row( // Delivery Notifications
+                Row(
+                  // Delivery Notifications
                   children: [
                     AppLiteText(
                       text: 'Delivery Notifications',
@@ -276,12 +307,14 @@ class _SettingsState extends State<Settings> {
                     Spacer(), // Add Spacer to push toggle button to the right
                     CupertinoSwitch(
                       value: _deliveryNotifications,
-                      onChanged: (value) => setState(() => _deliveryNotifications = value),
+                      onChanged: (value) =>
+                          setState(() => _deliveryNotifications = value),
                     ),
                   ],
                 ),
                 SizedBox(height: _screenheight * 0.01), // 1% of screen height
-                Row( // Payment Notifications
+                Row(
+                  // Payment Notifications
                   children: [
                     AppLiteText(
                       text: 'Payment Notifications',
@@ -291,12 +324,14 @@ class _SettingsState extends State<Settings> {
                     Spacer(),
                     CupertinoSwitch(
                       value: _paymentNotifications,
-                      onChanged: (value) => setState(() => _paymentNotifications = value),
+                      onChanged: (value) =>
+                          setState(() => _paymentNotifications = value),
                     ),
                   ],
                 ),
                 SizedBox(height: _screenheight * 0.01), // 1% of screen height
-                Row( // Message Notifications
+                Row(
+                  // Message Notifications
                   children: [
                     AppLiteText(
                       text: 'Message Notifications',
@@ -306,7 +341,8 @@ class _SettingsState extends State<Settings> {
                     Spacer(),
                     CupertinoSwitch(
                       value: _messageNotifications,
-                      onChanged: (value) => setState(() => _messageNotifications = value),
+                      onChanged: (value) =>
+                          setState(() => _messageNotifications = value),
                     ),
                   ],
                 ),
@@ -325,8 +361,6 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
-
-
   }
 
   Widget _privacyBottomSheet() {
@@ -342,7 +376,8 @@ class _SettingsState extends State<Settings> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.175), // 17.5% of screen width
+            padding: EdgeInsets.symmetric(
+                horizontal: _screenwidth * 0.175), // 17.5% of screen width
             child: AppMainText(
               text: 'Are you sure you want to delete your account permanently?',
               fontSize: _screenwidth * 0.045, // 4.5% of screen width
@@ -350,11 +385,72 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           SizedBox(height: _screenheight * 0.03), // 3% of screen height
+// In SettingsScreen.dart
           Center(
             child: CustomButton(
               borderRadius: _screenwidth * 0.03, // 3% of screen width
               text: 'Yes',
-              onPressed: () {},
+              onPressed: () async {
+                final firebaseUser = FirebaseAuth.instance.currentUser;
+                if (firebaseUser != null) {
+                  try {
+                    final customerData =
+                        await _customerApi.getCustomer(firebaseUser.uid);
+                    if (customerData['Role'] == 'Customer') {
+                      final response =
+                          await _customerApi.deleteCustomer(firebaseUser.uid);
+                      if (response.statusCode == 200) {
+                        // Delete the Firebase user
+                        await firebaseUser.delete();
+                        // Handle successful deletion
+                        AppToast().toastMessage("Account deleted successfully");
+                        // Navigate to HomeScreen
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) =>
+                              false, // remove all previous routes
+                        );
+                      } else {
+                        // Handle error
+                        AppToast().toastMessage(
+                            "Error occurred during account deletion",
+                            isError: true);
+                      }
+                    }
+                  } catch (e) {
+                    debugPrint('No customer data found for this user');
+                  }
+
+                  try {
+                    final chefData = await _chefApi.getChef(firebaseUser.uid);
+                    if (chefData['Role'] == 'Chef') {
+                      final response =
+                          await _chefApi.deleteChef(firebaseUser.uid);
+                      if (response.statusCode == 200) {
+                        // Delete the Firebase user
+                        await firebaseUser.delete();
+                        // Handle successful deletion
+                        AppToast().toastMessage("Account deleted successfully");
+                        // Navigate to HomeScreen
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) =>
+                              false, // remove all previous routes
+                        );
+                      } else {
+                        // Handle error
+                        AppToast().toastMessage(
+                            "Error occurred during account deletion",
+                            isError: true);
+                      }
+                    }
+                  } catch (e) {
+                    debugPrint('No chef data found for this user');
+                  }
+                }
+              },
             ),
           ),
           SizedBox(height: _screenheight * 0.02), // 2% of screen height
@@ -362,7 +458,9 @@ class _SettingsState extends State<Settings> {
             child: CustomButton(
               borderRadius: _screenwidth * 0.03, // 3% of screen width
               text: 'No',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context); // Close the bottom sheet
+              },
             ),
           ),
           SizedBox(height: _screenheight * 0.02), // 2% of screen height

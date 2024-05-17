@@ -114,14 +114,13 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin {
               left: 31,
               top: MediaQuery.of(context).size.height * 0.650,
               child: InkWell(
-                onTap: ()
-                {
+                onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen ()),
+                    MaterialPageRoute(
+                        builder: (context) => ChefProfileScreen()),
                   );
                 },
-
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.241,
                   height: MediaQuery.of(context).size.width * 0.241,
@@ -139,8 +138,8 @@ class _MyAppState extends State<Reels> with SingleTickerProviderStateMixin {
                       BoxShadow(
                         color: Color(0x33000000),
                         blurRadius: MediaQuery.of(context).size.width * 0.038,
-                        offset:
-                            Offset(0, MediaQuery.of(context).size.width * 0.008),
+                        offset: Offset(
+                            0, MediaQuery.of(context).size.width * 0.008),
                         spreadRadius: 0,
                       )
                     ],

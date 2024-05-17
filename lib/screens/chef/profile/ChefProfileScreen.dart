@@ -1,111 +1,151 @@
-
+import 'package:chefease/screens/chef/profile/ChefProfileSetup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../api/chef_api.dart';
+import '../../../constants/colors.dart';
+import '../../../widgets/text_styles.dart';
 import '../tabs/ChefMenuTab.dart';
 import '../tabs/ChefPicturesTab.dart';
 import '../tabs/ChefReelsTab.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ChefProfileScreen extends StatefulWidget {
+  ChefProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ChefProfileScreen> createState() => _ChefProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ChefProfileScreenState extends State<ChefProfileScreen> {
+  // Add a variable to store the chef data
+  Map<String, dynamic>? _chefData;
+  @override
+  void initState() {
+    super.initState();
+    _fetchChefData();
+  }
+
+  Future<void> _fetchChefData() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      final chefData = await ChefApi().getChef(firebaseUser.uid);
+      setState(() {
+        _chefData = chefData;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final  height=MediaQuery.sizeOf(context).height*1;
-    final  width=MediaQuery.sizeOf(context).width*1;
-    return  Scaffold(
+    final height = MediaQuery.sizeOf(context).height * 1;
+    final width = MediaQuery.sizeOf(context).width * 1;
+    return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.secondaryColor,
+        title: AppMainText(
+          text: "Chef Profile",
+          color: AppColors.textColor,
+          fontSize: 18,
+        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
+          icon: Icon(Icons.arrow_back_ios_new, color: AppColors.textColor),
           onPressed: () {
-            // Navigate back when the button is pressed
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
         ),
-        title: const Text("Profile"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              // Navigate to ChefProfileSetup.dart..but after navigating..it should clear all the previous routes
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChefProfileSetupScreen()),
+                (route) => false,
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: width * 0.26,
-                height: height* 0.12 ,
-                decoration: ShapeDecoration(
-                  image: const DecorationImage(
-                    image: AssetImage("assets/imgs/reels_pic.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  'Anna',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
+              if (_chefData != null)
+                Container(
+                  width: width * 0.26,
+                  height: height * 0.12,
+                  decoration: ShapeDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(_chefData!['ProfileImageURL']),
+                      fit: BoxFit.cover,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
-              ),
+              if (_chefData != null)
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(
+                    _chefData!['Name'], // Replace 'Anna' with the actual name
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                ),
               Text(
-                '@anna89',
+                '@${_chefData?['Username'] ?? ''}', // Use null safety to prevent errors
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0x6D1E1E1E),
                   fontSize: height * 0.02,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w400,
-
                 ),
               ),
-              SizedBox(height: height * 0.02,),
-              const Row(
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    '4.8',
+                    _chefData?['Rating'].toString() ?? 'N/A',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xCC1E1E1E),
                       fontSize: 16,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w900,
-
                     ),
                   ),
                   Text(
-                    '10 Yrs',
+                    _chefData?['Experience'] ?? 'N/A',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xCC1E1E1E),
                       fontSize: 16,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w900,
-
                     ),
                   ),
                   Text(
-                    '2',
+                    _chefData?['Level'].toString() ?? 'N/A',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xCC1E1E1E),
                       fontSize: 16,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w900,
-
                     ),
                   ),
                 ],
@@ -121,7 +161,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontSize: 12,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
-
                     ),
                   ),
                   Text(
@@ -148,7 +187,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Container(
@@ -156,7 +197,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 45,
                     decoration: ShapeDecoration(
                       color: const Color(0xFFFF6A42),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6)),
                     ),
                     child: const Center(
                       child: Text(
@@ -171,11 +213,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           letterSpacing: -0.12,
                         ),
                       ),
-                    )
-                ),
+                    )),
               ),
-              const SizedBox(height: 20,),
-
+              const SizedBox(
+                height: 20,
+              ),
               const Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
@@ -189,14 +231,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 5,),
-              const Padding(
+              const SizedBox(
+                height: 5,
+              ),
+              Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
-                  'Yorem ipsum dolor sit amet, consectetur adipiscing\n elit. Nunc vulputate libero et velit interdum, ac\n aliquet odio mattis.',
+                  _chefData?['Biography'] ??
+                      'N/A', // Use null safety to prevent errors
                   textAlign: TextAlign.center,
-
-
                   style: TextStyle(
                     color: Color(0x6D1E1E1E),
                     fontSize: 12,
@@ -206,10 +249,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           const DefaultTabController(
             length: 3, // Changed length to 2 since there are 2 tabs
             child: Expanded(
@@ -219,13 +263,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelColor: Color(0xFFFF6A42),
                     indicatorColor: Color(0xFFFF6A42),
                     tabs: [
-                      Tab( icon: Icon(Icons.grid_view_outlined),),
-                      Tab( icon: Icon(Icons.menu_outlined),),
-                      Tab( icon: Icon(Icons.video_collection_outlined),),
-
+                      Tab(
+                        icon: Icon(Icons.grid_view_outlined),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.menu_outlined),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.video_collection_outlined),
+                      ),
                     ],
                   ),
-
                   Expanded(
                     child: TabBarView(
                       children: [
@@ -239,7 +287,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-
         ],
       ),
     );

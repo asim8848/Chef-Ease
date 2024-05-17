@@ -2,7 +2,8 @@ import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/screens/HomeScreen.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
-
+//importing userrolrescreen
+import 'package:chefease/UserRoleCheckScreen.dart';
 import '../constants/colors.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
+              MaterialPageRoute(builder: (context) => RoleCheckScreen()),
             );
           },
           style: TextButton.styleFrom(

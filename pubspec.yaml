@@ -54,6 +54,7 @@ dependencies:
   google_maps_flutter: ^2.5.0
   image_picker: ^1.1.1
   http: ^1.2.1
+  video_thumbnail: ^0.5.3
 
 
 dev_dependencies:

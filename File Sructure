@@ -2,6 +2,12 @@
 ├── lib/
 │   ├── main.dart
 │   ├── firebase_options.dart
+│   ├── api/  (This is where you will put all your API related classes)
+│   │   ├── chef_api.dart
+│   │   ├── customer_api.dart
+│   │   ├── reels_api.dart
+│   │   ├── reviews_api.dart
+│   │   ├── recipes_api.dart
 │   ├── screens/
 │   │   ├── HomeScreen.dart
 │   │   ├── OnBoardingScreen.dart

@@ -1,5 +1,5 @@
 import 'package:chefease/screens/customer/food_order/FoodCategoryScreen.dart';
-import 'package:chefease/widgets/drawer/UserDrawer.dart';
+import 'package:chefease/widgets/drawer/CustomerDrawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -49,7 +49,7 @@ class _homeOrderState extends State<homeOrder> {
         childDecoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
-        drawer: DrawerContent(),
+        drawer: CustomerDrawerContent(),
         child: Scaffold(
             appBar: AppBar(
               centerTitle: false,
@@ -140,13 +140,13 @@ class _homeOrderState extends State<homeOrder> {
                         AppMainText(
                           text: 'Popular Food',
                           fontSize: 20,
-                          color:AppColors.textColor,
+                          color: AppColors.textColor,
                           fontWeight: FontWeight.w600,
                         ),
                       ],
                     ),
                   ),
-                SizedBox(height: _screenheight * 0.02),
+                  SizedBox(height: _screenheight * 0.02),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: GridView.count(
@@ -162,7 +162,8 @@ class _homeOrderState extends State<homeOrder> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => PizzaCategory()),
+                              MaterialPageRoute(
+                                  builder: (context) => PizzaCategory()),
                             );
                           },
                           title: 'Pizza',
@@ -205,15 +206,15 @@ class _homeOrderState extends State<homeOrder> {
                       ],
                     ),
                   ),
-                SizedBox(height: _screenheight * 0.02),
+                  SizedBox(height: _screenheight * 0.02),
                   const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.only(left: 20, top: 10),
-                        child:  AppMainText(
+                        child: AppMainText(
                           text: 'Top Chefs',
                           fontSize: 20,
-                          color:AppColors.textColor,
+                          color: AppColors.textColor,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -234,17 +235,19 @@ class _homeOrderState extends State<homeOrder> {
                     child: Row(
                       children: List.generate(
                         8,
-                            (index) => Container(
+                        (index) => Container(
                           width: 120,
                           child: Column(
-                            mainAxisSize: MainAxisSize.min, // Restrict maximum size
+                            mainAxisSize:
+                                MainAxisSize.min, // Restrict maximum size
                             children: [
                               Container(
                                 width: 120,
                                 height: 125,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/imgs/person${index % 4 + 1}.png"),
+                                    image: AssetImage(
+                                        "assets/imgs/person${index % 4 + 1}.png"),
                                     fit: BoxFit.fill,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
@@ -263,11 +266,6 @@ class _homeOrderState extends State<homeOrder> {
                       ),
                     ),
                   ),
-
-
-
-
-
                 ],
               ),
             )));
@@ -286,7 +284,8 @@ class _homeOrderState extends State<homeOrder> {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: _screenwidth * 0.075, top: _screenheight * 0.04),
+            padding: EdgeInsets.only(
+                left: _screenwidth * 0.075, top: _screenheight * 0.04),
             child: Text(
               title,
               style: const TextStyle(
@@ -373,15 +372,14 @@ class _homeOrderState extends State<homeOrder> {
       ),
     );
   }
-  Widget foodItem({
 
+  Widget foodItem({
     required BuildContext context,
     required String image,
     required String title,
     VoidCallback? onTap,
   }) {
     return GestureDetector(
-
       onTap: onTap,
       child: Column(
         children: [
@@ -396,7 +394,11 @@ class _homeOrderState extends State<homeOrder> {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          AppLiteText(text: title,fontSize: 12,fontWeight: FontWeight.w600,),
+          AppLiteText(
+            text: title,
+            fontSize: 13, // Choose the fontSize you want to keep
+            fontWeight: FontWeight.w600,
+          ),
         ],
       ),
     );
