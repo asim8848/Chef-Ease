@@ -85,6 +85,7 @@ class _AddMealState extends State<AddMeal> {
             AppTextFormField(
               controller: _titleController,
               hintText: 'Title',
+              keyboardType: TextInputType.text,
               fontSize: _screenwidth * 0.030,
             ),
             SizedBox(height: _screenheight * 0.015),
@@ -111,6 +112,7 @@ class _AddMealState extends State<AddMeal> {
             AppTextFormField(
               controller: _ingredientsController,
               hintText: 'Add Ingredients',
+              keyboardType: TextInputType.text,
               maxLines: 6,
               fontSize: _screenwidth * 0.030,
             ),
@@ -124,6 +126,7 @@ class _AddMealState extends State<AddMeal> {
             AppTextFormField(
               controller: _sizeController,
               hintText: 'Size',
+              keyboardType: TextInputType.text,
               fontSize: _screenwidth * 0.030,
             ),
             SizedBox(height: _screenheight * 0.015),
@@ -136,6 +139,7 @@ class _AddMealState extends State<AddMeal> {
             AppTextFormField(
               controller: _priceController,
               hintText: 'Price',
+              keyboardType: TextInputType.number,
               fontSize: _screenwidth * 0.030,
             ),
             SizedBox(height: _screenheight * 0.015),
@@ -149,6 +153,7 @@ class _AddMealState extends State<AddMeal> {
               controller: _variationsController,
               hintText: 'Variations',
               fontSize: _screenwidth * 0.030,
+              keyboardType: TextInputType.text,
             ),
             SizedBox(height: _screenheight * 0.030),
             // Continue Button
