@@ -1,6 +1,8 @@
 // ChefAddMenuBottomSheet.dart
 
 import 'package:chefease/screens/chef/Chef_add_menu/AddMealScreen.dart';
+import 'package:chefease/widgets/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chefease/constants/colors.dart';
 import '../../../constants/responsive.dart';
@@ -18,10 +20,17 @@ class AddBottomSheet extends StatelessWidget {
           child: _buildCustomButton(
             icon: Icons.add,
             text: 'Add Meal',
-            onPressed: () {
-              // Action for adding a meal
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddMeal()));
+            onPressed: () async {
+              // Check if user is logged in
+              if (FirebaseAuth.instance.currentUser == null) {
+                // User is not logged in, show toast
+                AppToast().toastMessage('Please log in to add a meal.',
+                    isError: true);
+              } else {
+                // User is logged in, navigate to AddMeal screen
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddMeal()));
+              }
             },
             context: context,
           ),
@@ -33,13 +42,23 @@ class AddBottomSheet extends StatelessWidget {
           child: _buildCustomButton(
             icon: Icons.file_upload_outlined,
             text: 'Upload Reel',
-            onPressed: () {
-              // Action for uploading reels
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddPhotoVideo()));
+            onPressed: () async {
+              // Check if user is logged in
+              if (FirebaseAuth.instance.currentUser == null) {
+                // User is not logged in, show toast
+                AppToast().toastMessage('Please log in to upload a reel.',
+                    isError: true);
+              } else {
+                // User is logged in, navigate to AddPhotoVideo screen
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddPhotoVideo()));
+              }
             },
             context: context,
           ),
+        ),
+        SizedBox(
+          height: 10.0,
         ),
       ],
     );

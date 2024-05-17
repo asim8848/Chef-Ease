@@ -122,8 +122,7 @@ class _DrawerContentState extends State<ChefDrawerContent> {
                 // Navigate to profile screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => ChefProfileSetupScreen()),
+                  MaterialPageRoute(builder: (context) => ChefProfileScreen()),
                 );
               },
               // View Profile button
