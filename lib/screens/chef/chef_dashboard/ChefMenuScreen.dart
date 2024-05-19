@@ -1,11 +1,9 @@
 import 'package:chefease/constants/colors.dart';
-import 'package:chefease/screens/chef/Chef_add_menu/UpdateMealScreen.dart';
-import 'package:chefease/widgets/drawer/CustomerDrawer.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
 import '../../../constants/responsive.dart';
+import '../chef_add_menu/AddRecipeScreen.dart';
 
 class ChefMenu extends StatefulWidget {
   const ChefMenu({super.key});
@@ -133,7 +131,7 @@ class _ChefMenuState extends State<ChefMenu> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UpdateMeal()));
+                                  builder: (context) => AddRecipeScreen()));
                         },
                       ),
                     ),
