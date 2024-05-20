@@ -1,3 +1,4 @@
+// path of this file: lib/screens/customer/food_order/KitchenDetailsScreen.dart
 import 'package:flutter/material.dart';
 
 import '../../../TabBarScreens/Screen1.dart';
@@ -20,12 +21,13 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     return MaterialApp(
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(_screenheight * 0.3), // Adjusted height
+          preferredSize:
+              Size.fromHeight(_screenheight * 0.3), // Adjusted height
           child: Stack(
             children: [
               Container(
                 width: double.infinity,
-                height:double.infinity, // Adjusted height
+                height: double.infinity, // Adjusted height
                 child: Image.asset(
                   "assets/imgs/pizzamenu.png",
                   fit: BoxFit.cover,

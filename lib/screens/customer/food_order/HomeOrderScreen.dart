@@ -1,4 +1,7 @@
+// path of this file: lib/screens/customer/food_order/HomeOrderScreen.dart
+
 import 'package:chefease/screens/customer/food_order/FoodCategoryScreen.dart';
+
 import 'package:chefease/widgets/drawer/CustomerDrawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

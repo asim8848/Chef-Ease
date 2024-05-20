@@ -1,3 +1,5 @@
+// path to main file: lib/main.dart
+
 import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/screens/OnBoardingScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -5,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'constants/colors.dart';
 import 'firebase_options.dart';
-//Sameer
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = 'pk_test_51PHlpsRoEY9PrFzvJqqpHYr1dXspzxgGgGZkkGoW4BPw0o7idI3126GSqX05NgeXlbhSIUF7TnNGQPEbR0fj2kSi00SVeL5G2g';
+  Stripe.publishableKey =
+      'pk_test_51PHlpsRoEY9PrFzvJqqpHYr1dXspzxgGgGZkkGoW4BPw0o7idI3126GSqX05NgeXlbhSIUF7TnNGQPEbR0fj2kSi00SVeL5G2g';
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

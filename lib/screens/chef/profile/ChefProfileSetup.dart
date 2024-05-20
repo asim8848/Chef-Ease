@@ -1,3 +1,4 @@
+//path to this file: lib/screens/chef/profile/ChefProfileSetup.dart
 import 'package:chefease/screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 import 'package:chefease/screens/chef/profile/ChefProfileScreen.dart';
 import 'package:chefease/widgets/text_styles.dart';

@@ -1,4 +1,5 @@
-//chef_api.dart
+//path to this file: lib/api/chef_api.dart
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -8,7 +9,7 @@ class ChefApi {
 
   Future<Map<String, dynamic>> getChef(String firebaseId) async {
     final response =
-    await http.get(Uri.parse('$_baseUrl/firebase/$firebaseId'));
+        await http.get(Uri.parse('$_baseUrl/firebase/$firebaseId'));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -62,6 +63,7 @@ class ChefApi {
     );
     return response;
   }
+
   Future<List<Map<String, dynamic>>> getAllChefs() async {
     final response = await http.get(Uri.parse('$_baseUrl'));
 

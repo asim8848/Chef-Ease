@@ -1,3 +1,5 @@
+// path to this file: lib/api/recipe_api.dart
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:io';
@@ -40,9 +42,9 @@ class RecipeApi {
     }
   }
 
-  Future<Map<String, dynamic>> getRecipeByFirebaseId(String firebaseId) async {
+  Future<Map<String, dynamic>> getRecipeByRecipeId(String recipeId) async {
     final response =
-        await http.get(Uri.parse('$_baseUrl/recipe/firebase/$firebaseId'));
+        await http.get(Uri.parse('$_baseUrl/recipe/firebase/$recipeId'));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -64,18 +66,18 @@ class RecipeApi {
   }
 
   Future<Map<String, dynamic>> updateRecipe(
-      String firebaseId, Map<String, String> body) async {
+      String recipeId, Map<String, String> body) async {
     var response = await http.patch(
-      Uri.parse('$_baseUrl/recipe/firebase/$firebaseId'),
+      Uri.parse('$_baseUrl/recipe/firebase/$recipeId'),
       body: json.encode(body),
       headers: {"Content-Type": "application/json"},
     );
     return jsonDecode(response.body);
   }
 
-  Future<void> deleteRecipe(String firebaseId) async {
+  Future<void> deleteRecipe(String recipeId) async {
     final response =
-        await http.delete(Uri.parse('$_baseUrl/recipe/firebase/$firebaseId'));
+        await http.delete(Uri.parse('$_baseUrl/recipe/firebase/$recipeId'));
 
     if (response.statusCode != 200) {
       throw Exception(

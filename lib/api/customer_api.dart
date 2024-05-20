@@ -1,3 +1,4 @@
+//path to this file: lib/api/customer_api.dart
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -47,6 +48,7 @@ class CustomerApi {
     );
     return response;
   }
+
   Future<List<Map<String, dynamic>>> getAllCustomers() async {
     final response = await http.get(Uri.parse('$_baseUrl'));
 
@@ -62,5 +64,4 @@ class CustomerApi {
           'Failed to fetch all customers data. Status code: ${response.statusCode}');
     }
   }
-
 }
