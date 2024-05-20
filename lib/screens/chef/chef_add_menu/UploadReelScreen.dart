@@ -15,14 +15,14 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../widgets/toast.dart';
 
-class AddPhotoVideo extends StatefulWidget {
-  const AddPhotoVideo({super.key});
+class UploadReelScreen extends StatefulWidget {
+  const UploadReelScreen({super.key});
 
   @override
-  State<AddPhotoVideo> createState() => _AddPhotoVideoState();
+  State<UploadReelScreen> createState() => _UploadReelScreenState();
 }
 
-class _AddPhotoVideoState extends State<AddPhotoVideo> {
+class _UploadReelScreenState extends State<UploadReelScreen> {
   final _reelApi = ReelApi();
   File? _video;
   File? _videoThumbnail;

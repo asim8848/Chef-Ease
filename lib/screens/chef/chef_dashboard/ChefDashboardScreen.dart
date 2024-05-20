@@ -105,7 +105,7 @@ class _ChefDashboardScreenState extends State<ChefDashboardScreen> {
               case 1:
                 return ChefMenu();
               case 2:
-                return AddBottomSheet();
+                return ChefAddScreen();
 
               case 3:
                 return ChefOrder();

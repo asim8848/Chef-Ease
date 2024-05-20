@@ -1,14 +1,14 @@
 // ChefAddMenuBottomSheet.dart
 
-import 'package:chefease/screens/chef/Chef_add_menu/AddMealScreen.dart';
 import 'package:chefease/widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chefease/constants/colors.dart';
 import '../../../constants/responsive.dart';
-import 'AddPhotoVideoScreen.dart';
+import 'AddRecipeScreen.dart';
+import 'UploadReelScreen.dart';
 
-class AddBottomSheet extends StatelessWidget {
+class ChefAddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,7 +29,7 @@ class AddBottomSheet extends StatelessWidget {
               } else {
                 // User is logged in, navigate to AddMeal screen
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddMeal()));
+                    MaterialPageRoute(builder: (context) => AddRecipeScreen()));
               }
             },
             context: context,
@@ -50,8 +50,10 @@ class AddBottomSheet extends StatelessWidget {
                     isError: true);
               } else {
                 // User is logged in, navigate to AddPhotoVideo screen
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddPhotoVideo()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UploadReelScreen()));
               }
             },
             context: context,
