@@ -1,261 +1,194 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:chefease/constants/colors.dart';
+import '../../../constants/colors.dart';
 
 class UserChat extends StatefulWidget {
-  const UserChat({Key? key}) : super(key: key);
+  final String chatRoomId;
+  final Map<String, dynamic> companionData;
+  final String companionName;
+  final String companionImageUrl;
+
+  const UserChat({
+    Key? key,
+    required this.chatRoomId,
+    required this.companionData,
+    required this.companionName,
+    required this.companionImageUrl,
+  }) : super(key: key);
 
   @override
-  State<UserChat> createState() => _UserChatState();
+  _UserChatState createState() => _UserChatState();
 }
 
 class _UserChatState extends State<UserChat> {
   final TextEditingController _textController = TextEditingController();
-
-  List<ChatMessage> _messages = [];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    // Initialize some old messages
-    _messages.addAll([
-      ChatMessage(
-          text: 'Hi, Anna! How’s your business ?',
-          isSentByMe: false,
-          time: DateTime.now()),
-      ChatMessage(
-        text: 'Its Awesome..',
-        isSentByMe: true,
-        time: DateTime.now(),
-      ),
-      ChatMessage(
-          text: 'I am looking for someone to make italian pizza',
-          isSentByMe: false,
-          time: DateTime.now()),
-      ChatMessage(
-        text: 'Sure  i can make ',
-        isSentByMe: true,
-        time: DateTime.now(),
-      ),
-      ChatMessage(
-          text: 'How much do you charge?',
-          isSentByMe: false,
-          time: DateTime.now()),
-      ChatMessage(
-          text: 'I am looking for someone to make italian pizza',
-          isSentByMe: false,
-          time: DateTime.now()),
-      ChatMessage(
-        text: 'Sure  i can make ',
-        isSentByMe: true,
-        time: DateTime.now(),
-      ),
-      ChatMessage(
-          text: 'How much do you charge?',
-          isSentByMe: false,
-          time: DateTime.now()),
-      ChatMessage(
-          text: 'Its upto 500PKR?',
-          isSentByMe: false,
-          time: DateTime.now()),
-    ]);
+    _markMessagesAsRead();
   }
 
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    ChatMessage message = ChatMessage(
-      text: text,
-      isSentByMe: true, // Messages sent by the current user
-      time: DateTime.now(),
-    );
-    setState(() {
-      _messages.insert(0, message);
+  void _markMessagesAsRead() {
+    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    _firestore.collection('chats').doc(widget.chatRoomId).update({
+      'unreadMessages.$currentUserId': 0,
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.secondaryColor,
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_outlined, color: AppColors.secondaryColor),  // Custom icon and color
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // Assuming you have defined this color in your constants
         title: Row(
           children: [
             CircleAvatar(
-              radius: 16,
-              backgroundImage: AssetImage(
-                  'assets/imgs/person1circle.png'), // Add your image here
+              radius: 20,
+              backgroundImage: NetworkImage(widget.companionImageUrl),
             ),
-            SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'John Doe', // Add your name here
-                  style: TextStyle(fontSize: 16),
-                ),
-                Text(
-                  'Online', // Add your status here
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.companionName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.secondaryColor)),
+                ],
+              ),
             ),
           ],
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {
-              // Add your action here
-            },
+            icon: Icon(Icons.more_vert,color: AppColors.secondaryColor,),
+            onPressed: () {},
           ),
         ],
       ),
       body: Column(
-        children: [
-          if (_messages.isNotEmpty) _buildDateHeader(_messages.first.time),
+        children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              reverse: true,
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                return _messages[index];
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _firestore
+                  .collection('chats')
+                  .doc(widget.chatRoomId)
+                  .collection('messages')
+                  .orderBy('time', descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(child: CircularProgressIndicator());
+
+                var messages = snapshot.data!.docs;
+                return ListView.builder(
+                  reverse: true,
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    var message = messages[index].data() as Map<String, dynamic>;
+                    bool isSentByMe =
+                        message['sender'] == FirebaseAuth.instance.currentUser?.uid;
+
+                    DateTime messageTime =
+                        (message['time'] as Timestamp?)?.toDate() ?? DateTime.now();
+                    bool isNewMessage = messageTime.difference(DateTime.now()).inDays == 0;
+
+                    return ListTile(
+                      title: Align(
+                        alignment: isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: isSentByMe ? AppColors.primaryColor : Colors.grey[200],
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(message['text'], style: TextStyle(color: isSentByMe ? Colors.white : Colors.black)),
+                        ),
+                      ),
+                      subtitle: Align(
+                        alignment: isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
+                        child: Text(DateFormat('hh:mm a').format(messageTime), style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ),
-          Divider(height: 1.0),
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: _buildTextComposer(),
+          Divider(height: 1),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 25),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child:  _buildTextComposer(),
+                ),
+
+              ],
+            ),
           ),
         ],
       ),
     );
   }
-
   Widget _buildTextComposer() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 20, right: 10, left: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                decoration: InputDecoration(
-                  hintText: 'Type a message',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide(color: AppColors.primaryColor),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
-                ),
-              ),
-            ),
-            SizedBox(width: 8),
-             Material(
-                borderRadius: BorderRadius.circular(30.0),
-                color: AppColors.primaryColor,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(30.0),
-                  onTap: () => _handleSubmitted(_textController.text),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Icon(Icons.send, color: Colors.white),
-                  ),
-                ),
-              ),
-
-          ],
-        ),
-      ),
-    );
-  }
-
-
-  Widget _buildDateHeader(DateTime date) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      child: Center(
-        child: Text(
-          _formatDate(date),
-          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
-        ),
-      ),
-    );
-  }
-
-  String _formatDate(DateTime dateTime) {
-    String day = dateTime.day.toString().padLeft(2, '0');
-    String month = dateTime.month.toString().padLeft(2, '0');
-    String year = dateTime.year.toString();
-    return '$day/$month/$year';
-  }
-}
-
-class ChatMessage extends StatelessWidget {
-  final String text;
-  final bool isSentByMe;
-  final DateTime time;
-
-  const ChatMessage({
-    Key? key,
-    required this.text,
-    required this.isSentByMe,
-    required this.time,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    String _formatTime(DateTime dateTime) {
-      String hour = DateFormat('h').format(dateTime);
-      String minute = DateFormat('mm').format(dateTime);
-      String amPm = DateFormat('a').format(dateTime).toUpperCase();
-      return '$hour:$minute $amPm';
-    }
-
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment:
-        isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      child: Row(
         children: [
-          Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-              color: isSentByMe ? AppColors.primaryColor : Color(0xFFF8F8F8),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(isSentByMe ? 0 : 10.0),
-                topRight: Radius.circular(isSentByMe ? 10.0 : 0),
-                bottomRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0),
+          Expanded(
+            child: TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                hintText: 'Send a message...',
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
               ),
-            ),
-            child: Text(
-              text,
-              style: TextStyle(
-                  color: isSentByMe ? Colors.white : Colors.black,
-                  fontSize: 16.0),
             ),
           ),
-          SizedBox(height: 4.0),
-          Container(
-            alignment:
-            isSentByMe ? Alignment.bottomRight : Alignment.bottomLeft,
-            child: Text(
-              _formatTime(time),
-              style: TextStyle(color: Colors.grey, fontSize: 12.0),
+          SizedBox(width: 8),
+          CircleAvatar(
+            backgroundColor: AppColors.primaryColor,
+            child: IconButton(
+              icon: Icon(Icons.send, color: Colors.white),
+              onPressed: _sendMessage,
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _sendMessage() async {
+    if (_textController.text.isNotEmpty) {
+      var message = {
+        'text': _textController.text,
+        'sender': FirebaseAuth.instance.currentUser!.uid,
+        'time': FieldValue.serverTimestamp(),
+      };
+
+      // Add the message to the 'messages' collection
+      _firestore.collection('chats').doc(widget.chatRoomId).collection('messages').add(message);
+
+      // Update the last message text in the chat room document
+      _firestore.collection('chats').doc(widget.chatRoomId).update({
+        'lastMessage': _textController.text,
+        'lastMessageTime': FieldValue.serverTimestamp(),
+        'unreadMessages.${widget.companionData['uid']}': FieldValue.increment(1),
+      });
+
+      _textController.clear();
+    }
   }
 }

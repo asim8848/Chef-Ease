@@ -87,28 +87,17 @@ class _MenuState extends State<Menu> {
                                 fontWeight: FontWeight.w600,
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: _screenwidth * 0.04), // Adjusted padding
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.share,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                      onPressed: () {
-                                        // Add your share functionality here
-                                      },
-                                    ),
-                                  ),
                                   IconButton(
-                                    icon: Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: AppColors.primaryColor,
-                                    ),
+                                    icon: const Icon(Icons.share,
+                                        color: AppColors.primaryColor),
                                     onPressed: () {
-                                      // Add your favorite functionality here
+                                      // Add your share functionality here
                                     },
                                   ),
+                                  Icon(Icons.favorite,
+                                      color: AppColors.primaryColor),
                                 ],
                               ),
                             ],
@@ -189,30 +178,23 @@ class _MenuState extends State<Menu> {
                             ),
                           ],
                         ),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: _screenwidth * 0.115, // Adjusted width
-                              height: _screenwidth * 0.120, // Adjusted height
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
+                        Container(
+                          width: _screenwidth * 0.102, // Adjusted width
+                          height: _screenwidth * 0.102, // Adjusted height
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xFFFF6A42),
+                                size: _screenwidth * 0.070, // Adjusted icon size
                               ),
+                              onPressed: () {},
                             ),
-                            Positioned(
-                              top: _screenwidth * 0.0100, // Adjusted position
-                              left: _screenwidth * 0.0120, // Adjusted position
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFFFF6A42),
-                                  size: _screenwidth * 0.070, // Adjusted icon size
-                                ),
-                                onPressed: () {},
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),

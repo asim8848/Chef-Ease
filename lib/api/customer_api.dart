@@ -47,4 +47,20 @@ class CustomerApi {
     );
     return response;
   }
+  Future<List<Map<String, dynamic>>> getAllCustomers() async {
+    final response = await http.get(Uri.parse('$_baseUrl'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> customerList = jsonDecode(response.body);
+      List<Map<String, dynamic>> customers = [];
+      for (var customer in customerList) {
+        customers.add(customer as Map<String, dynamic>);
+      }
+      return customers;
+    } else {
+      throw Exception(
+          'Failed to fetch all customers data. Status code: ${response.statusCode}');
+    }
+  }
+
 }

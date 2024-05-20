@@ -43,14 +43,14 @@ class PizzaCategory extends StatelessWidget {
             },
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: Responsive.screenWidth(context) * 0.02,
+                horizontal: Responsive.screenWidth(context) * 0.03,
                 vertical: Responsive.screenHeight(context) * 0.01,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    height: Responsive.screenHeight(context) * 0.25,
+                    height: Responsive.screenHeight(context) * 0.22,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(pizzaImages[index]),
@@ -83,7 +83,7 @@ class PizzaCategory extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          top: Responsive.screenHeight(context) * 0.165,
+                          top: Responsive.screenHeight(context) * 0.180,
                           right: Responsive.screenWidth(context) * 0.05,
                           child: Container(
                             width: Responsive.screenWidth(context) * 0.25,

@@ -121,6 +121,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                       ),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
                           icon: const Icon(Icons.share,
