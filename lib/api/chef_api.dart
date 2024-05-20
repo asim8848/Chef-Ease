@@ -8,7 +8,7 @@ class ChefApi {
 
   Future<Map<String, dynamic>> getChef(String firebaseId) async {
     final response =
-        await http.get(Uri.parse('$_baseUrl/firebase/$firebaseId'));
+    await http.get(Uri.parse('$_baseUrl/firebase/$firebaseId'));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -61,5 +61,20 @@ class ChefApi {
       Uri.parse('$_baseUrl/firebase/$firebaseId'),
     );
     return response;
+  }
+  Future<List<Map<String, dynamic>>> getAllChefs() async {
+    final response = await http.get(Uri.parse('$_baseUrl'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> chefList = jsonDecode(response.body);
+      List<Map<String, dynamic>> chefs = [];
+      for (var chef in chefList) {
+        chefs.add(chef as Map<String, dynamic>);
+      }
+      return chefs;
+    } else {
+      throw Exception(
+          'Failed to fetch all chefs data. Status code: ${response.statusCode}');
+    }
   }
 }
