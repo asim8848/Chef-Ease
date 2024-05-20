@@ -52,6 +52,17 @@ class RecipeApi {
     }
   }
 
+  Future<List<dynamic>> getChefRecipes(String chefId) async {
+    final response = await http.get(Uri.parse('$_baseUrl/recipe/chef/$chefId'));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception(
+          'Failed to fetch chef recipes. Status code: ${response.statusCode}');
+    }
+  }
+
   Future<Map<String, dynamic>> updateRecipe(
       String firebaseId, Map<String, String> body) async {
     var response = await http.patch(

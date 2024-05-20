@@ -1,4 +1,6 @@
+import 'package:chefease/screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 import 'package:chefease/screens/chef/profile/ChefProfileSetup.dart';
+import 'package:chefease/widgets/buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,15 +12,17 @@ import '../tabs/ChefPicturesTab.dart';
 import '../tabs/ChefReelsTab.dart';
 
 class ChefProfileScreen extends StatefulWidget {
-  ChefProfileScreen({Key? key}) : super(key: key);
+  final String chefId;
+
+  ChefProfileScreen({Key? key, required this.chefId}) : super(key: key);
 
   @override
   State<ChefProfileScreen> createState() => _ChefProfileScreenState();
 }
 
 class _ChefProfileScreenState extends State<ChefProfileScreen> {
-  // Add a variable to store the chef data
   Map<String, dynamic>? _chefData;
+
   @override
   void initState() {
     super.initState();
@@ -26,13 +30,10 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
   }
 
   Future<void> _fetchChefData() async {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null) {
-      final chefData = await ChefApi().getChef(firebaseUser.uid);
-      setState(() {
-        _chefData = chefData;
-      });
-    }
+    final chefData = await ChefApi().getChef(widget.chefId);
+    setState(() {
+      _chefData = chefData;
+    });
   }
 
   @override
@@ -50,7 +51,11 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: AppColors.textColor),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => ChefDashboardScreen()),
+              (route) => false,
+            );
           },
         ),
         actions: [
@@ -190,31 +195,14 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Container(
-                    width: 140,
-                    height: 45,
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFFF6A42),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Message',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          height: 0.11,
-                          letterSpacing: -0.12,
-                        ),
-                      ),
-                    )),
-              ),
+              if (FirebaseAuth.instance.currentUser!.uid != widget.chefId)
+                CustomButton(
+                  text: 'Message',
+                  width: 0.5,
+                  onPressed: () {
+                    // Add code to message the chef
+                  },
+                ),
               const SizedBox(
                 height: 20,
               ),
@@ -254,7 +242,7 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
           const SizedBox(
             height: 10,
           ),
-          const DefaultTabController(
+          DefaultTabController(
             length: 3, // Changed length to 2 since there are 2 tabs
             child: Expanded(
               child: Column(
@@ -278,7 +266,10 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
                     child: TabBarView(
                       children: [
                         UserPictures(),
-                        UserProfileMenu(),
+                        _chefData != null
+                            ? UserProfileMenu(
+                                chefId: _chefData!['ChefFirebaseID'])
+                            : Container(), // Show an empty container if _chefData is null
                         UserVideo(),
                       ],
                     ),

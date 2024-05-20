@@ -119,6 +119,28 @@ class _DrawerContentState extends State<ChefDrawerContent> {
             ),
             GestureDetector(
               onTap: () {
+                if (_auth.currentUser == null) {
+                  AppToast().toastMessage('Please login to view profile.',
+                      isError: true);
+                  _showSignupLoginModal();
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChefProfileScreen(chefId: _auth.currentUser!.uid),
+                    ),
+                  );
+                }
+              },
+              child: AppLiteText(
+                text: 'View Profile',
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            /* GestureDetector(
+              onTap: () {
                 // Navigate to profile screen
                 Navigator.push(
                   context,
@@ -131,7 +153,7 @@ class _DrawerContentState extends State<ChefDrawerContent> {
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            ),*/
             //
             Divider(
               height: 20,
@@ -628,6 +650,10 @@ class _DrawerContentState extends State<ChefDrawerContent> {
 
       _emailController.clear();
       _passwordController.clear();
+
+      // User logged in successfully, update user data
+      _checkUserLoginStatus();
+
       // Close the modal
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
