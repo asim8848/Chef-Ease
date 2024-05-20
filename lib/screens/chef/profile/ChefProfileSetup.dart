@@ -1,3 +1,4 @@
+//path to this file: lib/screens/chef/profile/ChefProfileSetup.dart
 import 'package:chefease/screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 import 'package:chefease/screens/chef/profile/ChefProfileScreen.dart';
 import 'package:chefease/widgets/text_styles.dart';
@@ -51,7 +52,10 @@ class _ChefProfileSetupScreenState extends State<ChefProfileSetupScreen> {
                 icon: Icon(Icons.arrow_back_ios_new,
                     color: AppColors.secondaryColor),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  final firebaseUser = FirebaseAuth.instance.currentUser!.uid;
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ChefProfileScreen(chefId: firebaseUser);
+                  }));
                 },
               ),
         actions: [

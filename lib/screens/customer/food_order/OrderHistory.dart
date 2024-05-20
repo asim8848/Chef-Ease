@@ -1,3 +1,4 @@
+// path of this file: lib/screens/customer/food_order/OrderHistory.dart
 import 'package:flutter/material.dart';
 
 import '../../../constants/responsive.dart';
@@ -14,36 +15,40 @@ class _OrderHistoryState extends State<OrderHistory> {
   final List<FoodItem> foodItems = [
     FoodItem(
       imageUrl:
-      "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       name: "Peperoni Special Pizza",
-      chefImage: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      chefImage:
+          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       chefName: "Anna’s Kitchen",
       date: "20-04-2024", // Changed from price to date
       price: "Price: \$15.00", // Added price
     ),
     FoodItem(
       imageUrl:
-      "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       name: "Peperoni Special Pizza",
-      chefImage: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      chefImage:
+          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       chefName: "Anna’s Kitchen",
       date: "20-04-2024", // Changed from price to date
       price: "Price: \$15.00", // Added price
     ),
     FoodItem(
       imageUrl:
-      "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       name: "Peperoni Special Pizza",
-      chefImage: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      chefImage:
+          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       chefName: "Anna’s Kitchen",
       date: "20-04-2024", // Changed from price to date
       price: "Price: \$15.00", // Added price
     ),
     FoodItem(
       imageUrl:
-      "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       name: "Peperoni Special Pizza",
-      chefImage: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      chefImage:
+          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       chefName: "Anna’s Kitchen",
       date: "20-04-2024", // Changed from price to date
       price: "Price: \$15.00", // Added price
@@ -53,7 +58,6 @@ class _OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
-
     return ListView.builder(
       itemCount: foodItems.length,
       itemBuilder: (context, index) {
@@ -110,13 +114,17 @@ class FoodItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double _screenheight = Responsive.screenHeight(context);
     double _screenwidth = Responsive.screenWidth(context);
-    return  Container(
+    return Container(
       width: _screenwidth * 0.8875, // 88.75% of screen width
       height: _screenheight * 0.2375, // 23.75% of screen height
-      margin: EdgeInsets.symmetric(vertical: _screenheight * 0.00625, horizontal: _screenwidth * 0.05), // 0.625% of screen height and 5% of screen width
+      margin: EdgeInsets.symmetric(
+          vertical: _screenheight * 0.00625,
+          horizontal: _screenwidth *
+              0.05), // 0.625% of screen height and 5% of screen width
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(_screenwidth * 0.0225), // 2.25% of screen width
+        borderRadius: BorderRadius.circular(
+            _screenwidth * 0.0225), // 2.25% of screen width
         boxShadow: [
           BoxShadow(
             color: Color(0x26000000),
@@ -132,7 +140,8 @@ class FoodItemCard extends StatelessWidget {
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: _screenwidth * 0.05), // 5% of screen width
+                padding: EdgeInsets.only(
+                    left: _screenwidth * 0.05), // 5% of screen width
                 child: Container(
                   width: _screenwidth * 0.25, // 25% of screen width
                   height: _screenheight * 0.13125, // 13.125% of screen height
@@ -141,7 +150,8 @@ class FoodItemCard extends StatelessWidget {
                       image: NetworkImage(imageUrl),
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: BorderRadius.circular(_screenwidth * 0.0225), // 2.25% of screen width
+                    borderRadius: BorderRadius.circular(
+                        _screenwidth * 0.0225), // 2.25% of screen width
                   ),
                 ),
               ),
@@ -152,7 +162,9 @@ class FoodItemCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: _screenheight * 0.0125), // 1.25% of screen height
+                      padding: EdgeInsets.only(
+                          top:
+                              _screenheight * 0.0125), // 1.25% of screen height
                       child: Text(
                         name,
                         style: TextStyle(
@@ -163,14 +175,18 @@ class FoodItemCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: _screenheight * 0.0125), // 1.25% of screen height
+                    SizedBox(
+                        height:
+                            _screenheight * 0.0125), // 1.25% of screen height
                     Row(
                       children: [
                         CircleAvatar(
                           backgroundImage: NetworkImage(chefImage),
                           radius: _screenwidth * 0.03, // 3% of screen width
                         ),
-                        SizedBox(width: _screenwidth * 0.0125), // 1.25% of screen width
+                        SizedBox(
+                            width:
+                                _screenwidth * 0.0125), // 1.25% of screen width
                         Text(
                           chefName,
                           style: TextStyle(
@@ -182,7 +198,8 @@ class FoodItemCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: _screenheight * 0.025), // 2.5% of screen height
+                    SizedBox(
+                        height: _screenheight * 0.025), // 2.5% of screen height
                     Row(
                       children: [
                         Text(
@@ -194,19 +211,23 @@ class FoodItemCard extends StatelessWidget {
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                        SizedBox(width: _screenwidth * 0.099), // 18.75% of screen width
+                        SizedBox(
+                            width:
+                                _screenwidth * 0.099), // 18.75% of screen width
                         Text(
                           price, // Display price
                           style: TextStyle(
                             color: Colors.deepOrange, // Orange color
-                            fontSize: _screenwidth * 0.035, // 3.5% of screen width
+                            fontSize:
+                                _screenwidth * 0.035, // 3.5% of screen width
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: _screenheight * 0.025), // 2.5% of screen height
+                    SizedBox(
+                        height: _screenheight * 0.025), // 2.5% of screen height
                   ],
                 ),
               ),
@@ -214,7 +235,8 @@ class FoodItemCard extends StatelessWidget {
           ),
           SizedBox(height: _screenheight * 0.00625), // 0.625% of screen height
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.05), // 5% of screen width
+            padding: EdgeInsets.symmetric(
+                horizontal: _screenwidth * 0.05), // 5% of screen width
             child: ElevatedButton(
               onPressed: () {
                 // Add onPressed functionality here
@@ -222,7 +244,8 @@ class FoodItemCard extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFFF6A42),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(_screenwidth * 0.0125), // 1.25% of screen width
+                  borderRadius: BorderRadius.circular(
+                      _screenwidth * 0.0125), // 1.25% of screen width
                 ),
               ),
               child: Container(
@@ -244,6 +267,5 @@ class FoodItemCard extends StatelessWidget {
         ],
       ),
     );
-
   }
 }

@@ -1,45 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../api/recipe_api.dart';
+import '../chef_add_menu/AddRecipeScreen.dart';
+
 class UserProfileMenu extends StatefulWidget {
-  const UserProfileMenu({Key? key}) : super(key: key);
+  final String chefId;
+
+  const UserProfileMenu({Key? key, required this.chefId}) : super(key: key);
 
   @override
   State<UserProfileMenu> createState() => _UserProfileMenuState();
 }
 
 class _UserProfileMenuState extends State<UserProfileMenu> {
-  final List<FoodItem> foodItems = [
-    FoodItem(
-      imageUrl: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      name: "Chicken handi",
-      description:
-      "Yorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc",
-      price: "Price: 1500",
-    ),
-    FoodItem(
-      imageUrl: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      name: "Chicken handi",
-      description:
-      "Yorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc",
-      price: "Price: 1500",
-    ),
-    FoodItem(
-      imageUrl: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      name: "Chicken handi",
-      description:
-      "Yorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc",
-      price: "Price: 1500",
-    ),
-    FoodItem(
-      imageUrl: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      name: "Chicken handi",
-      description:
-      "Yorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc",
-      price: "Price: 1500",
-    ),
+  List<FoodItem> foodItems = [];
 
-    // Add more food items as needed
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _fetchChefData();
+  }
+
+  Future<void> _fetchChefData() async {
+    // Use widget.chefId to fetch the chef's recipes from the API
+    // Assume getChefRecipes is a method in your API class that fetches the recipes of a chef
+    final recipes = await RecipeApi().getChefRecipes(widget.chefId);
+    setState(() {
+      foodItems = recipes.map((recipe) => FoodItem.fromMap(recipe)).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +42,7 @@ class _UserProfileMenuState extends State<UserProfileMenu> {
           name: foodItem.name,
           description: foodItem.description,
           price: foodItem.price,
+          chefId: widget.chefId, // Add this line
         );
       },
     );
@@ -70,6 +61,23 @@ class FoodItem {
     required this.description,
     required this.price,
   });
+
+  static FoodItem fromMap(Map<String, dynamic> map) {
+    var imageUrl = map['RecipeImageURL'];
+    if (imageUrl == null || !Uri.parse(imageUrl).isAbsolute) {
+      imageUrl =
+          ''; // Provide a default value if imageUrl is null or not a valid URL
+    }
+
+    return FoodItem(
+      imageUrl: imageUrl,
+      name: map['Title'] ?? '', // Use 'Title' property from the JSON
+      description:
+          map['Description'] ?? '', // Use 'Description' property from the JSON
+      price: map['Price'].toString() ??
+          '', // Use 'Price' property from the JSON and convert it to string
+    );
+  }
 }
 
 class FoodItemCard extends StatelessWidget {
@@ -77,12 +85,14 @@ class FoodItemCard extends StatelessWidget {
   final String name;
   final String description;
   final String price;
+  final String chefId; // Add this line
 
   const FoodItemCard({
     required this.imageUrl,
     required this.name,
     required this.description,
     required this.price,
+    required this.chefId, // And this line
   });
 
   @override
@@ -161,9 +171,19 @@ class FoodItemCard extends StatelessWidget {
                     ),
                     SizedBox(width: 50),
                     ElevatedButton(
-                      onPressed: () {
-                        // Add onPressed functionality here
-                      },
+                      onPressed: FirebaseAuth.instance.currentUser!.uid ==
+                              chefId
+                          ? () {
+                              // Navigate to AddRecipeScreen.dart
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddRecipeScreen()),
+                              );
+                            }
+                          : () {
+                              // Add onPressed functionality here
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFFF6A42),
                         shape: RoundedRectangleBorder(
@@ -175,7 +195,9 @@ class FoodItemCard extends StatelessWidget {
                         height: 30,
                         alignment: Alignment.center,
                         child: Text(
-                          'Order Now',
+                          FirebaseAuth.instance.currentUser!.uid == chefId
+                              ? 'Update'
+                              : 'Order',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
@@ -193,8 +215,5 @@ class FoodItemCard extends StatelessWidget {
         ],
       ),
     );
-
-
-
   }
 }

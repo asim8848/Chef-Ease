@@ -74,7 +74,7 @@ class _ManagePaymentMethodState extends State<ManagePaymentMethod> {
             subTitle: 'Cash',
             expireDate: 'Expire Date 12/26',
           ),
-          SizedBox(height: 300),
+          SizedBox(height: 80,),
           Align(
             alignment: Alignment.center,
             child: CustomButton(

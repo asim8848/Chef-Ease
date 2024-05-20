@@ -1,3 +1,4 @@
+//path to this file: lib/screens/chef/chef_add_menu/AddRecipeScreen.dart
 import 'dart:io';
 import 'package:chefease/api/recipe_api.dart';
 import 'package:chefease/constants/responsive.dart';
@@ -11,6 +12,7 @@ import '../../../widgets/buttons.dart';
 import '../../../widgets/form_fields.dart';
 import '../../../widgets/text_styles.dart';
 import '../../../widgets/toast.dart';
+import 'package:uuid/uuid.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   AddRecipeScreen({Key? key}) : super(key: key);
@@ -252,10 +254,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       return;
     }
 
-    // Create a new recipe
+    var uuid = Uuid();
     final recipe = {
       'ChefFirebaseID': firebaseUser.uid, // Add ChefFirebaseID
-      'RecipeID': 'some-recipe-id', // Add RecipeID or generate it as needed
+      'RecipeID': uuid.v4(), // Generate a unique ID for the recipe
       'Title': _titleController.text,
       'Description': _descriptionController.text,
       'Ingredients': _ingredientControllers

@@ -1,4 +1,7 @@
+// path of this file: lib/screens/customer/food_order/HomeOrderScreen.dart
+
 import 'package:chefease/screens/customer/food_order/FoodCategoryScreen.dart';
+
 import 'package:chefease/widgets/drawer/CustomerDrawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +109,7 @@ class _homeOrderState extends State<homeOrder> {
                   SizedBox(height: _screenheight * 0.02),
                   Container(
                     width: _screenwidth * 0.9, // 90% of screen width
-                    height: _screenheight * 0.2, // 30% of screen height
+                    height: _screenheight * 0.22, // 30% of screen height
                     child: PageView(
                       controller: _pageController,
                       onPageChanged: (int page) {
@@ -396,7 +399,7 @@ class _homeOrderState extends State<homeOrder> {
           ),
           AppLiteText(
             text: title,
-            fontSize: 13,
+            fontSize: 13, // Choose the fontSize you want to keep
             fontWeight: FontWeight.w600,
           ),
         ],

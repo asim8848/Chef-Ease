@@ -45,16 +45,20 @@ dependencies:
   percent_indicator: ^4.0.1
   google_fonts: ^6.2.1
 
-  firebase_core: ^2.24.2
+  firebase_core: ^2.31.0
   firebase_auth:
   fluttertoast: ^8.2.5
   sign_in_button: ^3.2.0
+  uuid: ^3.0.5
 
   fl_chart: ^0.68.0
   google_maps_flutter: ^2.5.0
   image_picker: ^1.1.1
   http: ^1.2.1
   video_thumbnail: ^0.5.3
+  flutter_stripe: ^10.1.1
+  cloud_firestore: ^4.17.3
+  flutter_spinkit: ^5.2.1
 
 
 dev_dependencies:

@@ -1,3 +1,4 @@
+// path of this file: lib/screens/customer/food_order/KitchenMenuScreen.dart
 import 'package:chefease/screens/customer/food_order/KitchenDetailsScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _MenuState extends State<Menu> {
           children: [
             Container(
               width: double.infinity,
-              height:double.infinity, // Adjusted height
+              height: double.infinity, // Adjusted height
               child: Image.asset(
                 "assets/imgs/pizzamenu.png",
                 fit: BoxFit.cover,
@@ -83,32 +84,22 @@ class _MenuState extends State<Menu> {
                               AppMainText(
                                 text: 'Anna’s Kitchen',
                                 color: Color(0xFF292D32),
-                                fontSize: _screenwidth * 0.05, // Adjusted font size
+                                fontSize:
+                                    _screenwidth * 0.05, // Adjusted font size
                                 fontWeight: FontWeight.w600,
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: _screenwidth * 0.04), // Adjusted padding
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.share,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                      onPressed: () {
-                                        // Add your share functionality here
-                                      },
-                                    ),
-                                  ),
                                   IconButton(
-                                    icon: Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: AppColors.primaryColor,
-                                    ),
+                                    icon: const Icon(Icons.share,
+                                        color: AppColors.primaryColor),
                                     onPressed: () {
-                                      // Add your favorite functionality here
+                                      // Add your share functionality here
                                     },
                                   ),
+                                  Icon(Icons.favorite,
+                                      color: AppColors.primaryColor),
                                 ],
                               ),
                             ],
@@ -120,11 +111,14 @@ class _MenuState extends State<Menu> {
                                 color: Colors.black,
                                 size: _screenwidth * 0.04, // Adjusted icon size
                               ),
-                              SizedBox(width: _screenwidth * 0.01), // Adjusted spacing
+                              SizedBox(
+                                  width:
+                                      _screenwidth * 0.01), // Adjusted spacing
                               AppMainText(
                                 text: '1.1km away',
                                 color: Colors.black,
-                                fontSize: _screenwidth * 0.03, // Adjusted font size
+                                fontSize:
+                                    _screenwidth * 0.03, // Adjusted font size
                                 fontWeight: FontWeight.w500,
                               ),
                             ],
@@ -132,7 +126,6 @@ class _MenuState extends State<Menu> {
                         ],
                       ),
                     ),
-
                   ],
                 ),
 
@@ -142,11 +135,13 @@ class _MenuState extends State<Menu> {
                   decoration: ShapeDecoration(
                     color: Color(0xFFFF6A42),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(_screenwidth * 0.02), // Adjusted borderRadius
+                      borderRadius: BorderRadius.circular(
+                          _screenwidth * 0.02), // Adjusted borderRadius
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: _screenwidth * 0.05), // Adjusted padding
+                    padding: EdgeInsets.symmetric(
+                        horizontal: _screenwidth * 0.05), // Adjusted padding
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -159,60 +154,66 @@ class _MenuState extends State<Menu> {
                                 Icon(
                                   Icons.star,
                                   color: Colors.white,
-                                  size: _screenwidth * 0.050, // Adjusted icon size
+                                  size: _screenwidth *
+                                      0.050, // Adjusted icon size
                                 ),
-                                SizedBox(width: _screenwidth * 0.01), // Adjusted spacing
-                                AppMainText( // Using custom text widget
+                                SizedBox(
+                                    width: _screenwidth *
+                                        0.01), // Adjusted spacing
+                                AppMainText(
+                                  // Using custom text widget
                                   text: 'Ratings: 4.5',
                                   color: Color(0xFFEEF5FF),
-                                  fontSize: _screenwidth * 0.035, // Adjusted font size
+                                  fontSize: _screenwidth *
+                                      0.035, // Adjusted font size
                                   fontWeight: FontWeight.w500,
                                 ),
                               ],
                             ),
-                            SizedBox(height: _screenheight * 0.008), // Adjusted spacing
+                            SizedBox(
+                                height:
+                                    _screenheight * 0.008), // Adjusted spacing
                             Row(
                               children: [
                                 Icon(
                                   Icons.star,
                                   color: Colors.white,
-                                  size: _screenwidth * 0.055, // Adjusted icon size
+                                  size: _screenwidth *
+                                      0.055, // Adjusted icon size
                                 ),
-                                SizedBox(width: _screenwidth * 0.01), // Adjusted spacing
-                                AppMainText( // Using custom text widget
+                                SizedBox(
+                                    width: _screenwidth *
+                                        0.01), // Adjusted spacing
+                                AppMainText(
+                                  // Using custom text widget
                                   text: 'Pizza',
                                   color: Colors.white,
-                                  fontSize: _screenwidth * 0.035, // Adjusted font size
+                                  fontSize: _screenwidth *
+                                      0.035, // Adjusted font size
                                   fontWeight: FontWeight.w500,
                                 ),
                               ],
                             ),
                           ],
                         ),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: _screenwidth * 0.115, // Adjusted width
-                              height: _screenwidth * 0.120, // Adjusted height
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
+                        Container(
+                          width: _screenwidth * 0.102, // Adjusted width
+                          height: _screenwidth * 0.102, // Adjusted height
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xFFFF6A42),
+                                size:
+                                    _screenwidth * 0.070, // Adjusted icon size
                               ),
+                              onPressed: () {},
                             ),
-                            Positioned(
-                              top: _screenwidth * 0.0100, // Adjusted position
-                              left: _screenwidth * 0.0120, // Adjusted position
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFFFF6A42),
-                                  size: _screenwidth * 0.070, // Adjusted icon size
-                                ),
-                                onPressed: () {},
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
@@ -223,7 +224,8 @@ class _MenuState extends State<Menu> {
                 Row(
                   children: [
                     FilterChip(
-                      label: AppMainText( // Using custom text widget
+                      label: AppMainText(
+                        // Using custom text widget
                         text: 'Special Pizza',
                         color: Colors.white,
                         fontSize: _screenwidth * 0.030, // Adjusted font size
@@ -235,7 +237,8 @@ class _MenuState extends State<Menu> {
                     ),
                     SizedBox(width: _screenwidth * 0.04), // Adjusted spacing
                     FilterChip(
-                      label: AppMainText( // Using custom text widget
+                      label: AppMainText(
+                        // Using custom text widget
                         text: 'Popular',
                         color: Colors.black,
                         fontSize: _screenwidth * 0.030, // Adjusted font size
@@ -247,7 +250,8 @@ class _MenuState extends State<Menu> {
                     ),
                     SizedBox(width: _screenwidth * 0.04), // Adjusted spacing
                     FilterChip(
-                      label: AppMainText( // Using custom text widget
+                      label: AppMainText(
+                        // Using custom text widget
                         text: 'Midnight',
                         color: Colors.black,
                         fontSize: _screenwidth * 0.030, // Adjusted font size
@@ -259,8 +263,6 @@ class _MenuState extends State<Menu> {
                     ),
                   ],
                 ),
-
-
               ],
             ),
           ),
@@ -289,20 +291,23 @@ class _MenuState extends State<Menu> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 25),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25),
                               child: Container(
                                 width: _screenwidth * 0.250, // Adjusted width
-                                height: _screenheight * 0.110, // Adjusted height
+                                height:
+                                    _screenheight * 0.110, // Adjusted height
 
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/imgs/pizzalist.png"),
+                                    image:
+                                        AssetImage("assets/imgs/pizzalist.png"),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(width: _screenwidth*0.02),
+                            SizedBox(width: _screenwidth * 0.02),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,37 +315,46 @@ class _MenuState extends State<Menu> {
                                   AppMainText(
                                     text: 'Peperoni Special Pizza',
                                     color: Color(0xFF1E1E1E),
-                                    fontSize: _screenwidth * 0.036, // Adjust the multiplier as needed
+                                    fontSize: _screenwidth *
+                                        0.036, // Adjust the multiplier as needed
                                     fontWeight: FontWeight.w600,
                                   ),
-                                  SizedBox(height: _screenheight * 0.010), // Adjust the multiplier as needed
+                                  SizedBox(
+                                      height: _screenheight *
+                                          0.010), // Adjust the multiplier as needed
                                   AppMainText(
                                     text: 'Single Serving',
                                     color: Color(0xFF292D32),
-                                    fontSize: _screenwidth * 0.032, // Adjust the multiplier as needed
+                                    fontSize: _screenwidth *
+                                        0.032, // Adjust the multiplier as needed
                                     fontWeight: FontWeight.w300,
                                   ),
-                                  SizedBox(height: _screenheight * 0.010), // Adjust the multiplier as needed
+                                  SizedBox(
+                                      height: _screenheight *
+                                          0.010), // Adjust the multiplier as needed
                                   Row(
                                     children: [
                                       AppMainText(
                                         text: '2500 Rs',
                                         color: Color(0xFF292D32),
-                                        fontSize: _screenwidth * 0.032, // Adjust the multiplier as needed
+                                        fontSize: _screenwidth *
+                                            0.032, // Adjust the multiplier as needed
                                         fontWeight: FontWeight.w400,
                                       ),
-                                      SizedBox(width: _screenwidth * 0.036), // Adjust the multiplier as needed
+                                      SizedBox(
+                                          width: _screenwidth *
+                                              0.036), // Adjust the multiplier as needed
                                       AppMainText(
                                         text: '1000 Rs',
                                         color: Color(0xFFFD9700),
-                                        fontSize: _screenwidth * 0.032, // Adjust the multiplier as needed
+                                        fontSize: _screenwidth *
+                                            0.032, // Adjust the multiplier as needed
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-
                             ),
                           ],
                         ),
