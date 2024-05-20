@@ -4,6 +4,7 @@ import 'package:chefease/api/order_api.dart';
 import 'package:chefease/constants/colors.dart';
 import 'package:chefease/constants/responsive.dart';
 import 'package:chefease/widgets/text_styles.dart';
+import '../../../api/recipe_api.dart';
 import 'KitchenMenuScreen.dart';
 import 'OrderDetailsScreen.dart';
 
@@ -20,7 +21,7 @@ class _PizzaCategoryState extends State<PizzaCategory> {
   @override
   void initState() {
     super.initState();
-    futurePizzas = OrderApi().fetchPizzas();
+    futurePizzas = RecipeApi().fetchPizzas();
   }
 
   @override
