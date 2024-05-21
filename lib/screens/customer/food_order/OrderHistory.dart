@@ -1,8 +1,14 @@
 // path of this file: lib/screens/customer/food_order/OrderHistory.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../../../api/chef_api.dart';
+import '../../../api/order_api.dart';
+import '../../../api/recipe_api.dart';
 import '../../../constants/responsive.dart';
 import '../../chef/tabs/ChefMenuTab.dart';
+import 'OrderDetailsScreen.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key});
@@ -12,64 +18,65 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
-  final List<FoodItem> foodItems = [
-    FoodItem(
-      imageUrl:
-          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Peperoni Special Pizza",
-      chefImage:
-          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      chefName: "Anna’s Kitchen",
-      date: "20-04-2024", // Changed from price to date
-      price: "Price: \$15.00", // Added price
-    ),
-    FoodItem(
-      imageUrl:
-          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Peperoni Special Pizza",
-      chefImage:
-          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      chefName: "Anna’s Kitchen",
-      date: "20-04-2024", // Changed from price to date
-      price: "Price: \$15.00", // Added price
-    ),
-    FoodItem(
-      imageUrl:
-          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Peperoni Special Pizza",
-      chefImage:
-          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      chefName: "Anna’s Kitchen",
-      date: "20-04-2024", // Changed from price to date
-      price: "Price: \$15.00", // Added price
-    ),
-    FoodItem(
-      imageUrl:
-          "https://images.unsplash.com/photo-1593504049359-74330189a345?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Peperoni Special Pizza",
-      chefImage:
-          "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      chefName: "Anna’s Kitchen",
-      date: "20-04-2024", // Changed from price to date
-      price: "Price: \$15.00", // Added price
-    ),
-    // Add more food items as needed
-  ];
+  late Future<List<dynamic>> ordersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) {
+      ordersFuture = Future.error('Please log in first.');
+    } else {
+      String customerFirebaseId = firebaseUser.uid;
+      ordersFuture = OrderApi().fetchOrdersByCustomer(customerFirebaseId);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: foodItems.length,
-      itemBuilder: (context, index) {
-        final foodItem = foodItems[index];
-        return FoodItemCard(
-          imageUrl: foodItem.imageUrl,
-          name: foodItem.name,
-          chefImage: foodItem.chefImage,
-          chefName: foodItem.chefName,
-          date: foodItem.date,
-          price: foodItem.price, // Pass the price
-        );
+    return FutureBuilder<List<dynamic>>(
+      future: ordersFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No orders yet.'));
+        } else {
+          final orders = snapshot.data!;
+          return ListView.builder(
+            itemCount: orders.length,
+            itemBuilder: (context, index) {
+              final order = orders[index];
+              return FutureBuilder<List<Map<String, dynamic>>>(
+                future: Future.wait([
+                  ChefApi().getChef(order['ChefFirebaseID']),
+                  RecipeApi().fetchRecipeDetails(order['RecipeID']),
+                ]),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final chef = snapshot.data![0];
+                    final recipe = snapshot.data![1];
+                    return FoodItemCard(
+                      imageUrl: recipe['RecipeImageURL'],
+                      name: recipe['Title'],
+                      chefImage: chef['ProfileImageURL'],
+                      chefName: chef['Name'],
+                      date: order['OrderTime'],
+                      price: 'RS. ${order['TotalPrice'].toStringAsFixed(2)}',
+                      recipeId: order['RecipeID'],
+                    );
+                  }
+                },
+              );
+            },
+          );
+        }
       },
     );
   }
@@ -100,6 +107,7 @@ class FoodItemCard extends StatelessWidget {
   final String chefName; // Added chefName
   final String date; // Changed from price to date
   final String price; // Added price
+  final String recipeId; // Added recipeId
 
   const FoodItemCard({
     required this.imageUrl,
@@ -108,6 +116,7 @@ class FoodItemCard extends StatelessWidget {
     required this.chefName,
     required this.date,
     required this.price,
+    required this.recipeId, // Added recipeId
   });
 
   @override
@@ -203,7 +212,7 @@ class FoodItemCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          date,
+                          DateFormat('yyyy-MM-dd').format(DateTime.parse(date)),
                           style: TextStyle(
                             color: Color(0xFF666666),
                             fontSize: _screenwidth * 0.03, // 3% of screen width
@@ -239,7 +248,14 @@ class FoodItemCard extends StatelessWidget {
                 horizontal: _screenwidth * 0.05), // 5% of screen width
             child: ElevatedButton(
               onPressed: () {
-                // Add onPressed functionality here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderDetails(
+                        recipeId:
+                            recipeId), // Pass the recipeId to the OrderDetails screen
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFFF6A42),
