@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../api/recipe_api.dart';
@@ -137,24 +138,32 @@ class FoodItemCard extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                      color: Color(0xFF222222),
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
+                  child: SizedBox(
+                    width: 200,
+                    height: 20,
+                    child: Text(
+                      name,
+                      style: TextStyle(
+                        color: Color(0xFF222222),
+                        fontSize: 16,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(height: 5),
-                Text(
-                  description,
-                  style: TextStyle(
-                    color: Color(0xFF666666),
-                    fontSize: 12,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.normal,
+                SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: Text(
+                    description,
+                    style: TextStyle(
+                      color: Color(0xFF666666),
+                      fontSize: 12,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
