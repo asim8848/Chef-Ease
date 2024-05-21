@@ -17,6 +17,19 @@ class CustomerApi {
     }
   }
 
+  Future<Map<String, dynamic>> getCustomerByFirebaseId(
+      String firebaseId) async {
+    final response =
+        await http.get(Uri.parse('$_baseUrl/firebase/$firebaseId'));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception(
+          'Failed to fetch user data. Status code: ${response.statusCode}');
+    }
+  }
+
   Future<http.Response> createCustomer(
       Map<String, String> body, File? image) async {
     var request = http.MultipartRequest('POST', Uri.parse(_baseUrl));
