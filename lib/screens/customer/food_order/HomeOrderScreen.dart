@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
+import '../../../api/chef_api.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/responsive.dart';
 import '../../../widgets/text_styles.dart';
+import '../../chef/profile/ChefProfileScreen.dart';
 
 class homeOrder extends StatefulWidget {
   const homeOrder({super.key});
@@ -20,6 +22,14 @@ class homeOrder extends StatefulWidget {
 }
 
 class _homeOrderState extends State<homeOrder> {
+  late Future<List<Map<String, dynamic>>> chefsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    chefsFuture = ChefApi().getAllChefs();
+  }
+
   List<String> names = [
     'Jack',
     'Emily',
@@ -233,7 +243,55 @@ class _homeOrderState extends State<homeOrder> {
                     ],
                   ),
                   SizedBox(height: _screenheight * 0.01),
-                  SingleChildScrollView(
+                  FutureBuilder<List<Map<String, dynamic>>>(
+                    future: chefsFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text(snapshot.error.toString()));
+                      } else {
+                        final chefs = snapshot.data!;
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: chefs.map((chef) {
+                              return Padding(
+                                padding: const EdgeInsets.all(
+                                    8.0), // Add padding for spacing
+                                child: Container(
+                                  width: 120,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.network(
+                                          chef['ProfileImageURL'],
+                                          width: 120,
+                                          height: 125,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      AppLiteText(
+                                        text: chef['Name'],
+                                        textAlign: TextAlign.center,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  /*SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: List.generate(
@@ -268,7 +326,7 @@ class _homeOrderState extends State<homeOrder> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             )));
