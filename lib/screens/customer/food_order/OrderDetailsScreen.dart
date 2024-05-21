@@ -391,7 +391,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     String address = addressController.text;
     String orderTime = DateTime.now().toIso8601String();
-    String status = "Order Placed";
+    String status = "Order Pending";
 
     // Construct the order details
     Map<String, dynamic> orderDetails = {

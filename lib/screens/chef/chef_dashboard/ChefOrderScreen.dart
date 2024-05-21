@@ -2,7 +2,10 @@ import 'package:chefease/constants/colors.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chefease/api/order_api.dart';
+import 'package:chefease/api/customer_api.dart';
+import 'package:chefease/api/recipe_api.dart';
 
 import '../../../constants/responsive.dart';
 
@@ -14,21 +17,113 @@ class ChefOrder extends StatefulWidget {
 }
 
 class _ChefOrderState extends State<ChefOrder> {
+  late Future<List<dynamic>> ordersFuture;
+  late Map<String, dynamic> customerDetailsCache;
+  late Map<String, dynamic> recipeDetailsCache;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchOrders();
+    customerDetailsCache = {};
+    recipeDetailsCache = {};
+  }
+
+  Future<void> fetchOrders() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      ordersFuture = OrderApi().fetchOrdersByChef(firebaseUser.uid);
+    } else {
+      ordersFuture = Future.value([]);
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchCustomerDetails(
+      String customerFirebaseId) async {
+    try {
+      if (!customerDetailsCache.containsKey(customerFirebaseId)) {
+        final customerDetails =
+            await CustomerApi().getCustomer(customerFirebaseId);
+        customerDetailsCache[customerFirebaseId] = customerDetails;
+      }
+      return customerDetailsCache[customerFirebaseId];
+    } catch (error) {
+      print('Failed to fetch customer data: $error');
+      throw Exception('Failed to fetch customer data.');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchRecipeDetails(String recipeId) async {
+    try {
+      if (!recipeDetailsCache.containsKey(recipeId)) {
+        final recipeDetails = await RecipeApi().getRecipeByRecipeId(recipeId);
+        recipeDetailsCache[recipeId] = recipeDetails;
+      }
+      return recipeDetailsCache[recipeId];
+    } catch (error) {
+      print('Failed to fetch recipe data: $error');
+      throw Exception('Failed to fetch recipe data.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: 5, // Replace 5 with the actual number of orders
-        itemBuilder: (BuildContext context, int index) {
-          return _buildOrderListItem();
+      body: FutureBuilder<List<dynamic>>(
+        future: ordersFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final orders = snapshot.data ?? [];
+            return ListView.builder(
+              itemCount: orders.length,
+              itemBuilder: (BuildContext context, int index) {
+                final order = orders[index];
+                return FutureBuilder<Map<String, dynamic>>(
+                  future: Future.wait([
+                    fetchCustomerDetails(order['CustomerFirebaseID']),
+                    fetchRecipeDetails(order['RecipeID']),
+                  ]).then((results) {
+                    return {
+                      'customerDetails': results[0],
+                      'recipeDetails': results[1],
+                    };
+                  }),
+                  builder: (context, detailsSnapshot) {
+                    if (detailsSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (detailsSnapshot.hasError) {
+                      return Center(
+                          child: Text('Error: ${detailsSnapshot.error}'));
+                    } else {
+                      final details = detailsSnapshot.data!;
+                      final customerDetails = details['customerDetails'] ?? {};
+                      final recipeDetails = details['recipeDetails'] ?? {};
+
+                      return _buildOrderListItem(
+                          order, customerDetails, recipeDetails);
+                    }
+                  },
+                );
+              },
+            );
+          }
         },
       ),
     );
   }
 
-  Widget _buildOrderListItem() {
+  Widget _buildOrderListItem(
+      Map<String, dynamic> order,
+      Map<String, dynamic> customerDetails,
+      Map<String, dynamic> recipeDetails) {
     double _screenheight = Responsive.screenHeight(context);
     double _screenwidth = Responsive.screenWidth(context);
+
     return Card(
       margin: EdgeInsets.all(_screenwidth * 0.02), // 2% of screen width
       child: Padding(
@@ -44,17 +139,18 @@ class _ChefOrderState extends State<ChefOrder> {
               child: Row(
                 children: [
                   CircleAvatar(
-                    // Replace with actual image
                     radius: _screenwidth * 0.03, // 3% of screen width
-                    backgroundImage:
-                        AssetImage('assets/imgs/person1circle.png'),
+                    backgroundImage: customerDetails['ProfileImageURL'] != null
+                        ? NetworkImage(customerDetails['ProfileImageURL'])
+                        : AssetImage('assets/imgs/person1circle.png')
+                            as ImageProvider,
                   ),
                   SizedBox(width: _screenwidth * 0.02), // 2% of screen width
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppLiteText(
-                        text: 'Fahad Kamran',
+                        text: customerDetails['Name'] ?? 'N/A',
                         fontSize: _screenwidth * 0.035, // 3.5% of screen width
                         fontWeight: FontWeight.w500,
                       ),
@@ -70,9 +166,13 @@ class _ChefOrderState extends State<ChefOrder> {
                         fontWeight: FontWeight.w500,
                       ),
                       AppLiteText(
-                        text: 'Pending',
+                        text: order['Status'] ?? 'N/A',
                         fontSize: _screenwidth * 0.03, // 3% of screen width
-                        color: AppColors.primaryColor,
+                        color: order['Status'] == 'Order Pending'
+                            ? Colors.orange
+                            : order['Status'] == 'Order Accepted'
+                                ? Colors.green
+                                : Colors.red,
                         fontWeight: FontWeight.w500,
                       ),
                     ],
@@ -91,7 +191,10 @@ class _ChefOrderState extends State<ChefOrder> {
                     height: _screenwidth * 0.27, // 27% of screen width
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/imgs/pizzamenu.png'),
+                        image: recipeDetails['RecipeImageURL'] != null
+                            ? NetworkImage(recipeDetails['RecipeImageURL'])
+                            : AssetImage('assets/imgs/pizzamenu.png')
+                                as ImageProvider,
                         fit: BoxFit.fill,
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -106,7 +209,7 @@ class _ChefOrderState extends State<ChefOrder> {
                           padding: EdgeInsets.only(
                               left: _screenwidth * 0.02), // 2% of screen width
                           child: AppMainText(
-                            text: 'Pepperoni Special Pizza',
+                            text: recipeDetails['Title'] ?? 'N/A',
                             fontSize: _screenwidth * 0.04, // 4% of screen width
                             fontWeight: FontWeight.w600,
                           ),
@@ -118,8 +221,7 @@ class _ChefOrderState extends State<ChefOrder> {
                           padding: EdgeInsets.only(
                               left: _screenwidth * 0.02), // 2% of screen width
                           child: AppLiteText(
-                            text:
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, Lorem Ipsum, lorem.',
+                            text: recipeDetails['Description'] ?? 'N/A',
                             fontSize:
                                 _screenwidth * 0.032, // 3.5% of screen width
                             fontWeight: FontWeight.w400,
@@ -145,7 +247,7 @@ class _ChefOrderState extends State<ChefOrder> {
                 SizedBox(width: _screenwidth * 0.01), // 1% of screen width
                 Expanded(
                   child: AppLiteText(
-                    text: 'House#2, Street 16, Bahria Town, Lahore',
+                    text: order['Address'] ?? 'N/A',
                     fontSize: _screenwidth * 0.028, // 3% of screen width
                     fontWeight: FontWeight.w400,
                   ),
@@ -156,21 +258,6 @@ class _ChefOrderState extends State<ChefOrder> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.person_pin,
-                    size: _screenwidth * 0.05), // 5% of screen width
-                SizedBox(width: _screenwidth * 0.01), // 1% of screen width
-                AppLiteText(
-                  text: 'Invoice:',
-                  fontSize: _screenwidth * 0.03, // 3% of screen width
-                  fontWeight: FontWeight.w600,
-                ),
-                SizedBox(width: _screenwidth * 0.01), // 1% of screen width
-                AppLiteText(
-                  text: '12A679',
-                  fontSize: _screenwidth * 0.03, // 3% of screen width
-                  fontWeight: FontWeight.w400,
-                ),
-                SizedBox(width: _screenwidth * 0.07), // 7% of screen width
                 AppLiteText(
                   text: 'Quality:',
                   fontSize: _screenwidth * 0.03, // 3% of screen width
@@ -178,22 +265,30 @@ class _ChefOrderState extends State<ChefOrder> {
                 ),
                 SizedBox(width: _screenwidth * 0.01), // 1% of screen width
                 AppLiteText(
-                  text: '4x',
+                  text: '${order['NumberOfItems'] ?? 0}x',
                   fontSize: _screenwidth * 0.03, // 3% of screen width
                   fontWeight: FontWeight.w400,
                 ),
-                SizedBox(width: _screenwidth * 0.07), // 7% of screen width
+                Spacer(),
                 AppLiteText(
                   text: 'Total:',
                   fontSize: _screenwidth * 0.03, // 3% of screen width
-                  color: AppColors.primaryColor,
+                  color: order['Status'] == 'Order Pending'
+                      ? Colors.orange
+                      : order['Status'] == 'Order Accepted'
+                          ? Colors.green
+                          : Colors.red,
                   fontWeight: FontWeight.w600,
                 ),
                 SizedBox(width: _screenwidth * 0.01), // 1% of screen width
                 AppLiteText(
-                  text: 'Rs. 300.00',
+                  text: 'Rs. ${order['TotalPrice'] ?? 0}',
                   fontSize: _screenwidth * 0.03, // 3% of screen width
-                  color: AppColors.primaryColor,
+                  color: order['Status'] == 'Order Pending'
+                      ? Colors.orange
+                      : order['Status'] == 'Order Accepted'
+                          ? Colors.green
+                          : Colors.red,
                   fontWeight: FontWeight.w400,
                 ),
               ],
@@ -209,12 +304,29 @@ class _ChefOrderState extends State<ChefOrder> {
                     child: OutlinedButton(
                       child: Text("Reject"),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.primaryColor,
+                        backgroundColor: order['Status'] == 'Order Rejected'
+                            ? Colors.red
+                            : order['Status'] == 'Order Pending'
+                                ? null
+                                : Colors.grey,
+                        foregroundColor: order['Status'] == 'Order Rejected'
+                            ? Colors.black
+                            : AppColors.primaryColor,
                         side: BorderSide(
-                          color: AppColors.primaryColor,
-                        ),
+                            color: order['Status'] == 'Order Rejected'
+                                ? Colors.red
+                                : order['Status'] == 'Order Accepted'
+                                    ? Colors.grey
+                                    : AppColors.primaryColor),
                       ),
-                      onPressed: () {},
+                      onPressed: order['Status'] == 'Order Pending'
+                          ? () async {
+                              await OrderApi().updateOrderStatus(
+                                  order['OrderID'], 'Order Rejected');
+                              await fetchOrders();
+                              setState(() {});
+                            }
+                          : null,
                     ),
                   ),
                   SizedBox(
@@ -222,10 +334,26 @@ class _ChefOrderState extends State<ChefOrder> {
                     child: ElevatedButton(
                       child: Text("Accept"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
+                        backgroundColor: order['Status'] == 'Order Accepted'
+                            ? Colors.green
+                            : order['Status'] == 'Order Pending'
+                                ? AppColors.primaryColor
+                                : Colors.grey,
+                        foregroundColor: order['Status'] == 'Order Accepted'
+                            ? Colors.white
+                            : order['Status'] == 'Order Pending '
+                                ? Colors.white
+                                : Colors.white,
                         elevation: 0,
                       ),
-                      onPressed: () {},
+                      onPressed: order['Status'] == 'Order Pending'
+                          ? () async {
+                              await OrderApi().updateOrderStatus(
+                                  order['OrderID'], 'Order Accepted');
+                              await fetchOrders();
+                              setState(() {});
+                            }
+                          : null,
                     ),
                   ),
                 ],

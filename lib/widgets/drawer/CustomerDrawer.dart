@@ -7,6 +7,7 @@ import 'package:chefease/widgets/form_fields.dart';
 import 'package:chefease/widgets/text_styles.dart';
 import '../../constants/colors.dart';
 import '../../constants/responsive.dart';
+import '../../screens/HomeScreen.dart';
 import '../../screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 
 import '../../screens/customer/profile/CustomerProfileScreen.dart';
@@ -55,6 +56,12 @@ class _CustomerDrawerContentState extends State<CustomerDrawerContent> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkUserLoginStatus();
   }
 
   void _checkUserLoginStatus() async {
@@ -603,8 +610,12 @@ class _CustomerDrawerContentState extends State<CustomerDrawerContent> {
 
       _emailController.clear();
       _passwordController.clear();
-      // Close the modal
-      Navigator.pop(context);
+      //go to HomeScreen screen and remove all the previous routes
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+        (route) => false,
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         AppToast().toastMessage('No user found for that email.', isError: true);
