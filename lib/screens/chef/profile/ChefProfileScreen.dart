@@ -196,7 +196,8 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
               const SizedBox(
                 height: 20,
               ),
-              if (FirebaseAuth.instance.currentUser!.uid != widget.chefId)
+              if (FirebaseAuth.instance.currentUser != null &&
+                  FirebaseAuth.instance.currentUser!.uid != widget.chefId)
                 CustomButton(
                   text: 'Message',
                   width: 0.5,

@@ -16,6 +16,7 @@ import 'package:sign_in_button/sign_in_button.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/responsive.dart';
+import '../../screens/chef/chef_dashboard/ChefDashboardScreen.dart';
 import '../../screens/drawer_screens/AnalyticsInsightsScreen.dart';
 import '../../screens/drawer_screens/EarningsScreen.dart';
 import '../../screens/drawer_screens/Help&SupportScreen.dart';
@@ -128,8 +129,9 @@ class _DrawerContentState extends State<ChefDrawerContent> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          ChefProfileScreen(chefId: _auth.currentUser!.uid),
+                      builder: (context) => ChefProfileScreen(
+                        chefId: _auth.currentUser!.uid,
+                      ),
                     ),
                   );
                 }
@@ -655,8 +657,12 @@ class _DrawerContentState extends State<ChefDrawerContent> {
       // User logged in successfully, update user data
       _checkUserLoginStatus();
 
-      // Close the modal
-      Navigator.pop(context);
+      //go to ChefDashboardScreen screen and remove all the previous routes
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ChefDashboardScreen()),
+        (route) => false,
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         AppToast().toastMessage('No user found for that email.', isError: true);

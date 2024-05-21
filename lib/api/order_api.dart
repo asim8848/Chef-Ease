@@ -31,4 +31,33 @@ class OrderApi {
           'Failed to fetch orders. Status code: ${response.statusCode}');
     }
   }
+
+  Future<List<dynamic>> fetchOrdersByChef(String chefFirebaseId) async {
+    final response =
+        await http.get(Uri.parse('$_baseUrl/chef/$chefFirebaseId'));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception(
+          'Failed to fetch orders. Status code: ${response.statusCode}');
+    }
+  }
+
+  Future<void> updateOrderStatus(String orderId, String status) async {
+    final response = await http.patch(
+      Uri.parse('$_baseUrl/$orderId'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'Status': status}),
+    );
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 500) {
+        throw Exception('Server error when updating order status');
+      } else {
+        throw Exception(
+            'Failed to update order status. Status code: ${response.statusCode}');
+      }
+    }
+  }
 }
