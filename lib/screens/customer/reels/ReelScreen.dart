@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:chefease/api/reel_api.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 import '../../chef/profile/ChefProfileScreen.dart';
 
 class Reels extends StatefulWidget {
@@ -12,17 +16,27 @@ class Reels extends StatefulWidget {
 }
 
 class _ReelsState extends State<Reels> with SingleTickerProviderStateMixin {
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
   bool _isPaused = false;
+  bool _isLoading = true;
   double _progress = 0.0;
   late Timer _progressTimer;
-  final reelApi = ReelApi(); // Create an instance of the ReelApi class
+  String? _currentReelUrl;
+  final reelApi = ReelApi();
   late Future<List<dynamic>> _reels;
 
   @override
   void initState() {
     super.initState();
+    _progressTimer = Timer(Duration.zero, () {});
     _reels = _fetchReels();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    _progressTimer.cancel();
+    super.dispose();
   }
 
   Future<List<dynamic>> _fetchReels() async {
@@ -30,188 +44,96 @@ class _ReelsState extends State<Reels> with SingleTickerProviderStateMixin {
   }
 
   void _initializeVideoController(String reelUrl) async {
-    _controller = VideoPlayerController.network(reelUrl);
-    await _controller.initialize();
-    _controller.play();
-    _controller.addListener(() {
-      setState(() {
-        if (_controller.value.duration.inMilliseconds != 0) {
-          _progress = _controller.value.position.inMilliseconds /
-              _controller.value.duration.inMilliseconds;
-        } else {
-          _progress = 0.0;
-        }
-        _isPaused = true;
-      });
+    _currentReelUrl = reelUrl;
+    setState(() {
+      _isLoading = true;
     });
 
-    _progressTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
-      setState(() {
-        if (_controller.value.duration.inMilliseconds != 0) {
-          _progress = _controller.value.position.inMilliseconds /
-              _controller.value.duration.inMilliseconds;
-        } else {
-          _progress = 0.0;
+    final response = await http.get(Uri.parse(reelUrl));
+    if (response.statusCode == 200) {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/tempVideo.mp4');
+      await file.writeAsBytes(response.bodyBytes);
+
+      _controller?.dispose();
+      _controller = VideoPlayerController.file(file)
+        ..initialize().then((_) {
+          if (mounted) {
+            setState(() {
+              _isLoading = false;
+              _controller!.play();
+            });
+          }
+        })
+        ..setLooping(false)
+        ..addListener(() {
+          if (mounted) {
+            setState(() {
+              if (_controller!.value.duration.inMilliseconds != 0) {
+                _progress = _controller!.value.position.inMilliseconds /
+                    _controller!.value.duration.inMilliseconds;
+              } else {
+                _progress = 0.0;
+              }
+              _isPaused = !_controller!.value.isPlaying;
+            });
+          }
+        });
+
+      _progressTimer?.cancel();
+      _progressTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
+        if (mounted) {
+          setState(() {
+            _progress = (_controller!.value.position.inMilliseconds ?? 0) /
+                (_controller!.value.duration.inMilliseconds ?? 1);
+          });
         }
       });
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _progressTimer.cancel();
-    super.dispose();
+    } else {
+      print('Failed to load video: ${response.statusCode}');
+    }
   }
 
   void _togglePause() {
-    setState(() {
-      if (_controller.value.isPlaying) {
-        _controller.pause();
-        _isPaused = true;
-      } else {
-        _controller.play();
-        _isPaused = false;
-      }
-    });
+    if (_controller != null) {
+      setState(() {
+        if (_controller!.value.isPlaying) {
+          _controller!.pause();
+          _isPaused = true;
+        } else {
+          _controller!.play();
+          _isPaused = false;
+        }
+      });
+    }
   }
 
   Widget _buildVideoPlayer(double width) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        _controller.value.isInitialized
-            ? VideoPlayer(_controller)
-            : Container(color: Colors.blueAccent),
-        Container(
-          width: width * _progress,
-          height: 4,
-          color: Color(0xFFFF6A42),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildActionButton(IconData icon, double size, {Function()? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-          borderRadius: BorderRadius.circular(size * 0.2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Icon(icon, color: Colors.white, size: size * 0.45),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUserProfile(double width, double height) {
-    return Positioned(
-      left: 31,
-      top: height * 0.65,
-      child: InkWell(
-        onTap: () {
-          /*
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChefProfileScreen(),
-            ),
-          );*/
-        },
+    if (_controller != null && _controller!.value.isInitialized) {
+      return Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          VideoPlayer(_controller!),
+          Container(
+            width: width * _progress,
+            height: 4,
+            color: Color(0xFFFF6A42),
+          ),
+        ],
+      );
+    } else if (_isLoading) {
+      return Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
         child: Container(
-          width: width * 0.24,
-          height: width * 0.24,
-          decoration: ShapeDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/imgs/reels_pic.jpg"),
-              fit: BoxFit.cover,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(width * 0.05),
-            ),
-            shadows: [
-              BoxShadow(
-                color: Color(0x33000000),
-                blurRadius: width * 0.04,
-                offset: Offset(0, width * 0.008),
-              ),
-            ],
-          ),
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.grey[300],
         ),
-      ),
-    );
-  }
-
-  Widget _buildUserInfo(double width, double height) {
-    return Stack(
-      children: [
-        Positioned(
-          left: 31,
-          top: height * 0.76,
-          child: Text(
-            'Julia',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: width * 0.09,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        Positioned(
-          left: width * 0.225,
-          top: height * 0.775,
-          child: Text(
-            '21',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: width * 0.06,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
-        Positioned(
-          left: width * 0.002,
-          top: height * 0.84,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.location_on,
-                color: Colors.white,
-                size: width * 0.06,
-              ),
-              SizedBox(width: 4),
-              Text(
-                'USA, Florida',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: width * 0.04,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+      );
+    } else {
+      return Container(color: Colors.blueAccent);
+    }
   }
 
   @override
@@ -228,21 +150,27 @@ class _ReelsState extends State<Reels> with SingleTickerProviderStateMixin {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
+          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+            return Center(child: Text('No reels available'));
           } else {
             final reels = snapshot.data!;
             return PageView.builder(
               scrollDirection: Axis.vertical,
               itemCount: reels.length,
-              itemBuilder: (context, index) {
+              onPageChanged: (index) {
                 final reel = reels[index];
                 _initializeVideoController(reel['ReelURL']);
+              },
+              itemBuilder: (context, index) {
+                final reel = reels[index];
+
                 return GestureDetector(
                   onTap: _togglePause,
                   child: Stack(
                     children: [
                       Positioned.fill(
                         child: Container(
-                          width: width + 10,
+                          width: width,
                           height: height,
                           decoration: BoxDecoration(color: Color(0x5E1E1E1E)),
                           child: AspectRatio(
@@ -251,33 +179,7 @@ class _ReelsState extends State<Reels> with SingleTickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      _buildUserProfile(width, height),
-                      _buildUserInfo(width, height),
-                      Positioned(
-                        left: width * 0.794,
-                        top: height * 0.65,
-                        child: _buildActionButton(
-                            Icons.favorite_border_outlined, width * 0.13),
-                      ),
-                      Positioned(
-                        left: width * 0.794,
-                        top: height * 0.73,
-                        child: _buildActionButton(
-                            Icons.mode_comment_outlined, width * 0.13),
-                      ),
-                      Positioned(
-                        left: width * 0.794,
-                        top: height * 0.81,
-                        child: _buildActionButton(Icons.share, width * 0.13),
-                      ),
-                      if (_isPaused)
-                        Center(
-                          child: Icon(
-                            Icons.play_arrow_rounded,
-                            color: Colors.white,
-                            size: 70,
-                          ),
-                        ),
+                      // Add additional UI components like user profile, action buttons, etc.
                     ],
                   ),
                 );

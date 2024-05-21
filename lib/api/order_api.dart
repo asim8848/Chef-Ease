@@ -19,4 +19,16 @@ class OrderApi {
       return {'status': 'error', 'message': responseBody};
     }
   }
+
+  Future<List<dynamic>> fetchOrdersByCustomer(String customerFirebaseId) async {
+    final response =
+        await http.get(Uri.parse('$_baseUrl/customer/$customerFirebaseId'));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception(
+          'Failed to fetch orders. Status code: ${response.statusCode}');
+    }
+  }
 }

@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import '../../../constants/responsive.dart';
 import '../../../widgets/form_fields.dart';
 import '../../../widgets/text_styles.dart';
+import 'package:chefease/widgets/toast.dart';
 
 class OrderDetails extends StatefulWidget {
   final String recipeId;
@@ -27,7 +28,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   int count = 1;
   bool _isCashSelected = true;
   String paymentMethod = 'Cash on Delivery';
-
+  final appToast = AppToast();
   late Future<Map<String, dynamic>> recipeDetailsFuture;
 
   @override
@@ -443,8 +444,8 @@ class _OrderDetailsState extends State<OrderDetails> {
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
-          'Authorization':
-              'Bearer YOUR_STRIPE_SECRET_KEY', // Replace with your Stripe secret key
+          'Authorization': 'Bearer ' +
+              'sk_test_51PHlpsRoEY9PrFzvwBUorknKGzTo2GyL0Q6nlo8oizUQxytUANSTz4QIYOUKz2yaMuo43ja6leU6dmKRaxSSkd8T00Cc7V53ou', // Replace with your Stripe secret key
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: body,
@@ -479,14 +480,11 @@ class _OrderDetailsState extends State<OrderDetails> {
   Future<void> _submitOrder(Map<String, dynamic> orderDetails) async {
     try {
       await OrderApi().createOrder(orderDetails);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Order placed successfully'),
-      ));
+      appToast.toastMessage('Order placed successfully');
+      Navigator.pop(context);
     } catch (e) {
       print('Error submitting order: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to place order'),
-      ));
+      appToast.toastMessage('Failed to place order', isError: true);
     }
   }
 }
