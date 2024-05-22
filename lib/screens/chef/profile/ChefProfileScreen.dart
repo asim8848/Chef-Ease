@@ -245,7 +245,7 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
             height: 10,
           ),
           DefaultTabController(
-            length: 3, // Changed length to 2 since there are 2 tabs
+            length: 2, // Changed length to 2 since there are 2 tabs
             child: Expanded(
               child: Column(
                 children: [
@@ -253,9 +253,6 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
                     labelColor: Color(0xFFFF6A42),
                     indicatorColor: Color(0xFFFF6A42),
                     tabs: [
-                      Tab(
-                        icon: Icon(Icons.grid_view_outlined),
-                      ),
                       Tab(
                         icon: Icon(Icons.menu_outlined),
                       ),
@@ -267,7 +264,7 @@ class _ChefProfileScreenState extends State<ChefProfileScreen> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        UserPictures(),
+                        // UserPictures(),
                         _chefData != null
                             ? UserProfileMenu(
                                 chefId: _chefData!['ChefFirebaseID'])

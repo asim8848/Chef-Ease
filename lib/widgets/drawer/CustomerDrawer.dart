@@ -497,25 +497,25 @@ class _CustomerDrawerContentState extends State<CustomerDrawerContent> {
                       ],
                     ),
                   SizedBox(height: screenHeight * 0.02),
-                  SignInButton(
-                    Buttons.google,
-                    text: "Sign in with Google",
-                    onPressed: _handleGoogleSignIn,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    mini: false,
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
-                  SignInButton(
-                    Buttons.facebookNew,
-                    text: "Sign in with Facebook",
-                    onPressed: _handleGoogleSignIn,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    mini: false,
-                  ),
+                  // SignInButton(
+                  //   Buttons.google,
+                  //   text: "Sign in with Google",
+                  //   onPressed: _handleGoogleSignIn,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(5),
+                  //   ),
+                  //   mini: false,
+                  // ),
+                  // SizedBox(height: screenHeight * 0.02),
+                  // SignInButton(
+                  //   Buttons.facebookNew,
+                  //   text: "Sign in with Facebook",
+                  //   onPressed: _handleGoogleSignIn,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(5),
+                  //   ),
+                  //   mini: false,
+                  // ),
                   SizedBox(height: screenHeight * 0.02),
                 ],
               ),

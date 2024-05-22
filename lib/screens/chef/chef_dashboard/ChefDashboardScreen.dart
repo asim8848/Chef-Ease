@@ -15,6 +15,7 @@ import '../../../api/recipe_api.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/responsive.dart';
 import '../../../widgets/drawer/ChefDrawer.dart';
+import '../../customer/post_bids/BidsReviewScreen.dart';
 import 'ChefMenuScreen.dart';
 import '../notifications/NotificationScreen.dart';
 
@@ -107,7 +108,7 @@ class _ChefDashboardScreenState extends State<ChefDashboardScreen> {
               case 0:
                 return ChefDashboardHome();
               case 1:
-                return ChefMenu();
+                return BidsReviewScreen();
               case 2:
                 return ChefAddScreen();
               case 3:
@@ -127,8 +128,8 @@ class _ChefDashboardScreenState extends State<ChefDashboardScreen> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book),
-              label: 'Menu',
+              icon: Icon(Icons.show_chart_rounded),
+              label: 'Bid',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.add_circle),
